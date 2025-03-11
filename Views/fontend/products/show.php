@@ -1,4 +1,5 @@
 <?php 
-    echo "<h1>Product Show</h1>";
-    
+    echo '<pre>';
+    echo print_r($product);
+    echo '</pre>';
 ?>

@@ -24,8 +24,8 @@
             return $data;
         }
 
-        protected function find($table, $id) {
-            $sql = "SELECT * FROM  $table WHERE MaLoai = $id LIMIT 1";
+        protected function find($table, $name, $id) {
+            $sql = "SELECT * FROM  $table WHERE $name = $id LIMIT 1";
             $result = $this->conn->query(($sql));
             return $result->fetch_assoc();
         }

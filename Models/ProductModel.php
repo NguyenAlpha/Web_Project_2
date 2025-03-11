@@ -7,7 +7,7 @@
         }
 
         public function findById($id) {
-            
+            return $this->find(self::TABLE, "MaSP", $id);
         }
 
         public function deleteProduct($data) {

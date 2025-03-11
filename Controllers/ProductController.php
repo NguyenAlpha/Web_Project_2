@@ -18,14 +18,15 @@
             $products = $this->productModel->getAll();
 
             return $this->loadView("fontend/products/index.php",[
-                "title" => "Danh sách sản phẩm",
-                "products" => $products,
+                "products" => $products
             ]);
         }
 
         public function show() {
-
-            return $this->loadView("fontend/products/show.php");
+            $product = $this->productModel->findById($_GET['id']);
+            return $this->loadView("fontend/products/show.php",[
+                'product' => $product
+            ]);
         }
 
         public function store() {
