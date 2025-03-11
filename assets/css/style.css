@@ -1,0 +1,221 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    box-sizing: border-box;
+	font-family: Roboto;
+	background-color: rgb(242, 244, 247);
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+button {
+	border: none;
+	background: none;
+	font-size: 16px;
+	border: 2px, solid, rgb(88, 88, 222);
+	border-radius: 5px;
+}
+
+/* =============================================================== */
+.header {
+	background: rgb(0,38,133);
+	background: linear-gradient(180deg, rgba(0,38,133,1) 0%, rgba(0,35,159,1) 50%, rgba(0,48,191,1) 100%);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-container {
+    display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 40px 0px 10px 0px;
+}
+
+.header__logo img{
+	width: 70px;
+}
+
+.header__search {
+	width: 100%;
+	max-width: 650px;
+	position: relative;
+}
+
+form {
+	position: relative;
+}
+
+.header__search__input {
+	border: none;
+	outline: none;
+	padding: 12px;
+	border-radius: 20px;
+	width: 100%;
+}
+
+.header__search__submit {
+	border: none;
+	outline: none;
+	background: none;
+	position: absolute;
+	padding: 10px;
+	right: -20px;
+	top: 2px;
+	cursor: pointer;
+}
+
+.header--right {
+	display: flex;
+	align-items: center;
+}
+
+.header--right__item {
+	color: rgb(255, 255, 255);
+	padding: 10px;
+	margin: 5px;
+	border-radius: 20px;
+	transition: background-color 0.3s;
+}
+
+.header--right__item a i {
+	padding-right: 3px;
+}
+
+.header--right__item:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================================================================================= */
+.navbar {
+	background-color: rgb(237, 237, 237);
+}
+
+.navbar-container {
+	height: 46px;
+}
+
+.navbar-container ul {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.navbar__item {
+	padding: 15px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.navbar__item:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================== */
+
+.main {
+	margin-top: 40px;
+}
+
+.product__item {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.product__item__card {
+	width: 210px;
+	height: 330px;
+	margin: 6px;
+	padding: 6px;
+	background-color: #fff;
+	border-radius: 10px;
+	position: relative;
+}
+
+.product__item__card__img {
+	width: 90%;
+	height: 200px;
+	margin: 0 auto;
+}
+
+.product__item__card__img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.product__item__card__content *{
+	font-weight: 600;
+	margin-top: 6px;
+}
+
+.product__item_price {
+	color: red;
+	font-size: 20px;
+}
+
+.button__addcart {
+	margin-top: 10px;
+	padding: 6px;
+	width: 210px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: 0.5s ;
+	position: absolute;
+	bottom: 10px;
+}
+
+.button__addcart:hover {
+	background: rgb(17, 60, 170);
+	color: #fff;
+}
