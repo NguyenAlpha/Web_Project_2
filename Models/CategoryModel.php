@@ -7,7 +7,7 @@
         }
 
         public function findById($id) {
-            return $this->find(self::TABLE, $id);
+            return $this->find(self::TABLE, "MaLoai", $id);
         }
 
         public function store() {

@@ -5,7 +5,7 @@
             $this->conn = $this->connect();
         }
 
-        protected function get($table, $select = ['*'], $orderBy = [], $limit = 15) {
+        protected function get($table, $select = ['*'], $orderBy = [], $limit = 20) {
             $select = implode(",", $select);
 
             $orderBy = implode(" ", $orderBy);
@@ -25,7 +25,7 @@
         }
 
         protected function find($table, $name, $id) {
-            $sql = "SELECT * FROM  $table WHERE $name = $id LIMIT 1";
+            $sql = "SELECT * FROM  $table WHERE $name = $id";
             $result = $this->conn->query(($sql));
             return $result->fetch_assoc();
         }
@@ -55,11 +55,13 @@
         protected function getByQuery($query) {
             $result = $this->conn->query($query);
             $data = [];
+
             if($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     $data[] = $row;
                 }
             }
+
             return $data;
         }
     }

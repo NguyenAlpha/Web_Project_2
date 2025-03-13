@@ -59,6 +59,7 @@ button {
 	font-size: 16px;
 	border: 2px, solid, rgb(88, 88, 222);
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 /* =============================================================== */
@@ -209,7 +210,6 @@ form {
 	padding: 6px;
 	width: 210px;
 	font-weight: 700;
-	cursor: pointer;
 	transition: 0.5s ;
 	position: absolute;
 	bottom: 10px;
@@ -218,4 +218,135 @@ form {
 .button__addcart:hover {
 	background: rgb(17, 60, 170);
 	color: #fff;
+}
+
+
+/* ============================================ PRODUCT DETAIL====================================================== */
+.product__detail__name {
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.product__detail__box1{
+	background: #fff;
+	display: flex;
+	margin-top: 50px;
+	padding: 20px;
+	border-radius: 15px;
+}
+
+.product__detail--left img {
+	width: 450px;
+	object-fit: cover;
+}
+
+.product__detail__price {
+	margin-top: 20px;
+	font-weight: 800;
+	font-size: 30px;
+	color: red;
+}
+
+.product__button__buy__cart {
+	display: flex;
+	margin-top: 20px;
+}
+
+.product__detail__buy{
+	font-size: 24px;
+	padding: 8px;
+	font-weight: 700;
+	width: 65%;
+	margin: 6px;
+	background: rgb(63, 105, 213);
+	color: #fff;
+	transition: 0.3s;
+}
+
+.product__detail__buy:hover {
+	background: rgb(17, 60, 170);
+}
+
+.product__detail__cart {
+	font-size: 24px;
+	font-weight: 700;
+	padding: 8px;
+	width: 30%;
+	margin: 6px;
+	transition: 0.3s;
+}
+
+.product__detail__cart:hover {
+	background: rgb(17, 60, 170);
+	color: #fff;
+}
+
+.product__detail__title {
+	font-weight: 700;
+	font-size: 30px;
+}
+
+.product__detail__box2 {
+	padding: 20px;
+	border-radius: 15px;
+	margin-top: 40px;
+	background-color: #fff;
+}
+
+table, td, th {
+	border: 1px solid #e5e5e5;
+}
+  
+table {
+	width: 50%;	
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 4px;
+}
+.product__detail__list {
+	margin-top: 30px;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+tr:nth-child(2n) {
+	background-color: #dedede;
+}
+
+/* ======================== FOOTER =================================================*/
+footer {
+	background-color: #fff;
+}
+
+.footer__list {
+    display: flex;
+    font-weight: 500;
+	justify-content: space-around;
+	margin-top: 40px;
+	padding: 10px;
+	padding-top: 40px;
+}
+
+.footer__list h3 {
+	margin-bottom: 8px;
+	font-weight: 600;
+	font-size: 20px;
+	color:rgb(17, 60, 170);
+}
+
+.footer__list p {
+	margin-top: 3px;
+}
+
+.footer__text {
+	text-align: center;
+	padding: 5px;
+	margin: 5px;
+}
+
+.footer__text p:first-child {
+	font-weight: 500;
+	font-size: 18px;
 }

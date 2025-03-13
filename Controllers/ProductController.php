@@ -2,6 +2,7 @@
     class ProductController extends BaseController {
         private $productModel;
         private $categoryModel;
+        private $productDetailModel;
 
         public function __construct() {
             $this->loadModel("ProductModel");   //load productModel để tạo đối tượng productModel dòng 9
@@ -15,7 +16,7 @@
             ]);
         }
         public function index() {
-            $products = $this->productModel->getAll();
+            $products = $this->productModel->getAll(['*'], [],50);
 
             return $this->loadView("fontend/products/index.php",[
                 "products" => $products
@@ -24,8 +25,15 @@
 
         public function show() {
             $product = $this->productModel->findById($_GET['id']);
+            $productCategoryName = $this->categoryModel->findById($product['MaLoai']);
+
+            $this->loadModel("ProductDetailModel");
+            $this->productDetailModel = new ProductDetailModel();
+            $productDetail = $this->productDetailModel->getProductDetail($_GET['id'], $productCategoryName['TenLoai']);
+
             return $this->loadView("fontend/products/show.php",[
-                'product' => $product
+                'product' => $product,
+                "detail" => $productDetail
             ]);
         }
 
@@ -49,14 +57,6 @@
 
         public function delete() {
             $this->productModel->deleteProduct(6);
-        }
-
-        public function getcategory() {
-            $product = $this->productModel->getProductsByCategory($_REQUEST["category"]);
-            return $this->loadView("fontend/products/index.php",[
-                "title" => "Danh sách sản phẩm",
-                "product" => $product,
-            ]);
         }
     }
 ?>

@@ -25,7 +25,7 @@
         }
 
         public function show() {
-            $products = $this->productModel->getProductsByCategory($_GET['id']);
+            $products = $this->productModel->getProductsByCategoryId($_GET['id']);
             return $this->loadView("fontend/categories/show.php", [
                 "title" => "Chi tiết danh mục",
                 "products" => $products,

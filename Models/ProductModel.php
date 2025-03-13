@@ -22,7 +22,7 @@
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
 
-        public function getProductsByCategory($categoryID) {
+        public function getProductsByCategoryId($categoryID) {
             $query = "SELECT products.*, categories.TenLoai FROM products
                       JOIN categories ON categories.MaLoai = products.MaLoai
                       WHERE products.MaLoai = $categoryID;";
