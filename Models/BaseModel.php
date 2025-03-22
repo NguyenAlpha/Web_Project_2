@@ -26,7 +26,7 @@
 
         protected function find($table, $name, $id) {
             $sql = "SELECT * FROM  $table WHERE $name = $id";
-            $result = $this->conn->query(($sql));
+            $result = $this->conn->query($sql);
             return $result->fetch_assoc();
         }
 
@@ -64,6 +64,10 @@
 
             return $data;
         }
+
+        protected function getFilters($query) {
+            $result = $this->conn->query($query);
+            return ($result->num_rows > 0) ? array_merge(...$result->fetch_all()) : [];
+        }
     }
-        
 ?>

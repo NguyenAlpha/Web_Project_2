@@ -23,10 +23,9 @@
         }
 
         public function getProductsByCategoryId($categoryID) {
-            $query = "SELECT products.*, categories.TenLoai FROM products
-                      JOIN categories ON categories.MaLoai = products.MaLoai
-                      WHERE products.MaLoai = $categoryID;";
-            
+            $query = "SELECT * FROM products
+                      WHERE MaLoai = '$categoryID'";
+                      
             return $this->getByQuery($query);
         }
     }

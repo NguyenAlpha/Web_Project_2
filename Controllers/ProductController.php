@@ -24,16 +24,18 @@
         }
 
         public function show() {
-            $product = $this->productModel->findById($_GET['id']);
-            $productCategoryName = $this->categoryModel->findById($product['MaLoai']);
+            $id = $_GET['id'];
+            // Lấy thông tin sản phẩm
+            $product = $this->productModel->findById($id);
 
+            // lấy thông tin chi tiết sản phẩm
             $this->loadModel("ProductDetailModel");
             $this->productDetailModel = new ProductDetailModel();
-            $productDetail = $this->productDetailModel->getProductDetail($_GET['id'], $productCategoryName['TenLoai']);
+            $detail = $this->productDetailModel->getProductDetail($product);
 
             return $this->loadView("fontend/products/show.php",[
                 'product' => $product,
-                "detail" => $productDetail
+                "detail" => $detail
             ]);
         }
 

@@ -2,8 +2,17 @@
     class ProductDetailModel extends BaseModel {
         const TABLE = "details";
 
-        function getProductDetail($id, $categoryName) {
-            return $this->find($categoryName . SELF::TABLE, "MaSP", $id);
+        function getProductDetail($product) {
+            return $this->find($product['MaLoai'] . self::TABLE, "MaSP", $product['MaSP']);
+        }
+
+        function getCategoryFilters($filters, $categoryId) {
+            foreach ($filters as $attributeName => $attributeId) {
+                $query = "SELECT DISTINCT $attributeId FROM {$categoryId}details";
+                $result = $this->getFilters($query);
+                $filters[$attributeName] = $result;
+            }
+            return $filters;
         }
     }
 ?>

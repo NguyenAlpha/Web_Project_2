@@ -61,6 +61,9 @@ button {
 	border-radius: 5px;
 	cursor: pointer;
 }
+i.fa-solid {
+	padding: 2px;
+}
 
 /* =============================================================== */
 .header {
@@ -256,7 +259,7 @@ form {
 	font-size: 24px;
 	padding: 8px;
 	font-weight: 700;
-	width: 65%;
+	width: 60%;
 	margin: 6px;
 	background: rgb(63, 105, 213);
 	color: #fff;
@@ -271,7 +274,7 @@ form {
 	font-size: 24px;
 	font-weight: 700;
 	padding: 8px;
-	width: 30%;
+	width: 35%;
 	margin: 6px;
 	transition: 0.3s;
 }
@@ -293,26 +296,27 @@ form {
 	background-color: #fff;
 }
 
-table, td, th {
-	border: 1px solid #e5e5e5;
-}
-  
-table {
-	width: 50%;	
-	border-collapse: collapse;
+table.product__detail__list{
+	width: 100%;
+	margin-top: 30px;
+	font-size: 18px;
 }
 
-td, th {
-	padding: 4px;
+table td:first-child {
+	width: 30%;
+	font-weight: 500;
 }
-.product__detail__list {
-	margin-top: 30px;
-	font-size: 20px;
-	font-weight: 600;
+
+td {
+	padding: 6px;
 }
 
 tr:nth-child(2n) {
-	background-color: #dedede;
+	background-color: #eeeeee;
+}
+
+tr:nth-child(2n +1) {
+	background-color: #f8f8f8;
 }
 
 /* ======================== FOOTER =================================================*/
@@ -349,4 +353,16 @@ footer {
 .footer__text p:first-child {
 	font-weight: 500;
 	font-size: 18px;
+}
+
+
+/* ============================= filter */
+
+.main .container {
+	display: flex;
+}
+.filter__box {
+	width: 30%;
+	height: 700px;
+	
 }
