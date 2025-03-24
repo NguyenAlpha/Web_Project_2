@@ -32,17 +32,32 @@
         // Hiển thị danh mục cụ thể và sản phẩm của danh mục đó
         public function show() {
             $categoryId = $_GET['id'];
-            $products = $this->productModel->getProductsByCategoryId($categoryId);
-
             // Lấy thông tin filter của danh mục theo mã danh mục
-            $filters = $this->categoryModel->getFiltersByCategoryId($categoryId);
+            $attributes = $this->categoryModel->getFiltersByCategoryId($categoryId);
 
-            $filters = $this->productDetailModel->getCategoryFilters($filters, $categoryId);
+
+            if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
+                // echo '<pre>';
+                // echo print_r($_POST);
+                // echo '</pre>';
+                $products = $this->productDetailModel->getProductByCategoryFilters($categoryId, $attributes, $_POST);
+            } else {
+                $products = $this->productModel->getProductsByCategoryId($categoryId);
+            }
+
+
+            $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);
             return $this->loadView("fontend/categories/show.php", [
                 "title" => "Chi tiết danh mục",
                 "products" => $products,
-                "filters" => $filters
+                "filters" => $filters,
+                "attributes" => $attributes,
+                "selectedAttribute" => $_POST
             ]);
+        }
+
+        public function filter() {
+            
         }
     }
 ?>

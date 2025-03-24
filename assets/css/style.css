@@ -64,7 +64,10 @@ button {
 i.fa-solid {
 	padding: 2px;
 }
-
+.error {
+	color: red;
+	font-weight: 700;
+}
 /* =============================================================== */
 .header {
 	background: rgb(0,38,133);
@@ -164,9 +167,9 @@ form {
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* =============================================== */
-
-.main {
+/* =============================================== product item ==========================================*/
+.main .container {
+	display: flex;
 	margin-top: 40px;
 }
 
@@ -179,8 +182,8 @@ form {
 .product__item__card {
 	width: 210px;
 	height: 330px;
-	margin: 6px;
-	padding: 6px;
+	margin: 0px 5px 5px;
+	padding: 0px 5px;
 	background-color: #fff;
 	border-radius: 10px;
 	position: relative;
@@ -208,34 +211,58 @@ form {
 	font-size: 20px;
 }
 
-.button__addcart {
-	margin-top: 10px;
-	padding: 6px;
-	width: 210px;
-	font-weight: 700;
-	transition: 0.5s ;
+.button__addcart__box {
 	position: absolute;
 	bottom: 10px;
 }
 
+.button__addcart {
+	padding: 6px;
+	width: 210px;
+	font-weight: 700;
+	transition: 0.5s ;
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.button__addcart:before {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 0%;
+	height: 0%;
+	background-color: rgb(17, 60, 170);
+	transition: all 0.5s;
+	z-index: -1;
+}
+
+.button__addcart:hover:before {
+	width: 105%;
+	height: 105%;
+}
+
 .button__addcart:hover {
-	background: rgb(17, 60, 170);
 	color: #fff;
 }
 
-
 /* ============================================ PRODUCT DETAIL====================================================== */
+.product__detail {
+	width: 100%;
+}
+
 .product__detail__name {
 	font-weight: 700;
-	font-size: 20px;
+	font-size: 35px;
 }
 
 .product__detail__box1{
 	background: #fff;
 	display: flex;
-	margin-top: 50px;
-	padding: 20px;
+	padding: 10px;
 	border-radius: 15px;
+	width: 100%;
 }
 
 .product__detail--left img {
@@ -260,10 +287,10 @@ form {
 	padding: 8px;
 	font-weight: 700;
 	width: 60%;
-	margin: 6px;
 	background: rgb(63, 105, 213);
 	color: #fff;
 	transition: 0.3s;
+	margin-right: 10px;
 }
 
 .product__detail__buy:hover {
@@ -271,16 +298,35 @@ form {
 }
 
 .product__detail__cart {
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: 700;
 	padding: 8px;
 	width: 35%;
-	margin: 6px;
-	transition: 0.3s;
+	transition: 0.5s ;
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.product__detail__cart:before {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 0%;
+	height: 0%;
+	background-color: rgb(17, 60, 170);
+	transition: all 0.5s;
+	z-index: -1;
+}
+
+.product__detail__cart:hover:before {
+	width: 105%;
+	height: 105%;
 }
 
 .product__detail__cart:hover {
-	background: rgb(17, 60, 170);
+	/* background: rgb(17, 60, 170); */
 	color: #fff;
 }
 
@@ -356,13 +402,29 @@ footer {
 }
 
 
-/* ============================= filter */
+/* ============================= filter box =================================================*/
+.filter__box form {
+	padding: 8px;
+}
 
-.main .container {
-	display: flex;
-}
 .filter__box {
-	width: 30%;
-	height: 700px;
-	
+	width: 25%;
+	background-color: #fff;
+	border-radius: 10px;
 }
+
+.filter__attribute {
+	font-weight: 600;
+}
+
+.filter__attribute__item {
+	font-size: 13px;
+}
+
+.filter__button__box {
+	margin-top: 15px;
+	text-align: center;
+}
+
+
+

@@ -13,7 +13,9 @@
                             <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
                         </div>
                     </a>
-                    <button class="button button__addcart" type="submit" name="addcart">Thêm vào giỏ</button>
+                    <div class="button__addcart__box">
+                        <button class="button button__addcart" type="submit" name="addcart">Thêm vào giỏ</button>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>

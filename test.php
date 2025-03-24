@@ -1,45 +1,49 @@
 <?php 
-    $host = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "test1";
+    class myDBClass {
 
-    $conn = new mysqli($host, $username, $password, $database);
+        private $serverName;
+        private $userName;
+        private $password;
+        private $databaseName;
 
-    $result = $conn->query("SELECT * FROM laptopdetails");
+        private $conn;
 
-    $data = [];
-    if($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $data[] = $row;
+        public function __construct($sn, $urs, $pwd, $db) {
+            $this->serverName = $sn;
+            $this->userName = $urs;
+            $this->password = $pwd;
+            $this->databaseName = $db;
+        }
+
+        public function connectDB() {
+            $this->conn = new mysqli($this->serverName, $this->userName, $this->password, $this->databaseName);
+            if($this->conn->connect_error) {
+                echo "Kết nối thất bại";
+            } else {
+                echo "Kêt nối thánh công";
+            }
+        }
+
+        public function runQuery($query) {
+            $result = $this->conn->query($query);
+            $data = [];
+            if($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+            }
+            return $data;
+        }
+
+        public function closeDB() {
+            $this->conn->close();
         }
     }
-    // echo "<pre>";
-    // echo print_r($data);
-    // echo "</pre>";
-    
-    $find = 'cpu';
-    $have = 'core';
-    
-    // foreach($data as $item) {
-    //     foreach($item as $attribute => $value) {
-    //         if(strtolower($attribute) == strtolower($find)
-    //            && str_contains(strtolower($value), strtolower($have))) {
-    //             echo "<pre>";
-    //             echo print_r($item);
-    //             echo "</pre>";
-                
-    //         }
-    //     }
-    // }
 
-    // $arr = [
-    //     "Màn Hình" => "ManHinh",
-    //     "GPU" => ["RTX 5070", "RTX 2060", "RTX 4070"]
-    // ];
-
-    // echo "<pre>";
-    // echo print_r($arr);
-    // echo "</pre>";
+    echo '<pre>';
+    echo print_r($_POST);
+    echo '</pre>';
+    echo '<pre>';
+    echo $_POST['filterCategory'];
 
 ?>

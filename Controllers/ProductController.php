@@ -39,6 +39,24 @@
             ]);
         }
 
+        public function filter() {
+            // public function getFilteredProducts($categoryId, $filters) {
+            //     $query = "SELECT * FROM products WHERE category_id = $categoryId";
+        
+            //     if (!empty($filters['cpu'])) {
+            //         $cpuList = implode("','", $filters['cpu']);
+            //         $query .= " AND cpu IN ('$cpuList')";
+            //     }
+        
+            //     if (!empty($filters['ram'])) {
+            //         $ramList = implode("','", $filters['ram']);
+            //         $query .= " AND ram IN ('$ramList')";
+            //     }
+        
+            //     return $this->query($query)->fetchAll();
+            // }
+        }
+
         public function store() {
             $this->productModel->add([
                 "TenSP" => "Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC",
@@ -62,3 +80,19 @@
         }
     }
 ?>
+
+
+
+
+
+<!-- 
+mã khách hàng,
+mã sản phẩm
+số lượng
+
+
+bill
+
+
+
+-->
