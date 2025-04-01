@@ -67,6 +67,7 @@ i.fa-solid {
 .error {
 	color: red;
 	font-weight: 700;
+	text-align: center;
 }
 /* =============================================================== */
 .header {
@@ -268,6 +269,10 @@ form {
 .product__detail--left img {
 	width: 450px;
 	object-fit: cover;
+}
+
+.product__detail--right {
+	width: 100%;
 }
 
 .product__detail__price {

@@ -31,11 +31,29 @@
             // lấy thông tin chi tiết sản phẩm
             $this->loadModel("ProductDetailModel");
             $this->productDetailModel = new ProductDetailModel();
-            $detail = $this->productDetailModel->getProductDetail($product);
+            $details = $this->productDetailModel->getProductDetail($product);
+
+            $productNameExtension = '';
+            // xáo các phần tử rổng trong mảng
+            if(!empty($details)) {
+                $details = array_filter($details);
+                
+                $productNameExtension = $details;
+                unset($productNameExtension['MaSP']);
+                unset($productNameExtension['ThuongHieu']);
+                $productNameExtension = implode(" / ",$productNameExtension);
+            }
+
+            
+
+            // Lấy tên các thuộc tính của sản phẩm
+            $attributes = $this->categoryModel->getFiltersByCategoryId($product['MaLoai']);
 
             return $this->loadView("fontend/products/show.php",[
                 'product' => $product,
-                "detail" => $detail
+                'details' => $details,
+                'attributes' => $attributes,
+                'productNameExtension' => $productNameExtension
             ]);
         }
 

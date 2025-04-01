@@ -34,7 +34,7 @@
             $categoryId = $_GET['id'];
             // Lấy thông tin filter của danh mục theo mã danh mục
             $attributes = $this->categoryModel->getFiltersByCategoryId($categoryId);
-
+            
 
             if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
                 // echo '<pre>';
