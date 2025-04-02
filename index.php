@@ -9,8 +9,7 @@
     
     require "./Controllers/BaseController.php";
     
-    $controllerName = (ucfirst($_GET["controller"] ?? "product"))  . "Controller";
-    
+    $controllerName = (ucfirst($_GET["controller"] ?? "home"))  . "Controller";
     require "./Controllers/".$controllerName.".php";
     $controllerObject = new $controllerName;
     $action = $_GET["action"] ?? "index";

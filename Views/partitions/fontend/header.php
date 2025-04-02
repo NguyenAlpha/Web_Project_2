@@ -24,9 +24,9 @@
                     <a href="./index.php"><img src="./assets/image/Asset_1.png" alt=""></a>
                 </div>
                 <div class="header__search">
-                    <form action="" method="get">
+                    <form action="./index.php?controller=home&action=search" method="post">
                         <input class="header__search__input" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
-                        <button class="header__search__submit" type="submit" name="search-submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button class="header__search__submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
                 <div class="header--right">

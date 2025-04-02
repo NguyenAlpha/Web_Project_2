@@ -15,13 +15,6 @@
                 "menus" => $this->categoryModel->getAll()
             ]);
         }
-        public function index() {
-            $products = $this->productModel->getAll(['*'], [],50);
-
-            return $this->loadView("fontend/products/index.php",[
-                "products" => $products
-            ]);
-        }
 
         public function show() {
             $id = $_GET['id'];
@@ -55,24 +48,6 @@
                 'attributes' => $attributes,
                 'productNameExtension' => $productNameExtension
             ]);
-        }
-
-        public function filter() {
-            // public function getFilteredProducts($categoryId, $filters) {
-            //     $query = "SELECT * FROM products WHERE category_id = $categoryId";
-        
-            //     if (!empty($filters['cpu'])) {
-            //         $cpuList = implode("','", $filters['cpu']);
-            //         $query .= " AND cpu IN ('$cpuList')";
-            //     }
-        
-            //     if (!empty($filters['ram'])) {
-            //         $ramList = implode("','", $filters['ram']);
-            //         $query .= " AND ram IN ('$ramList')";
-            //     }
-        
-            //     return $this->query($query)->fetchAll();
-            // }
         }
 
         public function store() {
