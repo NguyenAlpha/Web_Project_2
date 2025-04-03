@@ -16,8 +16,10 @@
     $controllerObject = new $controllerName;
     $action = $_GET["action"] ?? "index";
     $controllerObject->$action();
-    if(!$_GET["controller"]=='admin'){
-        include "./Views/partitions/fontend/footer.php";
+    if(isset($_GET["controller"])) {
+        if(!$_GET["controller"]=='admin'){
+            include "./Views/partitions/fontend/footer.php";
+        }
     }
 ?>
 
