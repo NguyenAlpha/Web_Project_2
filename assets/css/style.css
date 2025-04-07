@@ -93,8 +93,8 @@ i.fa-solid {
 }
 
 .header__search {
-	width: 100%;
-	max-width: 650px;
+	width: 50%;
+	max-width: 600px;
 	position: relative;
 }
 
