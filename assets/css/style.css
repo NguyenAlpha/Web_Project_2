@@ -196,6 +196,12 @@ i.fa-solid {
 	width: 90%;
 	height: 200px;
 	margin: 0 auto;
+	margin-top: 3px;
+	transition: transform 0.3s ease;
+}
+
+.product__item__card__img:hover {
+	transform: translateY(-3px);
 }
 
 .product__item__card__img img {
