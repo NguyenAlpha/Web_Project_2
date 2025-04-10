@@ -190,6 +190,7 @@ i.fa-solid {
 	background-color: #fff;
 	border-radius: 10px;
 	position: relative;
+	box-shadow: 1px 1px 4px #00000030;
 }
 
 .product__item__card__img {
