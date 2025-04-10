@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 24, 2025 lúc 08:40 PM
+-- Thời gian đã tạo: Th4 02, 2025 lúc 03:45 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -50,10 +50,20 @@ INSERT INTO `categories` (`MaLoai`, `TenLoai`) VALUES
 
 CREATE TABLE `gpudetails` (
   `MaSP` int(11) NOT NULL,
-  `ThuongHieu` int(255) NOT NULL,
-  `GPU` int(255) NOT NULL,
-  `CPU` int(255) NOT NULL
+  `ThuongHieu` varchar(255) NOT NULL,
+  `GPU` varchar(255) NOT NULL,
+  `CUDA` varchar(255) NOT NULL,
+  `TocDoBoNho` varchar(255) NOT NULL,
+  `BoNho` varchar(255) NOT NULL,
+  `Nguon` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `gpudetails`
+--
+
+INSERT INTO `gpudetails` (`MaSP`, `ThuongHieu`, `GPU`, `CUDA`, `TocDoBoNho`, `BoNho`, `Nguon`) VALUES
+(6, 'NVIDIA', 'NVIDIA GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W');
 
 -- --------------------------------------------------------
 
@@ -94,16 +104,21 @@ CREATE TABLE `laptopgamingdetails` (
   `MaSP` int(11) NOT NULL,
   `ThuongHieu` varchar(255) NOT NULL,
   `GPU` varchar(255) NOT NULL,
-  `CPU` varchar(255) NOT NULL
+  `CPU` varchar(255) NOT NULL,
+  `RAM` varchar(255) NOT NULL,
+  `DungLuong` varchar(255) NOT NULL,
+  `KichThuocManHinh` varchar(255) NOT NULL,
+  `DoPhanGiai` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `laptopgamingdetails`
 --
 
-INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`) VALUES
-(3, 'MSI', 'NVIDIA GeForce RTX 3050 6GB', 'Intel Core i5-13500H'),
-(4, 'Lenovo', 'NVIDIA GeForce RTX 4060 8GB', 'AMD Ryzen 7 7435HS');
+INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`, `RAM`, `DungLuong`, `KichThuocManHinh`, `DoPhanGiai`) VALUES
+(3, 'MSI', 'NVIDIA GeForce RTX 3050 6GB', 'Intel Core i5-13500H', '8GB', '1TB', '15.6 inch', '1920x1080'),
+(4, 'Lenovo', 'NVIDIA GeForce RTX 4060 8GB', 'AMD Ryzen 7 7435HS', '24GB', '512GB', '15.6 inch', '1920x1080'),
+(7, 'Gigabyte', 'NVIDIA GeForce RTX 4050 6GB', 'Intel Core i5-13500H', '8GB', '512GB', '15.6 inch', '1920x1080');
 
 -- --------------------------------------------------------
 
@@ -113,10 +128,22 @@ INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`) VALUES
 
 CREATE TABLE `manhinhdetails` (
   `MaSP` int(11) NOT NULL,
-  `ThuongHieu` int(255) NOT NULL,
-  `GPU` int(255) NOT NULL,
-  `CPU` int(255) NOT NULL
+  `ThuongHieu` varchar(255) NOT NULL,
+  `KichThuocManHinh` varchar(255) NOT NULL,
+  `TangSoQuet` varchar(255) NOT NULL,
+  `TiLe` varchar(255) NOT NULL,
+  `TamNen` varchar(255) NOT NULL,
+  `DoPhanGiai` varchar(255) NOT NULL,
+  `KhoiLuong` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `manhinhdetails`
+--
+
+INSERT INTO `manhinhdetails` (`MaSP`, `ThuongHieu`, `KichThuocManHinh`, `TangSoQuet`, `TiLe`, `TamNen`, `DoPhanGiai`, `KhoiLuong`) VALUES
+(1, 'MSI', '23.8 inch', '100Hz', '16:9', 'IPS', '1920x1080', '3.5 kg'),
+(8, 'Gigabyte', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 

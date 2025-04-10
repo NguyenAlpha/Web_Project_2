@@ -69,5 +69,14 @@
             $result = $this->conn->query($query);
             return ($result->num_rows > 0) ? array_merge(...$result->fetch_all()) : [];
         }
+        protected function getAdmin($query){
+            $result = $this->conn->query($query);
+            if  ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+            }
+            else {
+                return [];
+            }
+        }
     }
 ?>

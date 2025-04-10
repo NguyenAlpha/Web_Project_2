@@ -25,13 +25,13 @@
                                 <div class="filter__attribute__item">
                                     <!-- Nếu thuộc tính đã đã có chọn và giá trị của thuộc tính đó có trong có chọn -->
                                     <?php if(isset($_POST[$attributes[$attribute]]) && 
-                                            in_array($value, $_POST[$attributes[$attribute]])):?>
+                                            in_array($value, $_POST[$attributes[$attribute]]) && !empty($value)):?>
                                         <label for="<?=$safeId?>">
                                             <input type="checkbox" id="<?=$safeId?>" name="<?=$attributes[$attribute]?>[]" value="<?=$value?>" checked>
                                             <?=$value?>
                                         </label>
                                     <!-- Nếu thuộc tính chưa được chọn -->
-                                    <?php else:?>
+                                    <?php elseif(!empty($value)):?>
                                         <label for="<?=$safeId?>">
                                             <input type="checkbox" id="<?=$safeId?>" name="<?=$attributes[$attribute]?>[]" value="<?=$value?>">
                                             <?=$value?>
@@ -49,24 +49,28 @@
                     <p class="error">Chưa có bộ lọc</p>
                 <?php endif;?>
             </div>
-            <div class="product__item">
-                <?php foreach($products as $item): ?>
-                    <div class="product__item__card">
-                        <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
-                            <div class="product__item__card__img">
-                                <img src="<?=$item['AnhMoTaSP']?>" alt="">
+            <?php if(!empty($products)):?>
+                <div class="product__item">
+                    <?php foreach($products as $item): ?>
+                        <div class="product__item__card">
+                            <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
+                                <div class="product__item__card__img">
+                                    <img src="<?=$item['AnhMoTaSP']?>" alt="">
+                                </div>
+                                <div class="product__item__card__content">
+                                    <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
+                                    <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
+                                </div>
+                            </a>
+                            <div class="button__addcart__box">
+                                <button class="button button__addcart" type="submit" name="addcart">Thêm vào giỏ</button>
                             </div>
-                            <div class="product__item__card__content">
-                                <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
-                                <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
-                            </div>
-                        </a>
-                        <div class="button__addcart__box">
-                            <button class="button button__addcart" type="submit" name="addcart">Thêm vào giỏ</button>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else:?>
+                    <p class="error">không có sản phẩm nào</p>
+            <?php endif;?>
         </div>
     </div>
 </main>

@@ -15,13 +15,6 @@
                 "menus" => $this->categoryModel->getAll()
             ]);
         }
-        public function index() {
-            $products = $this->productModel->getAll(['*'], [],50);
-
-            return $this->loadView("fontend/products/index.php",[
-                "products" => $products
-            ]);
-        }
 
         public function show() {
             $id = $_GET['id'];
@@ -31,30 +24,30 @@
             // lấy thông tin chi tiết sản phẩm
             $this->loadModel("ProductDetailModel");
             $this->productDetailModel = new ProductDetailModel();
-            $detail = $this->productDetailModel->getProductDetail($product);
+            $details = $this->productDetailModel->getProductDetail($product);
+
+            $productNameExtension = '';
+            // xáo các phần tử rổng trong mảng
+            if(!empty($details)) {
+                $details = array_filter($details);
+                
+                $productNameExtension = $details;
+                unset($productNameExtension['MaSP']);
+                unset($productNameExtension['ThuongHieu']);
+                $productNameExtension = implode(" / ",$productNameExtension);
+            }
+
+            
+
+            // Lấy tên các thuộc tính của sản phẩm
+            $attributes = $this->categoryModel->getFiltersByCategoryId($product['MaLoai']);
 
             return $this->loadView("fontend/products/show.php",[
                 'product' => $product,
-                "detail" => $detail
+                'details' => $details,
+                'attributes' => $attributes,
+                'productNameExtension' => $productNameExtension
             ]);
-        }
-
-        public function filter() {
-            // public function getFilteredProducts($categoryId, $filters) {
-            //     $query = "SELECT * FROM products WHERE category_id = $categoryId";
-        
-            //     if (!empty($filters['cpu'])) {
-            //         $cpuList = implode("','", $filters['cpu']);
-            //         $query .= " AND cpu IN ('$cpuList')";
-            //     }
-        
-            //     if (!empty($filters['ram'])) {
-            //         $ramList = implode("','", $filters['ram']);
-            //         $query .= " AND ram IN ('$ramList')";
-            //     }
-        
-            //     return $this->query($query)->fetchAll();
-            // }
         }
 
         public function store() {

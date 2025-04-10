@@ -34,7 +34,7 @@
             $categoryId = $_GET['id'];
             // Lấy thông tin filter của danh mục theo mã danh mục
             $attributes = $this->categoryModel->getFiltersByCategoryId($categoryId);
-
+            
 
             if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
                 // echo '<pre>';
@@ -48,7 +48,6 @@
 
             $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);
             return $this->loadView("fontend/categories/show.php", [
-                "title" => "Chi tiết danh mục",
                 "products" => $products,
                 "filters" => $filters,
                 "attributes" => $attributes,
