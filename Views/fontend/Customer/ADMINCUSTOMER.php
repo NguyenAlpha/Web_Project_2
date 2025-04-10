@@ -31,7 +31,15 @@ $sql = "SELECT * FROM customers";
   ?>
 </body>
 </html> -->
-<p>hehe</p>
-<?php 
-                print_r($customer);
-            ?>
+<h1>danh sách khách hàng</h1>
+<table>
+
+  <?php foreach($customer as $value):?>
+    <tr>
+      <td><?php echo $value['username']?></td>
+      <td><?php echo $value['password']?></td>
+      <td><button>sửa thông tin</button></td>
+    </tr>
+  <?php endforeach;?>
+</table>
+      
