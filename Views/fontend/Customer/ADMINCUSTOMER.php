@@ -31,6 +31,7 @@ $sql = "SELECT * FROM customers";
   ?>
 </body>
 </html> -->
-<p>
-  Hehee
-</p>
+<p>hehe</p>
+<?php 
+                print_r($customer);
+            ?>

@@ -5,5 +5,10 @@ class AdminModel extends BaseModel{
         $sql = "SELECT * FROM admins WHERE username = '$username' AND password = '$password'";
         return $this->getAdmin($sql);
     }
+    public function customer(){
+        $sql = "SELECT * FROM `user` WHERE 1";
+        
+        return $this->getByQuery( $sql); 
+}
 }
 ?>

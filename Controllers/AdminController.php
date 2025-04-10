@@ -40,7 +40,14 @@ class AdminController extends BaseController {
         header('Location: index.php?controller=admin&action=login');
     }
     public function customer() {
-        return $this->loadView('fontend/Customer/ADMINCUSTOMER.php');
+        $this->loadModel("AdminModel"); 
+        $AdminModel = new AdminModel() ;
+    $customer = $AdminModel->customer();
+    
+     $this->loadView("fontend/Customer/ADMINCUSTOMER.php",
+    [
+        "customer"=> $customer
+    ]);
     }
 }
 ?>
