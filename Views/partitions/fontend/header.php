@@ -36,8 +36,27 @@
                     </div>
                     <div class="header--right__item header--right__account">
                         <i class="fa-solid fa-user"></i>
-                        <a href="./pages/login.php">Đăng Nhập</a>
+                        <?php  if(isset($_SESSION["user"])):?>
+                            <a href=""><?php echo $_SESSION["user"]["username"]?></a>
+                        
+                            <?php  else:  ?>
+
+                        <a href="./user/login.php">Đăng Nhập</a>
+                        <?php endif;?>
+                        
                     </div>
+                    <?php if(!isset($_SESSION["user"])):?>
+                        <div class="header--right__item">
+                        <i class="fa-solid fa-user"></i>
+                        <a href="./user/register.php">Đăng ký</a>
+                        </div>
+                    <?php endif;?>
+
+                    <?php  if(isset($_SESSION["user"])):?>
+                        <div class="header--right__item header--right__cart">
+                            <a href="./user/logout.php">đăng xuất</a>
+                        </div>
+                        <?php endif;?>
                     <div class="header--right__item header--right__cart">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <a href="./pages/cart.php">Giỏ hàng</a>  
