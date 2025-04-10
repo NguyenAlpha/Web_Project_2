@@ -39,5 +39,8 @@ class AdminController extends BaseController {
         session_destroy();
         header('Location: index.php?controller=admin&action=login');
     }
+    public function customer() {
+        return $this->loadView('fontend/Customer/ADMINCUSTOMER.php');
+    }
 }
 ?>

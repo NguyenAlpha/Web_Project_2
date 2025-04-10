@@ -1,5 +1,6 @@
 <?php
-include 'db.php';
+include(__DIR__ . '/../../../Database.php');
+
 
 $sql = "SELECT * FROM customers";
 $result = $conn->query($sql);
