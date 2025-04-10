@@ -16,7 +16,8 @@
     $controllerObject = new $controllerName;
     $action = $_GET["action"] ?? "index";
     $controllerObject->$action();
-    if(!$_GET["controller"]=="admin"){
+    if(isset($_GET["controller"]) && $_GET["controller"]=='admin') {
+    } else {
         include "./Views/partitions/fontend/footer.php";
     }
 ?>

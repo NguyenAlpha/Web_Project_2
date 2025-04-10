@@ -48,7 +48,6 @@
 
             $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);
             return $this->loadView("fontend/categories/show.php", [
-                "title" => "Chi tiết danh mục",
                 "products" => $products,
                 "filters" => $filters,
                 "attributes" => $attributes,
