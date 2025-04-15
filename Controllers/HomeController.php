@@ -23,7 +23,8 @@
             $products = $this->productModel->getAll(['*'], [],50);
 
             return $this->loadView("fontend/home/index.php",[
-                "products" => $products
+                "products" => $products,
+                'categories' => $this->categoryModel->getAll()
             ]);
         }
         public function search() {

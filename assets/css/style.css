@@ -170,12 +170,12 @@ i.fa-solid {
 }
 
 /* =============================================== product item ==========================================*/
-.main .container {
+.main .container.category {
 	display: flex;
-	margin-top: 40px;
+	margin-top: 15px;
 }
 
-.product__item {
+.product__item.wrap {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -183,26 +183,26 @@ i.fa-solid {
 }
 
 .product__item__card {
-	width: 210px;
+	width: 200px;
+	min-width: 200px;
 	height: 330px;
-	margin: 0px 5px 5px;
-	padding: 0px 5px;
+	margin: 4px 6px 6px;
+	padding: 10px;
 	background-color: #fff;
-	border-radius: 10px;
+	border-radius: 15px;
 	position: relative;
-	box-shadow: 1px 1px 4px #00000030;
+	box-shadow: 0px 0px 5px #0000006e;
 }
 
 .product__item__card__img {
-	width: 90%;
 	height: 200px;
 	margin: 0 auto;
 	margin-top: 3px;
-	transition: transform 0.3s ease;
+	transition: transform 0.5s ease;
 }
 
 .product__item__card__img:hover {
-	transform: translateY(-3px);
+	transform: translateY(-7px);
 }
 
 .product__item__card__img img {
@@ -212,7 +212,7 @@ i.fa-solid {
 }
 
 .product__item__card__content *{
-	font-weight: 600;
+	font-weight: 500;
 	margin-top: 6px;
 }
 
@@ -224,16 +224,18 @@ i.fa-solid {
 .button__addcart__box {
 	position: absolute;
 	bottom: 10px;
+	
 }
 
 .button__addcart {
+	width: 200px;
 	padding: 6px;
-	width: 210px;
 	font-weight: 700;
 	transition: 0.5s ;
 	position: relative;
 	overflow: hidden;
 	z-index: 1;
+	box-shadow: 0 0 4px #00000051;
 }
 
 .button__addcart:before {
@@ -443,3 +445,55 @@ footer {
 
 
 
+/* ==============================================home=============================================================== */
+.container.product {
+}
+
+.product-container {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	max-width: 100%;
+}
+
+.name-list-product {
+	text-transform: uppercase;
+	font-size: 24px;
+	font-weight: 700;
+	padding: 6px 4px;
+	margin: 6px 0px;
+}
+
+.product__item.home {
+	display: flex;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+}
+
+.arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 1;
+	font-size: 24px;
+	background-color: rgba(255,255,255,0.7);
+	border: none;
+	cursor: pointer;
+	padding: 10px;
+}
+
+.left-arrow {
+	left: 0;
+}
+.right-arrow {
+	right: 0;
+}
+
+.productWrapper {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+  
+.productWrapper::-webkit-scrollbar {
+	display: none; /* Chrome, Safari */
+}	

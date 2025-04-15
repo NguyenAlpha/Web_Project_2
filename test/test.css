@@ -1,0 +1,21 @@
+.box {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: red;
+    overflow: hidden;
+}
+
+.item {
+    height: 300px;
+    width: 200px;
+    min-width: 200px;
+    margin: 4px;
+    background: lightblue;
+    flex: 0 0 auto;
+}
+
+.di-chuyen {
+    display: flex;
+    /* flex-wrap: wrap; */
+    overflow-x: auto;
+}

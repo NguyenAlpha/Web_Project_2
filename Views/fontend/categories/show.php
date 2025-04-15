@@ -1,6 +1,6 @@
 <main>
     <div class="main">
-        <div class="container">
+        <div class="container category">
             <div class="filter__box">
                 <!-- Nếu danh mục có filter -->
                 <?php if(!empty($filters)): ?>
@@ -50,7 +50,7 @@
                 <?php endif;?>
             </div>
             <?php if(!empty($products)):?>
-                <div class="product__item">
+                <div class="product__item wrap">
                     <?php foreach($products as $item): ?>
                         <div class="product__item__card">
                             <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
