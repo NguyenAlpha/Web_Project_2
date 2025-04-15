@@ -33,5 +33,5 @@ $sql = "SELECT * FROM customers";
 </html> -->
 <p>hehe</p>
 <?php 
-                print_r($customer);
+ print_r($customer)
             ?>
