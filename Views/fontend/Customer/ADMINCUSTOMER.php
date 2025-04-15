@@ -1,9 +1,9 @@
  <?php
-include_once(__DIR__ . '/../../../Core/Database.php');
-include_once(__DIR__ .'../../partitions/fontend/headerAdmin.php');
+// include_once(__DIR__ . '/../../../Core/Database.php');
+include "./Views/partitions/fontend/headerAdmin.php";
 
 // include_once(__DIR__ . '/../../partitions/fontend/header.php');
-$sql = "SELECT * FROM customers";
+// $sql = "SELECT * FROM customers";
 // $result = $->query($sql);
 ?>
 
