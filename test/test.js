@@ -1,32 +1,17 @@
-
-// qua trái
-function scrollRight() {
-    const wrapper = document.querySelector('.di-chuyen');
+function scrollRight(button) {
+    const wrapper = button.parentElement.querySelector(".di-chuyen");
     wrapper.scrollBy({
         left:210,
         behavior: 'smooth'
     });
 }
 
-
-function helo() {
+function scrollLefttt(button) {
     console.log("Hello world!");
-    const wrapper = document.querySelector('.di-chuyen');
+    const wrapper = button.parentElement.querySelector(".di-chuyen");
     console.log(wrapper.scrollLeft);
     wrapper.scrollBy({
         left: -210,
         behavior: 'smooth'
     });
 }
-
-function scrollLefttt() {
-    console.log("Hello world!");
-    const wrapper = document.querySelector('.di-chuyen');
-    console.log(wrapper.scrollLeft);
-    wrapper.scrollBy({
-        left: -210,
-        behavior: 'smooth'
-    });
-}
-window.scrollLeft = scrollLeft;
-window.scrollRight = scrollRight;

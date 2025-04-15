@@ -1,3 +1,8 @@
+function cuonTrai(button) {
+    console.log("Hello world!");
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll("#filterForm input[type='checkbox']");
     const submitBtn = document.getElementById("filterButton");
@@ -28,27 +33,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    // qua trải
-    function scrollLefttt(button) {
-        const wrapper = button.parentElement.querySelector('.productWrapper');
-        wrapper.scrollBy({
-            left: -210,
-            behavior: 'smooth'
-        });
-    }
 
-    // qua trái
-    function scrollRight(button) {
-        const wrapper = button.parentElement.querySelector('.productWrapper');
-        wrapper.scrollBy({
-            left: 210,
-            behavior: 'smooth'
-        });
-    }
+function scrollRight(button) {
+    console.log("Hello world right!");
+    const wrapper = button.parentElement.querySelector(".productWrapper");
+    wrapper.scrollBy({
+        left:210,
+        behavior: 'smooth'
+    });
+}
 
-    // Gán vào global để dùng được trong HTML inline
-    window.scrollLeft = scrollLeft;
-    window.scrollRight = scrollRight;
-});
-
+function scrollLeftt(button) {
+    console.log("Hello world left!");
+    const wrapper = button.parentElement.querySelector(".productWrapper");
+    wrapper.scrollBy({
+        left: -210,
+        behavior: 'smooth'
+    });
+}

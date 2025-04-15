@@ -23,10 +23,28 @@
             <div class="item"></div>
             <div class="item"></div>
         </div>
-        <button onclick="scrollLefttt()">trái</button>
-        <button onclick="scrollRight()">phải</button>
+        <button onclick="scrollLefttt(this)">trái</button>
+        <button onclick="scrollRight(this)">phải</button>
     </div>
-    <p onclick="helo()">helo</p>
+    <div class="box">
+        <h1>TEST</h1>
+        <div class="di-chuyen">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+        <button onclick="scrollLefttt(this)">trái</button>
+        <button onclick="scrollRight(this)">phải</button>
+    </div>
     <script src="./test.js"></script>
 </body>
 </html>

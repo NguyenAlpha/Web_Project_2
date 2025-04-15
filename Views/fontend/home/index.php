@@ -5,7 +5,7 @@
             <?php foreach($categories as $value):?>
                 <div class="product-box product-container">
                     <h2 class="name-list-product"><?=$value['TenLoai']?> bán chạy</h2>
-                    <button class="arrow left-arrow" onclick="scrollLeftFunction(this)">&#9664;</button>
+                    <button class="arrow left-arrow" onclick="scrollLeftt(this)">&#9664;</button>
                     <div class="product__item home productWrapper">
                         <?php foreach($products as $item): ?>
                             <?php if($item['MaLoai'] == $value['MaLoai']):?>
