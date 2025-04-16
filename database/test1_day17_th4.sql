@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 16, 2025 lúc 11:08 AM
+-- Thời gian đã tạo: Th4 16, 2025 lúc 09:02 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -57,10 +57,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`STT`, `MaLoai`, `TenLoai`) VALUES
+(4, 'GPU', 'GPU'),
 (1, 'Laptop', 'Laptop'),
 (2, 'LaptopGaming', 'Laptop Gaming'),
-(3, 'ManHinh', 'Màn Hình'),
-(4, 'GPU', 'GPU');
+(3, 'ManHinh', 'Màn Hình');
 
 -- --------------------------------------------------------
 
@@ -248,9 +248,7 @@ ALTER TABLE `admins`
 -- Chỉ mục cho bảng `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`STT`,`MaLoai`),
-  ADD KEY `MaLoai` (`MaLoai`),
-  ADD KEY `MaLoai_2` (`MaLoai`);
+  ADD PRIMARY KEY (`MaLoai`);
 
 --
 -- Chỉ mục cho bảng `gpudetails`
@@ -300,12 +298,6 @@ ALTER TABLE `admins`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `categories`
---
-ALTER TABLE `categories`
-  MODIFY `STT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
@@ -344,12 +336,6 @@ ALTER TABLE `laptopgamingdetails`
 --
 ALTER TABLE `manhinhdetails`
   ADD CONSTRAINT `manhinhdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `categories` (`MaLoai`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
