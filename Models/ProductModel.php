@@ -22,10 +22,9 @@
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
 
-        public function getProductsByCategoryId($categoryID) {
+        public function getProductsByCategoryId($categoryID, $limit = 25) {
             $query = "SELECT * FROM products
-                      WHERE MaLoai = '$categoryID'";
-                      
+                      WHERE MaLoai = '$categoryID' LIMIT $limit";
             return $this->getByQuery($query);
         }
     }

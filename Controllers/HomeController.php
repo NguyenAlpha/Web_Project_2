@@ -20,11 +20,16 @@
             ]);
         }
         public function index() {
-            $products = $this->productModel->getAll(['*'], [],50);
+            $categories = $this->categoryModel->getAll(['*'],['STT']);
+            $products = [];
+            foreach($categories as $category) {
+                $categoryProducts = $this->productModel->getProductsByCategoryId($category['MaLoai'], 30);
+                $products = array_merge($products, $categoryProducts);
+            }
 
             return $this->loadView("fontend/home/index.php",[
                 "products" => $products,
-                'categories' => $this->categoryModel->getAll(['*'],['STT'])
+                'categories' => $categories
             ]);
         }
         public function search() {
