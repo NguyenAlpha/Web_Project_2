@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 02, 2025 lúc 03:45 PM
+-- Thời gian đã tạo: Th4 16, 2025 lúc 11:08 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -24,10 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `admins`
+--
+
+CREATE TABLE `admins` (
+  `ID` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `admins`
+--
+
+INSERT INTO `admins` (`ID`, `username`, `password`) VALUES
+(1, 'admin', '1111');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `categories`
 --
 
 CREATE TABLE `categories` (
+  `STT` int(11) NOT NULL,
   `MaLoai` varchar(255) NOT NULL,
   `TenLoai` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -36,11 +56,11 @@ CREATE TABLE `categories` (
 -- Đang đổ dữ liệu cho bảng `categories`
 --
 
-INSERT INTO `categories` (`MaLoai`, `TenLoai`) VALUES
-('GPU', 'GPU'),
-('Laptop', 'Laptop'),
-('LaptopGaming', 'Laptop Gaming'),
-('ManHinh', 'Màn Hình');
+INSERT INTO `categories` (`STT`, `MaLoai`, `TenLoai`) VALUES
+(1, 'Laptop', 'Laptop'),
+(2, 'LaptopGaming', 'Laptop Gaming'),
+(3, 'ManHinh', 'Màn Hình'),
+(4, 'GPU', 'GPU');
 
 -- --------------------------------------------------------
 
@@ -183,17 +203,54 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `Gia`
 (17, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G', 'LaptopGaming', './assets/image/49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg', 50, 17990000),
 (18, 'Laptop ASUS Vivobook S 16 OLED S5606MA-MX051W', 'Laptop', './assets/image/g8gdssys.png', 50, 25490000),
 (19, 'Laptop HP ProBook 440 G11 A74B4PT', 'Laptop', './assets/image/49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg', 200, 21490000),
-(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 10, 64990000);
+(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 10, 64990000),
+(22, 'VGA Gigabyte RTX 4060 Windforce OC 8GB', 'GPU', './assets/image/45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg', 100, 8299000),
+(23, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB', 'GPU', './assets/image/46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg', 12, 5599000),
+(24, 'Laptop Dell Latitude 3450 71058806', 'Laptop', './assets/image/51342_laptop_dell_latitude_3450_71058806__1_.jpg', 100, 24990000);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(6) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(26) NOT NULL,
+  `email` varchar(40) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `phonenumber` int(30) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `address` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `gender`, `phonenumber`, `date_of_birth`, `address`) VALUES
+(1, 'to', '123', 'deptrai456@gmail.com', 'deptrai', 123, '0000-00-00', ''),
+(2, 'to222', '123', 'deptai456@gmail.com', '', 0, '0000-00-00', ''),
+(4, 'to213123', '123', 'deptrai456@gmail.com', '', 0, '0000-00-00', '');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
+-- Chỉ mục cho bảng `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Chỉ mục cho bảng `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`MaLoai`);
+  ADD PRIMARY KEY (`STT`,`MaLoai`),
+  ADD KEY `MaLoai` (`MaLoai`),
+  ADD KEY `MaLoai_2` (`MaLoai`);
 
 --
 -- Chỉ mục cho bảng `gpudetails`
@@ -227,14 +284,38 @@ ALTER TABLE `products`
   ADD KEY `MaLoai` (`MaLoai`);
 
 --
+-- Chỉ mục cho bảng `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
+
+--
+-- AUTO_INCREMENT cho bảng `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `STT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT cho bảng `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -268,7 +349,7 @@ ALTER TABLE `manhinhdetails`
 -- Các ràng buộc cho bảng `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `MaLoai` FOREIGN KEY (`MaLoai`) REFERENCES `categories` (`MaLoai`);
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `categories` (`MaLoai`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
