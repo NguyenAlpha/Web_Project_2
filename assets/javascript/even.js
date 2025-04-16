@@ -38,7 +38,7 @@ function scrollRight(button) {
     console.log("Hello world right!");
     const wrapper = button.parentElement.querySelector(".productWrapper");
     wrapper.scrollBy({
-        left:210,
+        left:690,
         behavior: 'smooth'
     });
 }
@@ -47,7 +47,7 @@ function scrollLeftt(button) {
     console.log("Hello world left!");
     const wrapper = button.parentElement.querySelector(".productWrapper");
     wrapper.scrollBy({
-        left: -210,
+        left: -690,
         behavior: 'smooth'
     });
 }
