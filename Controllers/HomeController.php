@@ -30,8 +30,9 @@
         public function search() {
             $search = $_POST['search'];
             $products = $this->homeModel->search($search);
-            $this->loadView("fontend/home/index.php", [
-                "products" => $products
+            $this->loadView("fontend/home/search.php", [
+                "products" => $products,
+                'textSearch' => $search
             ]);
         }
     }
