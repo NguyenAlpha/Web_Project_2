@@ -24,7 +24,7 @@
 
             return $this->loadView("fontend/home/index.php",[
                 "products" => $products,
-                'categories' => $this->categoryModel->getAll()
+                'categories' => $this->categoryModel->getAll(['*'],['STT'])
             ]);
         }
         public function search() {
