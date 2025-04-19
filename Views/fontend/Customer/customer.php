@@ -16,6 +16,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["name"] . "</td>";
         echo "<td>" . $row["email"] . "</td>";
         echo "<td>" . $row["phone"] . "</td>";
+        echo "<td>". $row["address"] . "</td>";
         echo "</tr>";
     }
 } else {
