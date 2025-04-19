@@ -20,18 +20,24 @@
             ]);
         }
         public function index() {
-            $products = $this->productModel->getAll(['*'], [],50);
+            $categories = $this->categoryModel->getAll(['*'],['STT']);
+            $products = [];
+            foreach($categories as $category) {
+                $categoryProducts = $this->productModel->getProductsByCategoryId($category['MaLoai'], 30);
+                $products = array_merge($products, $categoryProducts);
+            }
 
             return $this->loadView("fontend/home/index.php",[
                 "products" => $products,
-                'categories' => $this->categoryModel->getAll()
+                'categories' => $categories
             ]);
         }
         public function search() {
             $search = $_POST['search'];
             $products = $this->homeModel->search($search);
-            $this->loadView("fontend/home/index.php", [
-                "products" => $products
+            $this->loadView("fontend/home/search.php", [
+                "products" => $products,
+                'textSearch' => $search
             ]);
         }
     }

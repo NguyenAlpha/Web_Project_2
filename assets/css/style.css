@@ -172,7 +172,7 @@ i.fa-solid {
 /* =============================================== product item ==========================================*/
 .main .container.category {
 	display: flex;
-	margin-top: 15px;
+	margin-top: 40px;
 }
 
 .product__item.wrap {
@@ -186,7 +186,7 @@ i.fa-solid {
 	width: 200px;
 	min-width: 200px;
 	height: 330px;
-	margin: 4px 6px 6px;
+	margin: 5px;
 	padding: 10px;
 	background-color: #fff;
 	border-radius: 15px;
@@ -261,6 +261,7 @@ i.fa-solid {
 
 /* ============================================ PRODUCT DETAIL====================================================== */
 .product__detail {
+	margin-top: 20px;
 	width: 100%;
 }
 
@@ -446,17 +447,20 @@ footer {
 
 
 /* ==============================================home=============================================================== */
-.container.product {
-}
-
-.product-container {
+.home-page.product-container {
+	margin-top: 20px;
 	position: relative;
-	overflow: hidden;
 	width: 100%;
 	max-width: 100%;
 }
 
-.name-list-product {
+.home-page.header-product-bar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.home-page.name-product-bar {
 	text-transform: uppercase;
 	font-size: 24px;
 	font-weight: 700;
@@ -464,36 +468,74 @@ footer {
 	margin: 6px 0px;
 }
 
-.product__item.home {
+.home-page.see-more {
+	cursor: pointer;
+	color:rgb(0,38,133);
+}
+
+.home-page.product__bar {
 	display: flex;
 	overflow-x: auto;
 	scroll-behavior: smooth;
+	max-width: 1150px;
+	height: 360px;
+	overflow: hidden;
+	margin: 0 auto;
 }
 
-.arrow {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 1;
-	font-size: 24px;
-	background-color: rgba(255,255,255,0.7);
-	border: none;
-	cursor: pointer;
-	padding: 10px;
-}
-
-.left-arrow {
-	left: 0;
-}
-.right-arrow {
-	right: 0;
-}
-
-.productWrapper {
+.home-page.productWrapper {
 	scrollbar-width: none; /* Firefox */
 	-ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
   
-.productWrapper::-webkit-scrollbar {
+.home-page.productWrapper::-webkit-scrollbar {
 	display: none; /* Chrome, Safari */
 }	
+
+.home-page.arrow {
+	position: absolute;
+	z-index: 1;
+	top: 53px;
+	height: 350px;
+	font-size: 20px;
+	padding: 5px;
+	cursor: pointer;
+	border: none;
+	background: #fff;
+	box-shadow: 0px 0px 5px #0000006e;
+	border-radius: 10px;
+	transition: all 0.3s;
+}
+
+.home-page.arrow:hover {
+	transform: scale(1.05);
+}
+
+.home-page.left-arrow {
+	left: -10px;
+}
+
+.home-page.right-arrow {
+	right: -10px;
+}
+
+.home-page.line {
+	height: 3px;
+	border-radius: 10px;
+	background-color: rgba(0,35,159,1);
+	flex-grow: 1;
+	margin: 0 10px;
+	z-index: 0;
+}
+
+
+/* ======================================================= SEARCH =========================================================== */
+.container.search {
+	margin-top: 40px;
+}
+
+.search.title {
+	font-size: 24px;
+	padding: 10px;
+	font-weight: 700;
+}
