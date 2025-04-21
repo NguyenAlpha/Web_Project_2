@@ -39,5 +39,10 @@
             }
             return 0;
         }
+
+        public function search($search) {
+            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$search%'";
+            return $this->getByQuery($sql);
+        }
     }
 ?>
