@@ -1,7 +1,9 @@
 <main>
     <div class="main">
         <div class="container category">
-            <div class="filter__box">
+            <div class="category__left">
+                <div class="filter__box">
+                
                 <!-- Nếu danh mục có filter -->
                 <?php if(!empty($filters)): ?>
                     <form action="./index.php?controller=category&action=show&id=<?=$_GET['id']?>" method="post" id="filterForm">
@@ -48,29 +50,45 @@
                 <?php else:?>
                     <p class="error">Chưa có bộ lọc</p>
                 <?php endif;?>
-            </div>
-            <?php if(!empty($products)):?>
-                <div class="product__item wrap">
-                    <?php foreach($products as $item): ?>
-                        <div class="product__item__card">
-                            <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
-                                <div class="product__item__card__img">
-                                    <img src="<?=$item['AnhMoTaSP']?>" alt="">
-                                </div>
-                                <div class="product__item__card__content">
-                                    <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
-                                    <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
-                                </div>
-                            </a>
-                            <div class="button__addcart__box">
-                                <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
                 </div>
-            <?php else:?>
-                    <p class="error">không có sản phẩm nào</p>
-            <?php endif;?>
+            </div>
+            <div class="category__right">
+                <?php if(!empty($products)):?>
+                    <div class="product__item wrap">
+                        <?php foreach($products as $item): ?>
+                            <div class="product__item__card">
+                                <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
+                                    <div class="product__item__card__img">
+                                        <img src="<?=$item['AnhMoTaSP']?>" alt="">
+                                    </div>
+                                    <div class="product__item__card__content">
+                                        <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
+                                        <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
+                                    </div>
+                                </a>
+                                <div class="button__addcart__box">
+                                    <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+    
+                <?php else:?>
+                        <p class="error">không có sản phẩm nào</p>
+                <?php endif;?>
+                <?php if ($totalPages > 1): ?>
+                    <div class="pagination category">
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a 
+                                href="?controller=category&action=show&id=<?= $_GET['id'] ?>&page=<?= $i ?>" 
+                                class="pagination__link <?= ($i == $currentPage) ? 'active' : '' ?>">
+                                <?=$i?>
+                            </a>
+                        <?php endfor; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
+    
 </main>

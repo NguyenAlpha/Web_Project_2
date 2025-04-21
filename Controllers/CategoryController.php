@@ -32,18 +32,29 @@
             
             if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
                 
-                $products = $this->productDetailModel->getProductByCategoryFilters($categoryId, $attributes, $_POST);
+                $products = $this->productDetailModel->
+                getProductByCategoryFilters($categoryId, $attributes, $_POST, $limit, $offset);
+
+                $totalProducts = $this->productDetailModel->
+                getCountProductWithFilters($categoryId, $attributes, $_POST);
             } else {
-                $products = $this->productModel->getProductsByCategoryId($categoryId);
+                $products = $this->productModel->
+                getProductsByCategoryId($categoryId, $limit, $offset);
+
+                $totalProducts = $this->productModel->
+                getProductCountByCategory($categoryId);
             }
 
-
             $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);
-            return $this->loadView("fontend/categories/show.php", [
-                "products" => $products,
-                "filters" => $filters,
-                "attributes" => $attributes,
-                "selectedAttribute" => $_POST
+            $totalPages = ceil($totalProducts / $limit);
+
+            return $this->loadView('fontend/categories/show.php', [
+                'products' => $products,
+                'filters' => $filters,
+                'attributes' => $attributes,
+                'selectedAttribute' => $_POST,
+                'totalPages' => $totalPages,
+                'currentPage' => $page
             ]);
         }
 

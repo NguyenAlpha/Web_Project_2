@@ -15,24 +15,54 @@
             return $attribute;
         }
 
-        function getProductByCategoryFilters($categoryId, $attributes = null, $postFilters = null) {
-            $sql = "SELECT DISTINCT * FROM {$categoryId}details
-            INNER JOIN products ON {$categoryId}details.MaSP = products.MaSP";
-            $whereConditions = [];
-            foreach ($postFilters as $attributeId => $values) {
-                if(in_array($attributeId, $attributes)) {
-                    // Escape dữ liệu đầu vào để tránh SQL Injection
-                    $escapedValues = array_map(function($value) {
-                        return "'" . $value . "'";
-                    }, $values);
+        function getProductByCategoryFilters($categoryId, $attributes = [], $postFilters = [], $limit = 50, $offset = 0) {
+            $sql = "SELECT DISTINCT products.* FROM {$categoryId}details
+                    INNER JOIN products ON {$categoryId}details.MaSP = products.MaSP";
             
-                    // Tạo chuỗi điều kiện với IN
-                    $whereConditions[] = "$attributeId IN (" . implode(", ", $escapedValues) . ")";
+            $whereConditions = [];
+    
+            foreach ($postFilters as $attributeId => $values) {
+                if (in_array($attributeId, $attributes) && is_array($values)) {
+                    $escapedValues = array_map(function($value) {
+                        return "'" . addslashes($value) . "'";
+                    }, $values);
+    
+                    $whereConditions[] = "{$categoryId}details.$attributeId IN (" . implode(", ", $escapedValues) . ")";
                 }
             }
-            $whereClause = implode(" AND ", $whereConditions);
-            $sql .= " WHERE " . $whereClause;
+    
+            if (!empty($whereConditions)) {
+                $sql .= " WHERE " . implode(" AND ", $whereConditions);
+            }
+    
+            $sql .= " LIMIT $limit OFFSET $offset";
             return $this->getByQuery($sql);
+        }
+        
+        // Lấy tổng số sản phẩm thỏa filter (cho phân trang)
+        function getCountProductWithFilters($categoryId, $attributes = [], $postFilters = []) {
+            $sql = "SELECT COUNT(DISTINCT products.MaSP) as count FROM {$categoryId}details
+                    INNER JOIN products ON {$categoryId}details.MaSP = products.MaSP";
+
+            $whereConditions = [];
+
+            foreach ($postFilters as $attributeId => $values) {
+                if (in_array($attributeId, $attributes) && is_array($values)) {
+                    $escapedValues = array_map(function($value) {
+                        return "'" . addslashes($value) . "'";
+                    }, $values);
+
+                    $whereConditions[] = "{$categoryId}details.$attributeId IN (" . implode(", ", $escapedValues) . ")";
+                }
+            }
+
+            if (!empty($whereConditions)) {
+                $sql .= " WHERE " . implode(" AND ", $whereConditions);
+            }
+
+            $result = $this->conn->query($sql);
+            $row = $result->fetch_assoc();
+            return $row['count'] ?? 0;
         }
     }
 ?>
