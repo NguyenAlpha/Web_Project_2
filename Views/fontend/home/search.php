@@ -15,7 +15,7 @@
                         </div>
                     </a>
                     <div class="button__addcart__box">
-                        <button class="button button__addcart" type="submit" name="addcart">Thêm vào giỏ</button>
+                        <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
                     </div>
                 </div>
                 <?php endforeach; ?>
