@@ -46,8 +46,17 @@ class AdminController extends BaseController {
     
      $this->loadView("fontend/Customer/ADMINCUSTOMER.php",
     [
-        "customer"=> $customer
+        "customer"=> $customer 
+
     ]);
+    }
+    public function CustomerCart()
+    {
+     $this->loadModel("CartModel");
+     $CartModel = new CartModel();
+     $Cart = $CartModel -> getCartbyUserID($_GET["customerID"]);
+    $this ->loadView(("fontend/Customer/ViewCart"));
+
     }
 }
 ?>
