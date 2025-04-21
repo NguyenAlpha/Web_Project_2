@@ -19,27 +19,19 @@
                 "menus" => $this->categoryModel->getAll()
             ]);
         }
-        
-        // Hiển thị danh sách danh mục
-        public function index() {
-            $category = $this->categoryModel->getAll();
-            return $this->loadView("fontend/categories/index.php",[
-                "title" => "Danh sách danh mục",
-                "category" => $category,
-            ]);
-        }
 
         // Hiển thị danh mục cụ thể và sản phẩm của danh mục đó
         public function show() {
             $categoryId = $_GET['id'];
+            $page = $_GET['page'] ?? 1;
+            $limit = 50;
+            $offset = ($page - 1) * $limit;
+
             // Lấy thông tin filter của danh mục theo mã danh mục
             $attributes = $this->categoryModel->getFiltersByCategoryId($categoryId);
             
-
             if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
-                // echo '<pre>';
-                // echo print_r($_POST);
-                // echo '</pre>';
+                
                 $products = $this->productDetailModel->getProductByCategoryFilters($categoryId, $attributes, $_POST);
             } else {
                 $products = $this->productModel->getProductsByCategoryId($categoryId);

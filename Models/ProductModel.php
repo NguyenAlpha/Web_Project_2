@@ -22,10 +22,24 @@
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
 
-        public function getProductsByCategoryId($categoryID, $limit = 25) {
+        public function getProductsByCategoryId($categoryID, $limit = 25, $offset = 0) {
             $query = "SELECT * FROM products
-                      WHERE MaLoai = '$categoryID' LIMIT $limit";
+                      WHERE MaLoai = '$categoryID'
+                      LIMIT $limit OFFSET $offset";
             return $this->getByQuery($query);
+        }
+        
+
+        // Số lượng sản phẩm trong bảng
+        protected function getCount() {
+            $sql = "SELECT COUNT(*) as count FROM " . self::TABLE;
+            $result = $this->conn->query($sql);
+            if ($result) {
+                $row = $result->fetch_assoc();
+                return $row['count'];
+            } else {
+                return 0;
+            }
         }
     }
 ?>
