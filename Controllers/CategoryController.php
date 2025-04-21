@@ -24,7 +24,7 @@
         public function show() {
             $categoryId = $_GET['id'];
             $page = $_GET['page'] ?? 1;
-            $limit = 50;
+            $limit = 40;
             $offset = ($page - 1) * $limit;
 
             // Lấy thông tin filter của danh mục theo mã danh mục

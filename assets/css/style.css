@@ -181,7 +181,7 @@ i.fa-solid {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	/* justify-content: center; */
 }
 
 .product__item__card {
@@ -430,7 +430,7 @@ footer {
 	margin-right: 15px;
 }
 .category__right {
-	max-width: 960px;
+	width: 80%;
 }
 .filter__box {
 	width: 100%;
