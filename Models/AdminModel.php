@@ -8,7 +8,12 @@ class AdminModel extends BaseModel{
     public function customer(){
         $sql = "SELECT * FROM `user` WHERE 1";
         
-        return $this->getByQuery( $sql);
-}
+    return $this->getByQuery( $sql);
+    }
+
+    public function getCustomerByID($userID) {
+        return $this->find('user', $userID, 'id');
+    }
+    
 }
 ?>

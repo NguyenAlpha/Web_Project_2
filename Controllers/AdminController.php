@@ -42,21 +42,37 @@ class AdminController extends BaseController {
     public function customer() {
         $this->loadModel("AdminModel"); 
         $AdminModel = new AdminModel() ;
-    $customer = $AdminModel->customer();
-    
-     $this->loadView("fontend/Customer/ADMINCUSTOMER.php",
-    [
-        "customer"=> $customer 
-
-    ]);
+        $customers = $AdminModel->customer();
+        
+        $this->loadView("fontend/Customer/ADMINCUSTOMER.php",
+        [
+            "customers"=> $customers 
+        ]);
     }
     public function CustomerCart()
     {
-     $this->loadModel("CartModel");
-     $CartModel = new CartModel();
-     $Cart = $CartModel -> getCartbyUserID($_GET["customerID"]);
-    $this ->loadView(("fontend/Customer/ViewCart"));
+        $this->loadModel("CartModel");
+        $cartModel = new CartModel();
+        $this->loadModel("AdminModel");
+        $adminModel = new AdminModel;
+        
+        $this->loadModel("ProductModel");   //load productModel để tạo đối tượng productModel dòng 9
+        $productModel = new ProductModel(); //tạo đối tượng productModel
 
+        $carts = $cartModel -> getCartbyUserID($_GET["customerID"]);
+        
+        foreach($carts as $key => $cart) {
+            $product = $productModel->findById($cart["MaSP"]);
+            $carts[$key]["productName"] = $product["TenSP"];
+            $carts[$key]["productPrice"] = $product["Gia"];
+            $carts[$key]["sumPrice"] = $product["Gia"] * $cart["SoLuong"];
+        }
+
+        $this ->loadView("fontend/Customer/ViewCart.php", [
+            "carts" => $carts,
+            "customerName" => $adminModel->getCustomerByID($_GET["customerID"]),
+            'allPrice' => array_sum(array_column($carts, 'sumPrice')),
+        ]);
     }
 }
 ?>
