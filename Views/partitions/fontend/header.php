@@ -34,17 +34,21 @@
                         <i class="fa-solid fa-phone"></i>
                         <a href="tel:0888999">Hotline</a>
                     </div>
+
+                    <div class="header--right__item header--right__cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <a href="./pages/cart.php">Giỏ hàng</a>  
+                    </div>
+
                     <div class="header--right__item header--right__account">
                         <i class="fa-solid fa-user"></i>
                         <?php  if(isset($_SESSION["user"])):?>
                             <a href=""><?php echo $_SESSION["user"]["username"]?></a>
-                        
-                            <?php  else:  ?>
-
-                        <a href="./user/login.php">Đăng Nhập</a>
+                        <?php  else:  ?>
+                            <a href="./user/login.php">Đăng Nhập</a>
                         <?php endif;?>
-                        
                     </div>
+
                     <?php if(!isset($_SESSION["user"])):?>
                         <div class="header--right__item">
                         <i class="fa-solid fa-user"></i>
@@ -56,11 +60,7 @@
                         <div class="header--right__item header--right__cart">
                             <a href="./user/logout.php">đăng xuất</a>
                         </div>
-                        <?php endif;?>
-                    <div class="header--right__item header--right__cart">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <a href="./pages/cart.php">Giỏ hàng</a>  
-                    </div>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
