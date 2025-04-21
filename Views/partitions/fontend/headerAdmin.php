@@ -22,8 +22,7 @@
 <body>
     <div class="admin-header">
         <div class="admin-logo">
-            <!-- <img src="/Web_Project_2/public/images/admin-avatar.png" alt="Admin Avatar"> -->
-            <span class="admin-title">Admin Dashboard</span>
+           <div class="title">Admin Dashboard - Quản Lý</div>
         </div>
         <div class="admin-menu">
             <a href="#">Trang chủ</a>
