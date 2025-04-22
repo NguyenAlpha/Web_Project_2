@@ -22,24 +22,37 @@
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
 
-        public function getProductsByCategoryId($categoryID, $limit = 25, $offset = 0) {
-            $query = "SELECT * FROM products
+        public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0) {
+            $query = "SELECT * FROM " . self::TABLE . "
                       WHERE MaLoai = '$categoryID'
                       LIMIT $limit OFFSET $offset";
             return $this->getByQuery($query);
         }
-        
-
-        // Số lượng sản phẩm trong bảng
-        protected function getCount() {
-            $sql = "SELECT COUNT(*) as count FROM " . self::TABLE;
+    
+        // Lấy số lượng sản phẩm theo danh mục (phân trang)
+        public function getProductCountByCategory($categoryID) {
+            $sql = "SELECT COUNT(*) as count FROM " . self::TABLE . " WHERE MaLoai = '$categoryID'";
             $result = $this->conn->query($sql);
             if ($result) {
                 $row = $result->fetch_assoc();
                 return $row['count'];
-            } else {
-                return 0;
             }
+            return 0;
+        }
+
+        public function getProductBySearch($text, $limit = 25, $offset = 0) {
+            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
+            return $this->getByQuery($sql);
+        }
+
+        public function getCountProductBySearch($text) {
+            $sql = "SELECT COUNT(*) AS count FROM products WHERE TenSP LIKE '%$text%'";
+            $result = $this->conn->query($sql);
+            if ($result) {
+                $row = $result->fetch_assoc();
+                return $row['count'];
+            }
+            return 0;
         }
     }
 ?>

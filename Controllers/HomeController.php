@@ -8,16 +8,21 @@
         public function __construct() {
             $this->loadModel("ProductModel");   //load productModel để tạo đối tượng productModel dòng 9
             $this->loadModel("CategoryModel");  //load categoryModel để tạo đối tượng categoryModel dòng 10
-            $this->loadModel("HomeModel");  //load categoryModel để tạo đối tượng categoryModel dòng 10
             $this->productModel = new ProductModel(); //tạo đối tượng productModel
             $this->categoryModel = new CategoryModel(); //tạo đối tượng categoryModel
-            $this->homeModel = new HomeModel(); //tạo đối tượng categoryModel
-
-
+            
             // load header
-            $this->loadView("partitions/fontend/header.php",[
-                "menus" => $this->categoryModel->getAll()
-            ]);
+            if(isset($_GET['search'])) {
+                $this->loadView("partitions/fontend/header.php",[
+                    "menus" => $this->categoryModel->getAll(),
+                    "textSearch" => $_GET['search']
+                ]);
+
+            } else {
+                $this->loadView("partitions/fontend/header.php",[
+                    "menus" => $this->categoryModel->getAll()
+                ]);
+            }
         }
         public function index() {
             $categories = $this->categoryModel->getAll(['*'],['STT']);
@@ -33,11 +38,24 @@
             ]);
         }
         public function search() {
-            $search = $_POST['search'];
-            $products = $this->homeModel->search($search);
+            $page = isset($_GET['page']) ? $_GET['page'] : 1;
+            $limit = 40;
+            $offset = ($page - 1) * $limit;
+            if(isset($_GET['search'])){
+                $text = $_GET['search'];
+            } else {
+                header("Location: ./index.php");
+                exit;
+            }
+            $products = $this->productModel->getProductBySearch($text, $limit, $offset);
+            $totalProducts = $this->productModel->getCountProductBySearch($text);
+            $totalPages = ceil($totalProducts / $limit);
+
             $this->loadView("fontend/home/search.php", [
                 "products" => $products,
-                'textSearch' => $search
+                'textSearch' => $text,
+                'totalPages' => $totalPages,
+                'currentPage' => $page
             ]);
         }
     }

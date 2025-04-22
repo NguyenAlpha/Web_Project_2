@@ -20,6 +20,17 @@
                 </div>
                 <?php endforeach; ?>
             </div>
+            <?php if ($totalPages > 1): ?>
+                <div class="pagination category">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a 
+                            href="?controller=home&action=search&search=<?= urlencode($textSearch) ?>&page=<?= $i ?>" 
+                            class="pagination__link <?= ($i == $currentPage) ? 'active' : '' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </main>

@@ -24,8 +24,14 @@
                     <a href="./index.php"><img src="./assets/image/Asset_1.png" alt=""></a>
                 </div>
                 <div class="header__search">
-                    <form action="./index.php?controller=home&action=search" method="post">
-                        <input class="header__search__input" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
+                    <form action="./index.php?controller=home&action=search" method="get">
+                        <input type="hidden" name="controller" value="home">
+                        <input type="hidden" name="action" value="search">
+                        <?php if(isset($textSearch)):?>
+                            <input class="header__search__input" type="text" name="search" value="<?=$textSearch?>" placeholder="Tìm kiếm sản phẩm">
+                        <?php else:?>
+                            <input class="header__search__input" type="text" name="search" placeholder="Tìm kiếm sản phẩm">
+                        <?php endif;?>
                         <button class="header__search__submit" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
