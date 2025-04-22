@@ -40,9 +40,19 @@
             return 0;
         }
 
-        public function search($search) {
-            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$search%'";
+        public function getProductBySearch($text, $limit = 25, $offset = 0) {
+            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
             return $this->getByQuery($sql);
+        }
+
+        public function getCountProductBySearch($text) {
+            $sql = "SELECT COUNT(*) AS count FROM products WHERE TenSP LIKE '%$text%'";
+            $result = $this->conn->query($sql);
+            if ($result) {
+                $row = $result->fetch_assoc();
+                return $row['count'];
+            }
+            return 0;
         }
     }
 ?>
