@@ -62,7 +62,7 @@ class AdminController extends BaseController {
         $carts = $cartModel -> getCartbyUserID($_GET["customerID"]);
         
         foreach($carts as $key => $cart) {
-            $product = $productModel->findById($cart["MaSP"]);
+            $product = $productModel->findById($cart["maSP"]);
             $carts[$key]["productName"] = $product["TenSP"];
             $carts[$key]["productPrice"] = $product["Gia"];
             $carts[$key]["sumPrice"] = $product["Gia"] * $cart["SoLuong"];
@@ -73,6 +73,36 @@ class AdminController extends BaseController {
             "customerName" => $adminModel->getCustomerByID($_GET["customerID"]),
             'allPrice' => array_sum(array_column($carts, 'sumPrice')),
         ]);
+    }
+    public function editCustomer() {
+        $this->loadModel("AdminModel");
+        $adminModel = new AdminModel();
+        $customers = $adminModel -> customer();
+        $id = $_GET['id'];
+        $customer = $adminModel->getCustomerByID($id);
+    
+        $this->loadView("fontend/Customer/EditCustomer.php", [
+            "customer" => $customer
+        ]);
+    }
+    public function updateCustomer() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->loadModel("AdminModel");
+            $adminModel = new AdminModel;
+            $customers = $adminModel -> customer();
+            $key = [
+                'id' => $_POST['id'],
+                'username' => $_POST['username'],
+                'password' => $_POST['password'],
+                'email' => $_POST['email'],
+                'address' => $_POST['address']
+            ];
+    
+            $adminModel->updateCustomer($key);
+        }
+    
+        header("Location: index.php?controller=admin&action=customer");
+        
     }
 }
 ?>

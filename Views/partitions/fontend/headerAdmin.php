@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -13,23 +12,86 @@
     <!-- icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
-    <link rel="stylesheet" href="./assets/css/Admincustomer.css">
+    <!-- CSS nội tuyến -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .admin-header {
+         
+            background-color: rgb(0, 38, 133);
+           color: white;
+           padding: 20px 0;
+           width: 100vw; /* Full chiều rộng màn hình */
+           position: relative;
+           left: 0;
+           margin: 0;
+          }
+
+        
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: auto;
+            display: flex;
+            margin: 0 auto;
+        }
+
+        .admin-logo .title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .admin-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .admin-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .admin-menu a:hover {
+            color: rgb(0, 26, 86);
+        }
+    </style>
+
     <script src="./assets/javascript/even.js"></script>
     <title>Admin</title>
-
 </head>
 <body>
-    <div class="admin-header">
-        <div class="admin-logo">
-           <div class="title">Admin Dashboard - Quản Lý</div>
+    <header>
+        <div class="admin-header">
+            <div class="admin-logo">
+                <div class="logo">
+                    <a href="#"><img src="./assets/image/Asset_1.png" alt="Logo"></a>
+                </div>
+                <div class="title">Admin Dashboard - Quản Lý</div>
+            </div>
+            <div class="admin-menu">
+                <div><a href="#">Trang chủ</a></div>
+                <div><a href="/Web_Project_2/Views/fontend/Customer/ADMINCUSTOMER.php">Khách hàng</a></div>
+                <div><a href="#">Sản phẩm</a></div>
+                <div><a href="#">Đăng xuất</a></div>
+            </div>
         </div>
-        <div class="admin-menu">
-            <a href="#">Trang chủ</a>
-            <a href="#">Khách hàng</a>
-            <a href="#">Sản phẩm</a>
-            <a href="#">Đăng xuất</a>
-        </div>
-    </div>
+    </header>
 </body>
 </html>
