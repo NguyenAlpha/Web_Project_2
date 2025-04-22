@@ -1,9 +1,7 @@
 <?php 
     class CategoryController extends BaseController {
         private $categoryModel;
-
         private $productModel;
-        
         private $productDetailModel;
 
         public function __construct() {

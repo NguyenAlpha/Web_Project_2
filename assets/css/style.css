@@ -71,6 +71,10 @@ i.fa-solid {
 	margin: 0 auto;
 	margin-top: 40px;
 }
+input {
+	border: none;
+	outline: none;
+}
 /* =============================================================== */
 .header {
 	background: rgb(0,38,133);
@@ -173,6 +177,7 @@ i.fa-solid {
 
 /* =============================================== product item ==========================================*/
 .main .container.category {
+	box-sizing: border-box;
 	display: flex;
 	margin-top: 40px;
 }
@@ -181,15 +186,15 @@ i.fa-solid {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	/* justify-content: center; */
 }
 
 .product__item__card {
-	width: 200px;
-	min-width: 200px;
-	height: 330px;
+	box-sizing: border-box;
+	width: 230px;
+	min-width: 230px;;
 	margin: 5px;
 	padding: 10px;
+	height: 350px;
 	background-color: #fff;
 	border-radius: 15px;
 	position: relative;
@@ -197,9 +202,8 @@ i.fa-solid {
 }
 
 .product__item__card__img {
-	height: 200px;
+	height: 180px;
 	margin: 0 auto;
-	margin-top: 3px;
 	transition: transform 0.5s ease;
 }
 
@@ -224,13 +228,15 @@ i.fa-solid {
 }
 
 .button__addcart__box {
+	box-sizing: border-box;
+	width: 210px;
 	position: absolute;
 	bottom: 10px;
 	
 }
 
 .button__addcart {
-	width: 200px;
+	width: 100%;
 	padding: 6px;
 	font-weight: 700;
 	transition: 0.5s ;
@@ -421,30 +427,43 @@ footer {
 }
 
 
-/* ============================= filter box =================================================*/
-.filter__box form {
-	padding: 8px;
-}
+/* ======================================================  CATEGORY FILTER    ============================================================================*/
 .category__left {
-	width: 20%;
-	margin-right: 15px;
+	box-sizing: border-box;
+	width: 230px;
+	margin-right: 10px;
 }
-.category__right {
-	width: 80%;
+
+.category-filter__header {
+	font-size: 24px;
+	font-weight: 700;
+	text-align: center;
 }
-.filter__box {
+
+.category-filter__box {
+	box-sizing: border-box;
 	width: 100%;
 	background-color: #fff;
 	border-radius: 10px;
-	box-shadow: 5px 5px 10px #00000031;
+	box-shadow: 4px 4px 10px #00000031;
+	padding: 5px;
+}
+.category-filter__box__attribute {
+	margin-top: 10px;
 }
 
-.filter__attribute {
+.filter__name-attribute {
 	font-weight: 600;
+	font-size: 18px;
 }
 
-.filter__attribute__item {
-	font-size: 13px;
+.category-filter__label-checkbox {
+	display: block;
+}
+
+.category__right {
+	width: 960px;
+	box-sizing: border-box;
 }
 
 .filter__button__box {
@@ -452,7 +471,28 @@ footer {
 	text-align: center;
 }
 
+.category-price-inputs {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 
+.category-price-inputs input {
+	background-color: #eeeeee;
+	height: 30px;
+	width: 80px;
+	border: 1px solid #c1c1c1;
+	border-radius: 5px;
+}
+
+.category-price-inputs__bar {
+	height: 1px;
+	background-color: #000000;
+	flex-grow: 1;
+	margin: 0 5px;
+
+
+}
 
 /* ==============================================home=============================================================== */
 .home-page.product-container {
@@ -565,3 +605,4 @@ footer {
 	border: 2px solid rgb(0, 0, 0);
 	border-radius: 10px;
 }
+
