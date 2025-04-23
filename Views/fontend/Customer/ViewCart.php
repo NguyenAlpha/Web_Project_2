@@ -51,6 +51,14 @@ include "./Views/partitions/fontend/headerAdmin.php";
         font-weight: bold;
         color: rgb(0, 26, 86);
     }
+    a{
+        color: black;
+        text-decoration-line: none;
+    }
+    a:hover
+    {
+       color: rgb(0, 38, 133);
+    }
 </style>
 
 <h1>Giỏ hàng của khách hàng <?= $customerName['username'] ?></h1>
@@ -62,10 +70,13 @@ include "./Views/partitions/fontend/headerAdmin.php";
         <th>Số lượng</th>
         <th>Thành tiền</th>
     </tr>
-
     <?php foreach($carts as $value): ?>
         <tr>
-            <td><?= htmlspecialchars($value['productName']) ?></td>
+            <td>
+                <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>">
+                    <?= htmlspecialchars($value['productName']) ?>
+                </a>
+            </td>
             <td><?= number_format($value['productPrice'], 0, ',', '.') ?> đ</td>
             <td><?= $value['SoLuong'] ?></td>
             <td><?= number_format($value['sumPrice'], 0, ',', '.') ?> đ</td>

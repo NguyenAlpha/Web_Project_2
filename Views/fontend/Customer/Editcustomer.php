@@ -68,22 +68,20 @@ include "./Views/partitions/fontend/headerAdmin.php";
 </style>
 <h2>Sửa thông tin khách hàng</h2>
 <form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update">
-    <!-- <?php foreach( $customer as $value): ?> -->
-    <input type="hidden" name="id" value="<?php $value['id'] ?>">
+    <input type="hidden" name="id" value="<?php echo $customer['id'] ?>">
       
     <label>Username:</label>
-    <input type="text" name="username" value="<?php $value['username'] ?>"><br>
+    <input type="text" name="username" value="<?php echo $customer['username'] ?>"><br>
 
     <label>Password:</label>
-    <input type="text" name="password" value="<?php $value['password'] ?>"><br>
+    <input type="text" name="password" value="<?php echo $customer['password'] ?>"><br>
 
     <label>Email:</label>
-    <input type="email" name="email" value="<?php $value['email'] ?>"><br>
+    <input type="email" name="email" value="<?php echo $customer['email'] ?>"><br>
 
     <label>Address:</label>
-    <input type="text" name="address" value="<?php $value['address'] ?>"><br>
+    <input type="text" name="address" value="<?php echo $customer    ['address'] ?>"><br>
 
     <button type="submit">Cập nhật</button>
-    <!-- <?php endforeach; ?> -->
 </form>
 

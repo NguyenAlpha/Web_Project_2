@@ -80,9 +80,10 @@ class AdminController extends BaseController {
         $customers = $adminModel -> customer();
         $id = $_GET['id'];
         $customer = $adminModel->getCustomerByID($id);
-    
-        $this->loadView("fontend/Customer/EditCustomer.php", [
+        echo print_r($customer);
+        $this->loadView("fontend/Customer/Editcustomer.php", [
             "customer" => $customer
+            
         ]);
     }
     public function updateCustomer() {

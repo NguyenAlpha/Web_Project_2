@@ -12,13 +12,11 @@ class AdminModel extends BaseModel{
     }
 
     public function getCustomerByID($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM user WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $this->find('user','id', $id);
     }
     
     public function updateCustomer($key) {
-        $stmt = $this->conn->prepare("UPDATE customers SET username = ?, password = ?, email = ?, address = ? WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE user SET username = ?, password = ?, email = ?, address = ? WHERE id = ?");
         $stmt->execute([
             $key['username'],
             $key['password'],
