@@ -73,7 +73,7 @@ include "./Views/partitions/fontend/headerAdmin.php";
     <?php foreach($carts as $value): ?>
         <tr>
             <td>
-                <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>">
+                <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>" target="_blank">
                     <?= htmlspecialchars($value['productName']) ?>
                 </a>
             </td>
