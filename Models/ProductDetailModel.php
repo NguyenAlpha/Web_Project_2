@@ -21,20 +21,34 @@
             
             $whereConditions = [];
     
-            foreach ($postFilters as $attributeId => $values) {
-                if (in_array($attributeId, $attributes) && is_array($values)) {
+            foreach($postFilters as $attributeId => $values) {
+                if(in_array($attributeId, $attributes) && is_array($values)) {
                     $escapedValues = array_map(function($value) {
                         return "'" . addslashes($value) . "'";
                     }, $values);
-    
+                    
                     $whereConditions[] = "{$categoryId}details.$attributeId IN (" . implode(", ", $escapedValues) . ")";
                 }
             }
+
+            if(isset($postFilters['giaThap']) && isset($postFilters['giaCao']) && !empty($postFilters['giaThap']) && !empty($postFilters['giaCao'])) {
+                $minPrice = (int) str_replace('.', '', $postFilters['giaThap']);
+                $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
+                $whereConditions[] = "products.Gia BETWEEN $minPrice AND $maxPrice";
+            
+            } elseif(isset($postFilters['giaThap']) && !empty($postFilters['giaThap'])) {
+                $minPrice = (int) str_replace('.', '', $postFilters['giaThap']);
+                $whereConditions[] = "products.Gia >= $minPrice";
+            
+            } elseif(isset($postFilters['giaCao']) && !empty($postFilters['giaCao'])) {
+                $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
+                $whereConditions[] = "products.Gia <= $maxPrice";
+            }
+            
     
             if (!empty($whereConditions)) {
                 $sql .= " WHERE " . implode(" AND ", $whereConditions);
             }
-    
             $sql .= " LIMIT $limit OFFSET $offset";
             return $this->getByQuery($sql);
         }
@@ -55,6 +69,21 @@
                     $whereConditions[] = "{$categoryId}details.$attributeId IN (" . implode(", ", $escapedValues) . ")";
                 }
             }
+
+            if(isset($postFilters['giaThap']) && isset($postFilters['giaCao']) && !empty($postFilters['giaThap']) && !empty($postFilters['giaCao'])) {
+                $minPrice = (int) str_replace('.', '', $postFilters['giaThap']);
+                $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
+                $whereConditions[] = "products.Gia BETWEEN $minPrice AND $maxPrice";
+            
+            } elseif(isset($postFilters['giaThap']) && !empty($postFilters['giaThap'])) {
+                $minPrice = (int) str_replace('.', '', $postFilters['giaThap']);
+                $whereConditions[] = "products.Gia >= $minPrice";
+            
+            } elseif(isset($postFilters['giaCao']) && !empty($postFilters['giaCao'])) {
+                $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
+                $whereConditions[] = "products.Gia <= $maxPrice";
+            }
+            
 
             if (!empty($whereConditions)) {
                 $sql .= " WHERE " . implode(" AND ", $whereConditions);

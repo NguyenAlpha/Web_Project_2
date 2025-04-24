@@ -11,7 +11,7 @@
             $this->categoryModel = new CategoryModel(); //tạo đối tượng categoryModel
 
             // load header
-            $this->loadView("partitions/fontend/header.php",[
+            $this->loadView("partitions/frontend/header.php",[
                 "menus" => $this->categoryModel->getAll()
             ]);
         }
@@ -42,7 +42,7 @@
             // Lấy tên các thuộc tính của sản phẩm
             $attributes = $this->categoryModel->getFiltersByCategoryId($product['MaLoai']);
 
-            return $this->loadView("fontend/products/show.php",[
+            return $this->loadView("frontend/products/show.php",[
                 'product' => $product,
                 'details' => $details,
                 'attributes' => $attributes,

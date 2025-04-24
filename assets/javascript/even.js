@@ -6,32 +6,47 @@ function cuonTrai(button) {
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll("#filterForm input[type='checkbox']");
     const submitBtn = document.getElementById("filterButton");
+    const giaThapInput = document.querySelector("input[name='giaThap']");
+    const giaCaoInput = document.querySelector("input[name='giaCao']");
 
-    if (!submitBtn || checkboxes.length === 0) return;
+    if (!submitBtn) return;
 
-
-    // let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-    // checkboxes là một danh sách các checkbox lấy bằng document.querySelectorAll(...).
-    // Array.from(checkboxes) biến NodeList thành một mảng thực sự, để dùng các hàm như .some().
-    // .some(checkbox => checkbox.checked):
-    // .some() sẽ lặp qua từng checkbox.
-    // Trả về true nếu ít nhất một checkbox có checked = true.
-    // Kết quả được gán vào isChecked.
-    // submitBtn.disabled = !isChecked;
-    // Nếu isChecked === true (tức là có checkbox được chọn) → !isChecked === false → submitBtn.disabled = false → nút được bật.
-    // Nếu isChecked === false → submitBtn.disabled = true → nút bị khóa.
-
-    function validateCheckboxes() {
-        let isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-        submitBtn.disabled = !isChecked;
+    function isPriceFilled() {
+        return giaThapInput.value.trim() !== "" || giaCaoInput.value.trim() !== "";
     }
 
-    validateCheckboxes(); // Kiểm tra trạng thái ban đầu
+    function validateFilters() {
+        const isAnyCheckboxChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        const isPriceEntered = isPriceFilled();
+        submitBtn.disabled = !(isAnyCheckboxChecked || isPriceEntered);
+    }
 
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener("change", validateCheckboxes);
-    });
+    function formatNumberWithDots(value) {
+        return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function handlePriceInput(event) {
+        const input = event.target;
+        const cursor = input.selectionStart;
+        const raw = input.value.replace(/\D/g, "");
+
+        input.value = formatNumberWithDots(input.value);
+        let newCursor = cursor + (input.value.length - raw.length);
+        input.setSelectionRange(newCursor, newCursor);
+
+        validateFilters();
+    }
+
+    // Initial check
+    validateFilters();
+
+    // Sự kiện
+    checkboxes.forEach(checkbox => checkbox.addEventListener("change", validateFilters));
+    giaThapInput.addEventListener("input", handlePriceInput);
+    giaCaoInput.addEventListener("input", handlePriceInput);
 });
+
+
 
 
 function scrollRight(button) {
