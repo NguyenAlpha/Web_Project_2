@@ -13,13 +13,13 @@
             
             // load header
             if(isset($_GET['search'])) {
-                $this->loadView("partitions/fontend/header.php",[
+                $this->loadView("partitions/frontend/header.php",[
                     "menus" => $this->categoryModel->getAll(),
                     "textSearch" => $_GET['search']
                 ]);
 
             } else {
-                $this->loadView("partitions/fontend/header.php",[
+                $this->loadView("partitions/frontend/header.php",[
                     "menus" => $this->categoryModel->getAll()
                 ]);
             }
@@ -32,7 +32,7 @@
                 $products = array_merge($products, $categoryProducts);
             }
 
-            return $this->loadView("fontend/home/index.php",[
+            return $this->loadView("frontend/home/index.php",[
                 "products" => $products,
                 'categories' => $categories
             ]);
@@ -51,7 +51,7 @@
             $totalProducts = $this->productModel->getCountProductBySearch($text);
             $totalPages = ceil($totalProducts / $limit);
 
-            $this->loadView("fontend/home/search.php", [
+            $this->loadView("frontend/home/search.php", [
                 "products" => $products,
                 'textSearch' => $text,
                 'totalPages' => $totalPages,

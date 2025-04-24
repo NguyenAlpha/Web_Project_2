@@ -13,7 +13,7 @@
             $this->productDetailModel = new productDetailModel();
 
             // load header
-            $this->loadView("partitions/fontend/header.php",[
+            $this->loadView("partitions/frontend/header.php",[
                 "menus" => $this->categoryModel->getAll()
             ]);
         }
@@ -46,7 +46,7 @@
             $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);
             $totalPages = ceil($totalProducts / $limit);
 
-            return $this->loadView('fontend/categories/show.php', [
+            return $this->loadView('frontend/categories/show.php', [
                 'products' => $products,
                 'filters' => $filters,
                 'attributes' => $attributes,

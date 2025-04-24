@@ -17,23 +17,23 @@ class AdminController extends BaseController {
             }
         } 
         echo 'đây là trang đăng nhập';
-        return $this->loadView('fontend/admin/formadminlogin.php');
+        return $this->loadView('frontend/admin/formadminlogin.php');
     }
     public function homepageadmin() {
         echo 'Đây là trang admin';
-        return $this->loadView('fontend/admin/adminhomepage.php');
+        return $this->loadView('frontend/admin/adminhomepage.php');
     }
     public function usersmanage() {
         echo 'Đây là trang quản lý người dùng';
-        return $this->loadView('fontend/admin/usersmanage.php');
+        return $this->loadView('frontend/admin/usersmanage.php');
     }
     public function productsmanage() {
         echo 'Đây là trang quản lý sản phẩm';
-        return $this->loadView('fontend/admin/productsmanage.php');
+        return $this->loadView('frontend/admin/productsmanage.php');
     }
     public function dashboard() {
         echo 'Đây là trang quản lý Dashboard';
-        return $this->loadView('fontend/admin/dashboard.php');
+        return $this->loadView('frontend/admin/dashboard.php');
     }
     public function logout() {
         session_destroy();
@@ -44,7 +44,7 @@ class AdminController extends BaseController {
         $AdminModel = new AdminModel() ;
         $customers = $AdminModel->customer();
         
-        $this->loadView("fontend/Customer/ADMINCUSTOMER.php",
+        $this->loadView("frontend/Customer/ADMINCUSTOMER.php",
         [
             "customers"=> $customers 
         ]);
@@ -68,7 +68,7 @@ class AdminController extends BaseController {
             $carts[$key]["sumPrice"] = $product["Gia"] * $cart["SoLuong"];
         }
 
-        $this ->loadView("fontend/Customer/ViewCart.php", [
+        $this ->loadView("frontend/Customer/ViewCart.php", [
             "carts" => $carts,
             "customerName" => $adminModel->getCustomerByID($_GET["customerID"]),
             'allPrice' => array_sum(array_column($carts, 'sumPrice')),
@@ -81,7 +81,7 @@ class AdminController extends BaseController {
         $id = $_GET['id'];
         $customer = $adminModel->getCustomerByID($id);
     
-        $this->loadView("fontend/Customer/EditCustomer.php", [
+        $this->loadView("frontend/Customer/EditCustomer.php", [
             "customer" => $customer
         ]);
     }
