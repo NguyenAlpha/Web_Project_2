@@ -81,12 +81,8 @@ class AdminController extends BaseController {
         $customers = $adminModel -> customer();
         $id = $_GET['id'];
         $customer = $adminModel->getCustomerByID($id);
-<<<<<<< HEAD
-        $this->loadView("fontend/Customer/Editcustomer.php", [
-=======
     
         $this->loadView("frontend/Customer/EditCustomer.php", [
->>>>>>> f95cb50f38a1275329109b62486a8bb282267a99
             "customer" => $customer
             
         ]);
@@ -128,14 +124,14 @@ class AdminController extends BaseController {
             if ($success) {
                 // Có thể load lại danh sách luôn:
                 $customers = $adminModel->customer();
-                require_once "Views/fontend/Customer/addCustomer.php";
+                require_once "Views/frontend/Customer/addCustomer.php";
             } else {
                 echo "Lỗi khi thêm khách hàng!";
             }
             return;
         }
     
-     return require_once "Views/fontend/Customer/addCustomer.php";
+     return require_once "Views/frontend/Customer/addCustomer.php";
     }
 public function deleteCustomer()
 {

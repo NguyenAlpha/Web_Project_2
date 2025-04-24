@@ -64,36 +64,24 @@ include "./Views/partitions/frontend/headerAdmin.php";
 .form-update button:hover {
     background-color: #1c5980;
 }
-.BTN{
- color: white;
- text-decoration: none;
- font-size: 16px;
-}
-h2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    font-family: 'Roboto', sans-serif;
-    color: rgb(0, 38, 133);
-}
+
 </style>
-<h2>Thêm khách hàng</h2>
-<form action="index.php?controller=admin&action=addCustomer" method="post" class="form-update">
+<h2>Sửa thông tin khách hàng</h2>
+<form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update">
     <input type="hidden" name="id" value="<?php echo $customer['id'] ?>">
       
     <label>Username:</label>
-    <input type="text" name="username" value=""><br>
+    <input type="text" name="username" value="<?php echo $customer['username'] ?>"><br>
 
     <label>Password:</label>
-    <input type="text" name="password" value=""><br>
+    <input type="text" name="password" value="<?php echo $customer['password'] ?>"><br>
 
     <label>Email:</label>
-    <input type="email" name="email" value=""><br>
+    <input type="email" name="email" value="<?php echo $customer['email'] ?>"><br>
 
     <label>Address:</label>
-    <input type="text" name="address" value=""><br>
+    <input type="text" name="address" value="<?php echo $customer    ['address'] ?>"><br>
 
-    <button type="submit"><div><a href="index.php?controller=admin&action=customer" class="BTN">Cập nhật</a></div></button>
+    <button type="submit">Cập nhật</button>
 </form>
 

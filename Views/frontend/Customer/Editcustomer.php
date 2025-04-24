@@ -1,6 +1,6 @@
 <?php
 include_once(__DIR__ . '/../../../Core/Database.php');
-include "./Views/partitions/fontend/headerAdmin.php";
+include "./Views/partitions/frontend/headerAdmin.php";
 ?>
 <style>
     .head{
@@ -64,7 +64,15 @@ include "./Views/partitions/fontend/headerAdmin.php";
 .form-update button:hover {
     background-color: #1c5980;
 }
-
+h2 {
+    text-align: center;
+    color: #00268c;
+    font-size: 28px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
 </style>
 <h2>Sửa thông tin khách hàng</h2>
 <form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update">

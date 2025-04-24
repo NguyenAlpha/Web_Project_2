@@ -1,6 +1,6 @@
 <?php
 include_once(__DIR__ . '/../../../Core/Database.php');
-include "./Views/partitions/fontend/headerAdmin.php";
+include "./Views/partitions/frontend/headerAdmin.php";
 ?>
 
 <style>
