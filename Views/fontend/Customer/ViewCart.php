@@ -59,23 +59,66 @@ include "./Views/partitions/fontend/headerAdmin.php";
     {
        color: rgb(0, 38, 133);
     }
+    td div img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+td div {
+    display: flex;
+    /* flex-direction: column;
+    align-items: center; */
+}
+.con{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+}
+.sumPrice
+{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #00268c;
+    margin-top: 30px;
+    padding: 15px 20px;
+    background-color: #e6f0ff;
+    border: 2px solid #00268c;
+    border-radius: 10px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 </style>
 
 <h1>Giỏ hàng của khách hàng <?= $customerName['username'] ?></h1>
 
 <table>
     <tr>
-        <th>Tên sản phẩm</th>
+        <th>Sản phẩm</th>
         <th>Đơn giá</th>
         <th>Số lượng</th>
         <th>Thành tiền</th>
     </tr>
     <?php foreach($carts as $value): ?>
         <tr>
-            <td>
+            <td> 
+                <div class="con">
+                <div>
+                   <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>" target="_blank"> <img src="<?php echo $value['productPicture']?>" alt="Ảnh mô tả sản phẩm"></a>
+                </div>
+                <div>
                 <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>" target="_blank">
                     <?= htmlspecialchars($value['productName']) ?>
                 </a>
+                </div>
+                </div>
             </td>
             <td><?= number_format($value['productPrice'], 0, ',', '.') ?> đ</td>
             <td><?= $value['SoLuong'] ?></td>
@@ -84,4 +127,4 @@ include "./Views/partitions/fontend/headerAdmin.php";
     <?php endforeach; ?>
 </table>
 
-<p><strong>Tổng tiền:</strong> <?= number_format($allPrice, 0, ',', '.') ?> đ</p>
+<p class="sumPrice"><strong>Tổng tiền:</strong> <?= number_format($allPrice, 0, ',', '.') ?> đ</p>

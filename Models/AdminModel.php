@@ -25,6 +25,22 @@ class AdminModel extends BaseModel{
             $key['id'],
         ]);
     }
-    
+ 
+        public function addCustomer($username, $password, $gender, $email, $address) {
+            try {
+                $stmt = $this->conn->prepare("INSERT INTO user (username, password, gender, email, address) VALUES (?, ?, ?, ?, ?)");
+                return $stmt->execute([$username, $password, $gender, $email, $address]);
+            } catch (PDOException $e) {
+                // Ghi log nếu cần: error_log($e->getMessage());
+                return false;
+            }
+        }
+        
+    public function deleteCustomer($id) {   
+        $stmtCart = $this->conn->prepare("DELETE FROM cart WHERE userID = ?");
+        $stmtCart->execute([$id]);
+        $stmtUser = $this->conn->prepare("DELETE FROM user WHERE id = ?");
+        return $stmtUser->execute([$id]);
+}
 }
 ?>
