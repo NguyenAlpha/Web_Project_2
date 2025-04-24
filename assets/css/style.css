@@ -446,7 +446,8 @@ footer {
 	background-color: #fff;
 	border-radius: 10px;
 	box-shadow: 4px 4px 10px #00000031;
-	padding: 5px;
+	padding: 10px;
+	font-size: 13px;
 }
 .category-filter__box__attribute {
 	margin-top: 10px;
