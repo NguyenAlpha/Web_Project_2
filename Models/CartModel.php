@@ -7,5 +7,8 @@
     $sql = "SELECT * FROM CART WHERE USERID = $userID";
     return $this -> getByQuery($sql);
     }
-    
+    public function addProduct($userID)
+    {
+      
+    }
  }

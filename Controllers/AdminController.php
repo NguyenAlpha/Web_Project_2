@@ -63,6 +63,7 @@ class AdminController extends BaseController {
         
         foreach($carts as $key => $cart) {
             $product = $productModel->findById($cart["maSP"]);
+            $carts[$key]["productPicture"]  = $product["AnhMoTaSP"];
             $carts[$key]["productName"] = $product["TenSP"];
             $carts[$key]["productPrice"] = $product["Gia"];
             $carts[$key]["sumPrice"] = $product["Gia"] * $cart["SoLuong"];
@@ -83,6 +84,7 @@ class AdminController extends BaseController {
     
         $this->loadView("frontend/Customer/EditCustomer.php", [
             "customer" => $customer
+            
         ]);
     }
     public function updateCustomer() {
@@ -104,5 +106,61 @@ class AdminController extends BaseController {
         header("Location: index.php?controller=admin&action=customer");
         
     }
+    public function addCustomer()
+    {
+        $this->loadModel("AdminModel");
+        $adminModel = new AdminModel();
+        $customers = $adminModel->customer();
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $gender = $_POST['gender'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+    
+            $success = $adminModel->addCustomer($username, $password, $gender, $email, $address);
+    
+            if ($success) {
+                // Có thể load lại danh sách luôn:
+                $customers = $adminModel->customer();
+                require_once "Views/frontend/Customer/addCustomer.php";
+            } else {
+                echo "Lỗi khi thêm khách hàng!";
+            }
+            return;
+        }
+    
+     return require_once "Views/frontend/Customer/addCustomer.php";
+    }
+public function deleteCustomer()
+{
+    $this->loadModel('Adminmodel');
+    $adminModel = new AdminModel;
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $adminModel->deleteCustomer($id);
+
+        // Sau khi xóa có thể redirect về danh sách khách hàng
+        header("Location: index.php?controller=admin&action=customer");
+        exit;
+    } else {
+        echo "Không tìm thấy ID khách hàng để xóa.";
+    }
 }
+public function addProduct($id)
+{          
+    $this->loadModel("CartModel");
+    $cartModel = new CartModel();
+    $this->loadModel("AdminModel");
+    $adminModel = new AdminModel;
+    if (isset($_SESSION['userID'])) {
+        $this-> conn->AddProductCustomer($id);
+        // Sau khi thêm xong, có thể redirect về trang giỏ hàng hoặc trang sản phẩm
+        header('Location: index.php?controller=admin&action=ViewCart');
+        exit();
+    } 
+}
+}
+
 ?>
