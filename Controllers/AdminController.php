@@ -148,6 +148,19 @@ public function deleteCustomer()
         echo "Không tìm thấy ID khách hàng để xóa.";
     }
 }
+public function addProduct($id)
+{          
+    $this->loadModel("CartModel");
+    $cartModel = new CartModel();
+    $this->loadModel("AdminModel");
+    $adminModel = new AdminModel;
+    if (isset($_SESSION['userID'])) {
+        $this-> conn->AddProductCustomer($id);
+        // Sau khi thêm xong, có thể redirect về trang giỏ hàng hoặc trang sản phẩm
+        header('Location: index.php?controller=admin&action=ViewCart');
+        exit();
+    } 
+}
 }
 
 ?>

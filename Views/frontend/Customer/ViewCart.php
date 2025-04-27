@@ -95,6 +95,50 @@ td div {
     margin-right: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.btn-xoa
+    {
+        display: inline-block;
+        padding: 8px 14px;
+        margin-right: 6px;
+        background-color:rgb(253, 253, 253);
+        color:rgb(208, 2, 2);
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        border: 1px solid rgb(208, 2, 2);
+    }
+    .btn-xoa:hover
+    {
+        background-color:rgb(208, 2, 2);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-action {
+        display: inline-block;
+        padding: 8px 14px;
+        margin-right: 6px;
+        background-color:rgb(253, 253, 253);
+        color:  #00268c;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        border: 1px solid #00268c;
+    }
+
+    .btn-action:hover {
+        background-color: #001f6d;
+        color: white;
+        text-decoration: none;
+    }
+    .thaotac
+    {
+        display: flex;
+    }
 </style>
 
 <h1>Giỏ hàng của khách hàng <?= $customerName['username'] ?></h1>
@@ -105,6 +149,7 @@ td div {
         <th>Đơn giá</th>
         <th>Số lượng</th>
         <th>Thành tiền</th>
+        <th>Thao tác</th>
     </tr>
     <?php foreach($carts as $value): ?>
         <tr>
@@ -123,6 +168,12 @@ td div {
             <td><?= number_format($value['productPrice'], 0, ',', '.') ?> đ</td>
             <td><?= $value['SoLuong'] ?></td>
             <td><?= number_format($value['sumPrice'], 0, ',', '.') ?> đ</td>
+            <td>
+                <div class="thaotac">
+<div><a href="" class="btn-action">Sửa</a></div>
+  <div><a href="" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này không?')">Xoá</a></div>
+  </div>
+</td>
         </tr>
     <?php endforeach; ?>
 </table>
