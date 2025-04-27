@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 16, 2025 lúc 09:02 PM
+-- Thời gian đã tạo: Th4 27, 2025 lúc 09:24 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -24,6 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `address`
+--
+
+CREATE TABLE `address` (
+  `userID` int(11) NOT NULL,
+  `address` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `address`
+--
+
+INSERT INTO `address` (`userID`, `address`) VALUES
+(3, 'Khu đô thị Times City, 458 Minh Khai, Hai Bà Trưng, Hà Nội'),
+(3, 'Tòa nhà Vincom, 72 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP.HCM'),
+(4, 'Biệt thự số 12, đường Lê Quý Đôn, Quận 3, TP.HCM'),
+(4, 'Tòa nhà Vietjet, Số 1 đường Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội'),
+(5, 'Số 45 ngõ 12, đường Láng Hạ, Đống Đa, Hà Nội'),
+(6, 'Chung cư Golden Westlake, 162A Hoàng Hoa Thám, Tây Hồ, Hà Nội'),
+(6, 'Tòa nhà FPT Tower, 10 Phạm Văn Bạch, Cầu Giấy, Hà Nội'),
+(7, 'Tòa nhà VNG, Z6 đường số 13, Khu đô thị mới Nam Thăng Long, Hà Nội'),
+(8, 'Số 78 đường 3/2, Quận 10, TP.HCM'),
+(9, 'Số 1 đường Hoàng Hoa Thám, Ba Đình, Hà Nội'),
+(10, 'Biệt thự số 5, đường Hùng Vương, Ba Đình, Hà Nội'),
+(11, 'Biệt thự ven sông, Phú Mỹ Hưng, Quận 7, TP.HCM'),
+(11, 'Số 12 Nguyễn Thị Minh Khai, Quận 1, TP.HCM'),
+(12, 'Chung cư The Manor, đường Mễ Trì, Nam Từ Liêm, Hà Nội'),
+(13, 'Biệt thự tại Khu đô thị Vinhomes Central Park, Bình Thạnh, TP.HCM'),
+(13, 'Số 24 Trần Quang Diệu, Phường 14, Quận 3, TP.HCM'),
+(14, 'Số 56 Lý Tự Trọng, Quận 1, TP.HCM'),
+(15, 'Số 8 đường Lê Đại Hành, Hai Bà Trưng, Hà Nội'),
+(16, 'Khu tập thể Mỹ Đình, Nam Từ Liêm, Hà Nội'),
+(17, 'Số 32 Nguyễn Du, Quận 1, TP.HCM');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `admins`
 --
 
@@ -38,7 +75,74 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`ID`, `username`, `password`) VALUES
-(1, 'admin', '1111');
+(1, 'admin', '1111'),
+(2, 'a', 'a');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `carts`
+--
+
+CREATE TABLE `carts` (
+  `ID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `MaSP` int(11) NOT NULL,
+  `SoLuong` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `carts`
+--
+
+INSERT INTO `carts` (`ID`, `userID`, `MaSP`, `SoLuong`) VALUES
+(1, 1, 21, 1),
+(2, 1, 14, 5),
+(3, 2, 13, 10),
+(4, 3, 4, 2),
+(5, 3, 12, 1),
+(6, 3, 18, 3),
+(7, 4, 3, 1),
+(8, 4, 7, 2),
+(9, 4, 22, 1),
+(10, 5, 9, 1),
+(11, 5, 15, 4),
+(12, 6, 2, 1),
+(13, 6, 11, 2),
+(14, 6, 19, 1),
+(15, 6, 24, 1),
+(16, 7, 1, 3),
+(17, 7, 8, 1),
+(18, 8, 4, 2),
+(19, 8, 13, 1),
+(20, 8, 21, 1),
+(21, 9, 6, 1),
+(22, 9, 14, 2),
+(23, 10, 10, 1),
+(24, 10, 16, 1),
+(25, 10, 23, 2),
+(26, 11, 17, 3),
+(27, 11, 21, 1),
+(28, 12, 1, 1),
+(29, 12, 6, 1),
+(30, 12, 9, 1),
+(31, 12, 13, 1),
+(32, 13, 3, 2),
+(33, 13, 7, 1),
+(34, 13, 24, 1),
+(35, 14, 8, 1),
+(36, 14, 12, 2),
+(37, 14, 18, 1),
+(38, 15, 2, 1),
+(39, 15, 6, 3),
+(40, 15, 14, 1),
+(41, 16, 4, 1),
+(42, 16, 10, 2),
+(43, 16, 16, 1),
+(44, 16, 22, 1),
+(45, 17, 11, 1),
+(46, 17, 19, 2),
+(47, 17, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -112,7 +216,8 @@ INSERT INTO `laptopdetails` (`MaSP`, `ThuongHieu`, `CPU`, `GPU`, `RAM`, `DungLuo
 (15, 'Acer', 'AMD Ryzen 7 5700U', 'AMD Radeon Graphics', '16GB', '512GB', '15.6 inch', '1920x1080'),
 (16, 'Asus', 'Intel Core i5-13500H', 'NVIDIA Intel Iris X Graphics', '16GB', '512GB', '14 inch', '2880x1800'),
 (18, 'Asus', 'Intel Core Ultra 7 155H', 'Intel Arc Graphics', '16GB', '512GB', '16 inch', '3200x2000'),
-(19, 'HP', 'Intel Core Ultra 5 125U', 'Intel Graphics', '8GB', '512GB', '14 inch', '1920x1200');
+(19, 'HP', 'Intel Core Ultra 5 125U', 'Intel Graphics', '8GB', '512GB', '14 inch', '1920x1200'),
+(24, 'Dell', 'Intel Core i7-1355U', 'Intel Iris Xe Graphics', '16GB', '512GB', '14 inch', '1920x1080');
 
 -- --------------------------------------------------------
 
@@ -211,38 +316,65 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `Gia`
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `user`
+-- Cấu trúc bảng cho bảng `users`
 --
 
-CREATE TABLE `user` (
-  `id` int(6) NOT NULL,
+CREATE TABLE `users` (
+  `ID` int(6) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(26) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `gender` varchar(10) NOT NULL,
-  `phonenumber` int(30) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `address` varchar(255) NOT NULL
+  `email` varchar(40) DEFAULT NULL,
+  `sex` varchar(10) DEFAULT NULL,
+  `phonenumber` varchar(11) DEFAULT NULL,
+  `date of birth` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `user`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `gender`, `phonenumber`, `date_of_birth`, `address`) VALUES
-(1, 'to', '123', 'deptrai456@gmail.com', 'deptrai', 123, '0000-00-00', ''),
-(2, 'to222', '123', 'deptai456@gmail.com', '', 0, '0000-00-00', ''),
-(4, 'to213123', '123', 'deptrai456@gmail.com', '', 0, '0000-00-00', '');
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date of birth`) VALUES
+(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL),
+(2, 'to222', '123', NULL, NULL, NULL, NULL),
+(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05'),
+(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07'),
+(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15'),
+(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22'),
+(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18'),
+(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30'),
+(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10'),
+(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20'),
+(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10'),
+(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25'),
+(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05'),
+(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14'),
+(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01'),
+(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12'),
+(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
+-- Chỉ mục cho bảng `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`userID`,`address`);
+
+--
 -- Chỉ mục cho bảng `admins`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Chỉ mục cho bảng `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `MaSP` (`MaSP`),
+  ADD KEY `carts_ibfk_1` (`userID`);
 
 --
 -- Chỉ mục cho bảng `categories`
@@ -282,10 +414,11 @@ ALTER TABLE `products`
   ADD KEY `MaLoai` (`MaLoai`);
 
 --
--- Chỉ mục cho bảng `user`
+-- Chỉ mục cho bảng `users`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -295,7 +428,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
@@ -304,14 +443,27 @@ ALTER TABLE `products`
   MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT cho bảng `user`
+-- AUTO_INCREMENT cho bảng `users`
 --
-ALTER TABLE `user`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `users`
+  MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `address`
+--
+ALTER TABLE `address`
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`);
+
+--
+-- Các ràng buộc cho bảng `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`),
+  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
 
 --
 -- Các ràng buộc cho bảng `gpudetails`
@@ -336,6 +488,12 @@ ALTER TABLE `laptopgamingdetails`
 --
 ALTER TABLE `manhinhdetails`
   ADD CONSTRAINT `manhinhdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
+
+--
+-- Các ràng buộc cho bảng `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `categories` (`MaLoai`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

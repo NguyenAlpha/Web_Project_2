@@ -189,12 +189,11 @@ input {
 }
 
 .product__item__card {
-	box-sizing: border-box;
-	width: 230px;
-	min-width: 230px;;
+	width: 210px;
+	min-width: 200px;
+	height: 330px;
 	margin: 5px;
 	padding: 10px;
-	height: 350px;
 	background-color: #fff;
 	border-radius: 15px;
 	position: relative;
