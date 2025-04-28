@@ -43,28 +43,28 @@
 
                     <div class="header--right__item header--right__cart">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <a href="./pages/cart.php">Giỏ hàng</a>  
+                        <a href="./index.php?controller=cart&action=show">Giỏ hàng</a>  
                     </div>
 
                     <div class="header--right__item header--right__account">
                         <i class="fa-solid fa-user"></i>
                         <?php  if(isset($_SESSION["user"])):?>
-                            <a href=""><?php echo $_SESSION["user"]["username"]?></a>
+                            <a href="./index.php?controller=user&action=show"><?php echo $_SESSION["user"]["username"]?></a>
                         <?php  else:  ?>
-                            <a href="./user/login.php">Đăng Nhập</a>
+                            <a href="./index.php?controller=user&action=login">Đăng Nhập</a>
                         <?php endif;?>
                     </div>
 
                     <?php if(!isset($_SESSION["user"])):?>
                         <div class="header--right__item">
                         <i class="fa-solid fa-user"></i>
-                        <a href="./user/register.php">Đăng ký</a>
+                        <a href="./index.php?controller=user&action=register">Đăng ký</a>
                         </div>
                     <?php endif;?>
 
                     <?php  if(isset($_SESSION["user"])):?>
                         <div class="header--right__item header--right__cart">
-                            <a href="./user/logout.php">đăng xuất</a>
+                            <a href="./index.php?controller=user&action=logout">đăng xuất</a>
                         </div>
                     <?php endif;?>
                 </div>

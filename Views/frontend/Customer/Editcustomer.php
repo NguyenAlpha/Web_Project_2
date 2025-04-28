@@ -76,7 +76,7 @@ h2 {
 </style>
 <h2>Sửa thông tin khách hàng</h2>
 <form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update">
-    <input type="hidden" name="id" value="<?php echo $customer['id'] ?>">
+    <input type="hidden" name="id" value="<?php echo $customer['ID'] ?>">
       
     <label>Username:</label>
     <input type="text" name="username" value="<?php echo $customer['username'] ?>"><br>
@@ -85,11 +85,13 @@ h2 {
     <input type="text" name="password" value="<?php echo $customer['password'] ?>"><br>
 
     <label>Email:</label>
-    <input type="email" name="email" value="<?php echo $customer['email'] ?>"><br>
-
-    <label>Address:</label>
-    <input type="text" name="address" value="<?php echo $customer    ['address'] ?>"><br>
-
+    <input type="email" name="email" value="<?php echo $customer['email'] ?>" required><br>
+    <label for="gender">Giới tính:</label><br>
+<select name="gender" id="gender" style="padding: 8px; border-radius: 5px;">
+  <option value="">-- Chọn giới tính --</option>
+  <option value="Nam" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nam') echo 'selected'; ?>>Nam</option>
+  <option value="Nữ" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nữ') echo 'selected'; ?>>Nữ</option>
+</select>
     <button type="submit">Cập nhật</button>
 </form>
 
