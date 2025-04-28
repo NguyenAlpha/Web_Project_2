@@ -70,6 +70,7 @@
 
         public function delete() {
             $this->productModel->deleteProduct(6);
+            
         }
     }
 ?>

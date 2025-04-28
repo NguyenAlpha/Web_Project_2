@@ -10,7 +10,7 @@ class UserController extends BaseController {
             $this->categoryModel = new CategoryModel(); //tạo đối tượng categoryModel
 
 
-            $this->loadView("layouts/header.php",[
+            $this->loadView("partitions/frontend/header.php",[
                 "menus" => $this->categoryModel->getAll(['*'],['STT'])
             ]);
     }
@@ -40,7 +40,7 @@ class UserController extends BaseController {
                 echo "Đăng nhập thất bại";
             }
         }
-        $this->loadView("layouts/login.php");
+        $this->loadView("partitions/frontend/login.php");
     }
 
     public function register() {
@@ -58,7 +58,7 @@ class UserController extends BaseController {
             $_SESSION['user'] = $user;
             header("Location: ./index.php");
         }
-        $this->loadView("layouts/register.php");
+        $this->loadView("partitions/frontend/register.php");
     }  
 
     public function logout() {

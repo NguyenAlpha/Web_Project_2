@@ -13,7 +13,7 @@
         }
 
         public function addUser($name, $password, $phone) {
-            $sql = "INSERT INTO $this->table (username, password, sdt) VALUES ('$name','$password','$phone')";
+            $sql = "INSERT INTO $this->table (username, password, phonenumber) VALUES ('$name','$password','$phone')";
             $this->add($sql);
         }
     }

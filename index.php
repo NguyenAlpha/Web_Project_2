@@ -17,7 +17,7 @@
     $controllerObject->$action();
     if(isset($_GET["controller"]) && $_GET["controller"]=='admin') {
     } else {
-        include "./Views/partitions/fontend/footer.php";
+        include "./Views/partitions/frontend/footer.php";
     }
 ?>
 
