@@ -75,6 +75,14 @@ input {
 	border: none;
 	outline: none;
 }
+.alert {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 30px;
+    color: rgb(0, 0, 0);
+    text-shadow: 3px 3px 5px #0000002f;
+}
 /* =============================================================== */
 .header {
 	background: rgb(0,38,133);
@@ -663,4 +671,17 @@ footer {
 .register__link, .login__link {
 	text-decoration: underline;
 	color: #ffffff;
+}
+
+/* =============================================== CART ================================================================ */
+
+
+.cart {
+	margin-top: 40px;
+}
+
+.cart .title {
+	font-size: 30px;
+	font-weight: 700;
+	text-align: center;
 }
