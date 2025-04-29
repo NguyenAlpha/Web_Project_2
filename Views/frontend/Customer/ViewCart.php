@@ -156,10 +156,10 @@ td div {
             <td> 
                 <div class="con">
                 <div>
-                   <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>" target="_blank"> <img src="<?php echo $value['productPicture']?>" alt="Ảnh mô tả sản phẩm"></a>
+                   <a href="index.php?controller=product&action=show&id=<?=$value['MaSP']?>" target="_blank"> <img src="<?php echo $value['productPicture']?>" alt="Ảnh mô tả sản phẩm"></a>
                 </div>
                 <div>
-                <a href="index.php?controller=product&action=show&id=<?=$value['maSP']?>" target="_blank">
+                <a href="index.php?controller=product&action=show&id=<?=$value['MaSP']?>" target="_blank">
                     <?= htmlspecialchars($value['productName']) ?>
                 </a>
                 </div>

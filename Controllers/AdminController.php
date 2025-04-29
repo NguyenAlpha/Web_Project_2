@@ -54,7 +54,7 @@ class AdminController extends BaseController {
         $this->loadModel("CartModel");
         $cartModel = new CartModel();
         $this->loadModel("AdminModel");
-        $adminModel = new AdminModel;
+        $adminModel = new AdminModel();
         
         $this->loadModel("ProductModel");   //load productModel để tạo đối tượng productModel dòng 9
         $productModel = new ProductModel(); //tạo đối tượng productModel
@@ -62,7 +62,7 @@ class AdminController extends BaseController {
         $carts = $cartModel -> getCartbyUserID($_GET["customerID"]);
         
         foreach($carts as $key => $cart) {
-            $product = $productModel->findById($cart["maSP"]);
+            $product = $productModel->findById($cart["MaSP"]);
             $carts[$key]["productPicture"]  = $product["AnhMoTaSP"];
             $carts[$key]["productName"] = $product["TenSP"];
             $carts[$key]["productPrice"] = $product["Gia"];
@@ -93,11 +93,10 @@ class AdminController extends BaseController {
             $adminModel = new AdminModel;
             $customers = $adminModel -> customer();
             $key = [
-                'id' => $_POST['id'],
+                'ID' => $_POST['id'],
                 'username' => $_POST['username'],
                 'password' => $_POST['password'],
                 'email' => $_POST['email'],
-                'address' => $_POST['address']
             ];
     
             $adminModel->updateCustomer($key);
@@ -135,10 +134,12 @@ class AdminController extends BaseController {
     }
 public function deleteCustomer()
 {
-    $this->loadModel('Adminmodel');
-    $adminModel = new AdminModel;
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
+    $this->loadModel('AdminModel');
+    $adminModel = new AdminModel();
+    $this->loadModel('CartModel');
+    $CartModel = new CartModel();
+    if (isset($_GET['ID'])) {
+        $id = $_GET['ID'];
         $adminModel->deleteCustomer($id);
 
         // Sau khi xóa có thể redirect về danh sách khách hàng
@@ -148,19 +149,135 @@ public function deleteCustomer()
         echo "Không tìm thấy ID khách hàng để xóa.";
     }
 }
-public function addProduct($id)
-{          
+
+public function CustomerCartAjax()
+{     
+    $this->loadModel("AdminModel");
+    $AdminModel = new AdminModel();
+    
     $this->loadModel("CartModel");
     $cartModel = new CartModel();
-    $this->loadModel("AdminModel");
-    $adminModel = new AdminModel;
-    if (isset($_SESSION['userID'])) {
-        $this-> conn->AddProductCustomer($id);
-        // Sau khi thêm xong, có thể redirect về trang giỏ hàng hoặc trang sản phẩm
-        header('Location: index.php?controller=admin&action=ViewCart');
-        exit();
-    } 
+
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
+
+    $customerID = $_GET["customerID"] ?? 0;
+    
+    // Lấy danh sách giỏ hàng
+    $carts = $cartModel->getCartbyUserID($customerID);
+
+    // Gắn thêm thông tin sản phẩm vào từng món trong giỏ
+    foreach ($carts as $key => $cart) {
+        $product = $productModel->findById($cart["MaSP"]);
+        $carts[$key]["productPicture"] = $product["AnhMoTaSP"] ?? '';
+        $carts[$key]["productName"] = $product["TenSP"] ?? '';
+        $carts[$key]["productPrice"] = $product["Gia"] ?? 0;
+        $carts[$key]["sumPrice"] = $carts[$key]["productPrice"] * $cart["SoLuong"];
+    }
+
+    // Nếu giỏ hàng trống
+    if (empty($carts)) {
+        echo "<p>Giỏ hàng trống.</p>";
+        exit;
+    }
+
+    // In ra HTML dạng bảng
+    echo "<style>
+    table.cart-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table.cart-table th {
+        background-color: #00268c;
+        color: white;
+        padding: 8px;
+    }
+    table.cart-table td {
+        text-align: center;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+    .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .cart-item img {
+        width: 50px;
+        height: auto;
+    }
+    .cart-total td {
+        font-weight: bold;
+        text-align: right;
+        padding: 10px;
+    }
+    .motaSP {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa ảnh và tên sản phẩm */
 }
+
+.motaSP img {
+     width: 20px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+.motaSP img:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+}
+
+.motaSP a {
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.motaSP a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+</style>";
+
+// In ra HTML
+echo "<table class='cart-table'>";
+echo "<tr>
+        <th>Sản phẩm</th><th>Giá</th><th>Số lượng</th><th>Thành tiền</th>
+      </tr>";
+
+foreach ($carts as $item) {
+    echo '<tr>';
+    echo '<td> <div class="motaSP">
+            <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
+                <img src="' . htmlspecialchars($item['productPicture']) . '" alt="Ảnh mô tả sản phẩm" style="width:100px;">
+            </a></div>
+            <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
+                ' . htmlspecialchars($item['productName']) . '
+            </a></div>
+            </div>
+          </td>';
+    echo '<td>' . number_format($item['productPrice'], 0, ',', '.') . ' đ</td>';
+    echo '<td>' . $item['SoLuong'] . '</td>';
+    echo '<td>' . number_format($item['sumPrice'], 0, ',', '.') . ' đ</td>';
+    echo '</tr>';
+    
+}
+
+// Tính tổng tiền
+$tongTien = array_sum(array_column($carts, 'sumPrice'));
+
+echo "<tr class='cart-total'>
+        <td colspan='4'>Tổng tiền: " . number_format($tongTien, 0, ',', '.') . " đ</td>
+      </tr>";
+}
+
 }
 
 ?>
