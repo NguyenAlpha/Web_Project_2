@@ -132,23 +132,24 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-public function deleteCustomer()
-{
-    $this->loadModel('AdminModel');
-    $adminModel = new AdminModel();
-    $this->loadModel('CartModel');
-    $CartModel = new CartModel();
-    if (isset($_GET['ID'])) {
-        $id = $_GET['ID'];
-        $adminModel->deleteCustomer($id);
-
-        // Sau khi xóa có thể redirect về danh sách khách hàng
-        header("Location: index.php?controller=admin&action=customer");
-        exit;
-    } else {
-        echo "Không tìm thấy ID khách hàng để xóa.";
+    public function deleteCustomer()
+    {
+        $this->loadModel('AdminModel');
+        $adminModel = new AdminModel();
+    
+        if (isset($_GET['ID'])) {
+            $id = $_GET['ID'];
+           $success = $adminModel->deleteCustomer($id);
+    
+            if ($success) {
+                header("Location: index.php?controller=admin&action=customer");
+                exit;
+            } else {
+                echo"Bị lỗi rồi";
+                exit;
+            }
+        } 
     }
-}
 
 public function CustomerCartAjax()
 {     
@@ -174,15 +175,15 @@ public function CustomerCartAjax()
         $carts[$key]["productPrice"] = $product["Gia"] ?? 0;
         $carts[$key]["sumPrice"] = $carts[$key]["productPrice"] * $cart["SoLuong"];
     }
-
-    // Nếu giỏ hàng trống
-    if (empty($carts)) {
-        echo "<p>Giỏ hàng trống.</p>";
-        exit;
-    }
-
-    // In ra HTML dạng bảng
     echo "<style>
+    .Cartnull
+    {
+        text-align: center;       /* Căn giữa ngang */
+  font-weight: bold;        /* In đậm */
+  padding: 20px;            /* Thêm khoảng cách bên trong cho đẹp */
+  font-size: 20px;          /* Cỡ chữ vừa phải */
+  color: #333;              /* Màu chữ đậm hơn một chút */
+    }
     table.cart-table {
         width: 100%;
         border-collapse: collapse;
@@ -246,6 +247,15 @@ public function CustomerCartAjax()
 
 </style>";
 
+    // Nếu giỏ hàng trống
+    if (empty($carts)) {
+        echo '<div class="Cartnull"> Giỏ hàng trống</div>';
+
+        exit;
+    }
+
+    // In ra HTML dạng bảng
+   
 // In ra HTML
 echo "<table class='cart-table'>";
 echo "<tr>
