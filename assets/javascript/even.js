@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function scrollRight(button) {
-    console.log("Hello world right!");
     const wrapper = button.parentElement.querySelector(".productWrapper");
     wrapper.scrollBy({
         left:690,
@@ -59,10 +58,10 @@ function scrollRight(button) {
 }
 
 function scrollLeftt(button) {
-    console.log("Hello world left!");
     const wrapper = button.parentElement.querySelector(".productWrapper");
     wrapper.scrollBy({
         left: -690,
         behavior: 'smooth'
     });
 }
+

@@ -4,7 +4,6 @@
         private $username = "root";
         private $password = "";
         private $database = "test1";
-
         // Hàm kết nối database
         public function connect() {
             $conn = new mysqli($this->host, $this->username, $this->password, $this->database);
