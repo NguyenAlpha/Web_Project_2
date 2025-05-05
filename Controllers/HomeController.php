@@ -2,8 +2,6 @@
     class HomeController extends BaseController {
         private $productModel;
         private $categoryModel;
-        private $productDetailModel;
-        private $homeModel;
 
         public function __construct() {
             $this->loadModel("ProductModel");   //load productModel để tạo đối tượng productModel dòng 9

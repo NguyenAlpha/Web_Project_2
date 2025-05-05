@@ -2,22 +2,24 @@
 class AdminController extends BaseController {
     protected $conn;
     public function login() {
-        if (isset($_POST["username"])) {
+        if (isset($_POST["admin"])) {
+            header("Location: ./index.php");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->loadModel("AdminModel");
             $adminModel = new AdminModel;
             $admin = $adminModel->checkuser($_POST["username"],$_POST["password"]);
-            echo print_r($admin);
             if(empty($admin)) {
                 echo "Tên hoặc mật khẩu không chính xác";
             }
             else {
-                $_SESSION["admin"] = $admin["username"];
-                $_SESSION["password"] = $admin["password"];
-                header("Location: index.php?controller=Admin&action=homepageadmin");
+                $_SESSION["admin"] = $admin;
+                header("Location: ./index.php");
             }
-        } 
-        echo 'đây là trang đăng nhập';
-        return $this->loadView('frontend/admin/formadminlogin.php');
+        }
+        $this->loadView('partitions/frontend/formadminlogin.php');
     }
     public function homepageadmin() {
         echo 'Đây là trang admin';
@@ -37,7 +39,8 @@ class AdminController extends BaseController {
     }
     public function logout() {
         session_destroy();
-        header('Location: index.php?controller=admin&action=login');
+        header('Location: ./index.php');
+        exit;
     }
     public function customer() {
         $this->loadModel("AdminModel"); 
@@ -84,7 +87,6 @@ class AdminController extends BaseController {
     
         $this->loadView("frontend/Customer/EditCustomer.php", [
             "customer" => $customer
-            
         ]);
     }
     public function updateCustomer() {
@@ -132,24 +134,23 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-    public function deleteCustomer()
-    {
-        $this->loadModel('AdminModel');
-        $adminModel = new AdminModel();
-    
-        if (isset($_GET['ID'])) {
-            $id = $_GET['ID'];
-           $success = $adminModel->deleteCustomer($id);
-    
-            if ($success) {
-                header("Location: index.php?controller=admin&action=customer");
-                exit;
-            } else {
-                echo"Bị lỗi rồi";
-                exit;
-            }
-        } 
+public function deleteCustomer()
+{
+    $this->loadModel('AdminModel');
+    $adminModel = new AdminModel();
+    $this->loadModel('CartModel');
+    $CartModel = new CartModel();
+    if (isset($_GET['ID'])) {
+        $id = $_GET['ID'];
+        $adminModel->deleteCustomer($id);
+
+        // Sau khi xóa có thể redirect về danh sách khách hàng
+        header("Location: index.php?controller=admin&action=customer");
+        exit;
+    } else {
+        echo "Không tìm thấy ID khách hàng để xóa.";
     }
+}
 
 public function CustomerCartAjax()
 {     
@@ -175,15 +176,15 @@ public function CustomerCartAjax()
         $carts[$key]["productPrice"] = $product["Gia"] ?? 0;
         $carts[$key]["sumPrice"] = $carts[$key]["productPrice"] * $cart["SoLuong"];
     }
-    echo "<style>
-    .Cartnull
-    {
-        text-align: center;       /* Căn giữa ngang */
-  font-weight: bold;        /* In đậm */
-  padding: 20px;            /* Thêm khoảng cách bên trong cho đẹp */
-  font-size: 20px;          /* Cỡ chữ vừa phải */
-  color: #333;              /* Màu chữ đậm hơn một chút */
+
+    // Nếu giỏ hàng trống
+    if (empty($carts)) {
+        echo "<p>Giỏ hàng trống.</p>";
+        exit;
     }
+
+    // In ra HTML dạng bảng
+    echo "<style>
     table.cart-table {
         width: 100%;
         border-collapse: collapse;
@@ -247,15 +248,6 @@ public function CustomerCartAjax()
 
 </style>";
 
-    // Nếu giỏ hàng trống
-    if (empty($carts)) {
-        echo '<div class="Cartnull"> Giỏ hàng trống</div>';
-
-        exit;
-    }
-
-    // In ra HTML dạng bảng
-   
 // In ra HTML
 echo "<table class='cart-table'>";
 echo "<tr>
@@ -266,7 +258,7 @@ foreach ($carts as $item) {
     echo '<tr>';
     echo '<td> <div class="motaSP">
             <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
-                <img src="' . htmlspecialchars($item['productPicture']) . '" alt="Ảnh mô tả sản phẩm" style="width:100px;">
+                <img src="' . '.' . htmlspecialchars($item['productPicture']) . '" alt="Ảnh mô tả sản phẩm" style="width:100px;">
             </a></div>
             <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
                 ' . htmlspecialchars($item['productName']) . '

@@ -1,5 +1,4 @@
 <?php
-include_once(__DIR__ . '/../../../Core/Database.php');
 include "./Views/partitions/frontend/headerAdmin.php";
 ?>
 <style>
@@ -7,7 +6,6 @@ include "./Views/partitions/frontend/headerAdmin.php";
     font-family: 'Segoe UI', sans-serif;
     background-color: #eef2f7;
     margin: 0;
-    padding: 30px;
 }
 
 h1 {
@@ -95,7 +93,6 @@ td a:hover {
 .btn-xoa:hover {
     background-color: rgb(208, 2, 2);
     color: white;
-    text-decoration: none;
 }
 
 .addsp {
@@ -214,8 +211,8 @@ td a:hover {
           <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
         </td>
         <td>
-          <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
-          <a href="index.php?controller=admin&action=deletecustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+          <a href="index.php?controller=admin&action=Editcustomer&ID=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
+          <a href="index.php?controller=admin&action=deleteCustomer&ID=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
         </td>
       </tr>
     <?php endforeach; ?>

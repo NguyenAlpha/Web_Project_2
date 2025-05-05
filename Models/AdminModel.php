@@ -40,47 +40,11 @@ class AdminModel extends BaseModel{
     public function deleteCustomer($id) {   
         $stmtCart = $this->conn->prepare("DELETE FROM carts WHERE userID = ?");
         $stmtCart->execute([$id]);
+        $stmtAddress = $this->conn->prepare("DELETE FROM address WHERE userID = ?");
+        $stmtAddress->execute([$id]);
         $stmtUser = $this->conn->prepare("DELETE FROM users WHERE ID = ?");
         return $stmtUser->execute([$id]);
 }
-    public function AddProductCustomer($id)
-    {
-    
-
-    // Kết nối database (giả sử có $this->db)
-    $maSP = (int)$id;
-    
-    // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-    $sql = "SELECT SoLuong FROM cart WHERE maSP = :maSP AND userID = :userID";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([
-        ':maSP' => $maSP,
-        ':userID' => $_SESSION['userID'] 
-    ]);
-    
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($result) {
-        // Nếu đã có, thì tăng số lượng lên 1
-        $newQuantity = $result['SoLuong'] + 1;
-        $updateSql = "UPDATE carts SET SoLuong = :SoLuong WHERE maSP = :maSP AND userID = :userID";
-        $updateStmt = $this-> conn ->prepare($updateSql);
-        $updateStmt->execute([
-            ':SoLuong' => $newQuantity,
-            ':maSP' => $maSP,
-            ':userID' => $_SESSION['userID']
-        ]);
-    } else {
-        // Nếu chưa có, thêm mới sản phẩm vào giỏ hàng với số lượng = 1
-        $insertSql = "INSERT INTO carts (maSP, userID, SoLuong) VALUES (:maSP, :userID, 1)";
-        $insertStmt = $this->conn->prepare($insertSql);
-        $insertStmt->execute([
-            ':maSP' => $maSP,
-            ':userID' => $_SESSION['userID']
-        ]);
-    }
-
-
-    } 
+   
 }
 ?>
