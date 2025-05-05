@@ -1,0 +1,102 @@
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-body h5 {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+img.rounded-circle {
+    border: 3px solid #e74c3c;
+    padding: 2px;
+    background-color: #fff;
+}
+
+.list-group-item {
+    font-size: 15px;
+    padding: 12px 16px;
+    transition: 0.3s;
+    color: #333;
+    border: none;
+}
+
+.list-group-item:hover {
+    background-color: #ffecec;
+    color: #e74c3c;
+}
+
+.list-group-item.text-danger {
+    color: #e74c3c;
+    font-weight: bold;
+    background-color: #fff4f4;
+}
+
+.list-group-item a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+}
+
+/* Form section */
+.card-header h5 {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: inline-block;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+}
+
+.form-control:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 0.15rem rgba(231, 76, 60, 0.25);
+}
+
+/* Button */
+.btn-danger {
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 28px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Gender radio spacing */
+input[type="radio"] {
+    margin-right: 6px;
+    margin-left: 12px;
+}
+
+/* Birth date dropdowns */
+select.form-control {
+    border-radius: 6px;
+    height: 38px;
+}

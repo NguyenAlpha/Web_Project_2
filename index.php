@@ -2,7 +2,7 @@
     session_start();
     $username = '';
     if(isset($_SESSION["user"])) {
-        $username = $_SESSION["user"]['username'];
+    //$username = $_SESSION["user"]['username'];
     }
 
     require "./Core/Database.php";
