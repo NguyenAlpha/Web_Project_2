@@ -1,4 +1,4 @@
-<main>
+<main class="user__show">
     <link rel="stylesheet" href="./Views/frontend/user/show.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
     <div class="container">
@@ -8,8 +8,8 @@
             <p>Mật khẩu: <?=$user['password']?></p>
         </div>
     </div>
-    <form action="index.php?controller=user&action=update" method="POST">
-        <div class="container mt-4">
+    <div class="container mt-4">
+        <form action="index.php?controller=user&action=update" method="POST">
             <div class="row">
                 <!-- Sidebar -->
                 <div class="col-md-3">
@@ -89,6 +89,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </main>
