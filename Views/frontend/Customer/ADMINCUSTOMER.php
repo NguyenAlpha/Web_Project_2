@@ -5,118 +5,104 @@ include "./Views/partitions/frontend/headerAdmin.php";
 <style>
     body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #eef2f7;
+    background-color: #f4f6fa;
     margin: 0;
-    padding: 30px;
+    padding: 20px;
 }
 
 h1 {
     text-align: center;
-    color: #00268c;
-    font-size: 32px;
-    margin-bottom: 40px;
+    color: #1a237e;
+    font-size: 28px;
+    margin-bottom: 30px;
 }
 
 table {
-    width: 95%;
-    max-width: 1200px;
-    margin: auto;
+    width: 90%;
+    margin: 0 auto;
     border-collapse: collapse;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
-    padding: 16px 20px;
-    text-align: left;
+    padding: 16px;
+    text-align: center;
     border-bottom: 1px solid #f0f0f0;
 }
 
 th {
-    background-color: #00268c;
-    color: white;
+    background-color: #1a237e;
+    color: #ffffff;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+td {
     font-size: 14px;
+    color: #333;
 }
 
 tr:hover {
-    background-color: #f4f8ff;
+    background-color: #f9fbff;
 }
 
-td a {
-    color: #0056d2;
+.btn-action, .btn-xoa {
+    padding: 8px 16px;
+    border-radius: 6px;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-td a:hover {
-    color: #00268c;
-    text-decoration: underline;
+    font-size: 13px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 2px;
 }
 
 .btn-action {
-    display: inline-block;
-    padding: 8px 14px;
-    margin-right: 6px;
-    background-color: rgb(253, 253, 253);
-    color: #00268c;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    border: 1px solid #00268c;
+    color: #1a237e;
+    background-color: #fff;
+    border-color: #1a237e;
 }
 
 .btn-action:hover {
-    background-color: #001f6d;
-    color: white;
-    text-decoration: none;
+    background-color: #1a237e;
+    color: #fff;
 }
 
 .btn-xoa {
-    display: inline-block;
-    padding: 8px 14px;
-    margin-right: 6px;
-    background-color: rgb(253, 253, 253);
-    color: rgb(208, 2, 2);
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-    border: 1px solid rgb(208, 2, 2);
+    color: #c62828;
+    background-color: #fff;
+    border-color: #c62828;
 }
 
 .btn-xoa:hover {
-    background-color: rgb(208, 2, 2);
-    color: white;
-    text-decoration: none;
+    background-color: #c62828;
+    color: #fff;
 }
 
 .addsp {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .addsp a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: white;
-    color: #001f6d;
-    text-decoration: none;
+    padding: 10px 22px;
+    background-color: #fff;
+    color: #1a237e;
+    border: 1px solid #1a237e;
     border-radius: 6px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
-    border: 1px solid #001f6d;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .addsp a:hover {
-    background-color: #001f6d;
+    background-color: #1a237e;
     color: white;
 }
 
@@ -130,35 +116,17 @@ td a:hover {
     background: white;
     padding: 30px;
     width: 80%;
-    max-width: 1000px;
+    max-width: 900px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-radius: 10px;
+    border-radius: 12px;
     z-index: 1000;
-    overflow-y: auto;
     max-height: 90%;
+    overflow-y: auto;
 }
 
 .popup-cart h2 {
     margin-top: 0;
-    color: #00268c;
-}
-
-.popup-buttons {
-    text-align: right;
-    margin-top: 20px;
-}
-
-.popup-buttons button {
-    background-color: #ccc;
-    color: black;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.popup-buttons button:hover {
-    background-color: #bbb;
+    color: #1a237e;
 }
 
 .popup-overlay {
@@ -166,34 +134,50 @@ td a:hover {
     position: fixed;
     top: 0;
     left: 0;
+    background: rgba(0, 0, 0, 0.4);
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-.close-button
-{
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: #fff;
+
+.close-button {
+    background-color: #1a237e;
+    color: white;
+    padding: 10px 18px;
     border: none;
-    border-radius: 50px;
-    padding: 10px 24px;
-    font-size: 15px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+    transition: background-color 0.3s ease;
 }
-.close-button:hover
-{
-    background: linear-gradient(135deg, #5a67d8, #6b46c1);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
-    transform: translateY(-2px);
+
+.close-button:hover {
+    background-color: #0d1546;
+}
+/* Bố cục hiển thị gồm sidebar trái + nội dung phải */
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #0d2a63;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    background-color: #f4f6fa;
+}
+
+.main-content h1 {
+    text-align: center;
 }
 </style>
-
-<h1>Danh sách khách hàng</h1>
-
 <table>
   <thead>
     <tr>
@@ -221,10 +205,6 @@ td a:hover {
     <?php endforeach; ?>
   </tbody>
 </table>
-
-<div class="addsp">
-  <a href="index.php?controller=admin&action=addCustomer">Thêm khách hàng</a>
-</div>
 
 <!-- Popup hiển thị giỏ hàng -->
 <div id="popupCart" class="popup-cart">
