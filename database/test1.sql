@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 27, 2025 lúc 09:24 PM
+-- Thời gian đã tạo: Th5 07, 2025 lúc 12:09 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -248,6 +248,32 @@ INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`, `RAM`, `D
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `listproduct`
+--
+
+CREATE TABLE `listproduct` (
+  `MaDon` int(11) NOT NULL,
+  `MaSP` int(11) NOT NULL,
+  `SoLuong` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `listproduct`
+--
+
+INSERT INTO `listproduct` (`MaDon`, `MaSP`, `SoLuong`) VALUES
+(1, 8, 1),
+(1, 6, 3),
+(1, 16, 1);
+
+--
+-- Bẫy `listproduct`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `manhinhdetails`
 --
 
@@ -269,6 +295,28 @@ CREATE TABLE `manhinhdetails` (
 INSERT INTO `manhinhdetails` (`MaSP`, `ThuongHieu`, `KichThuocManHinh`, `TangSoQuet`, `TiLe`, `TamNen`, `DoPhanGiai`, `KhoiLuong`) VALUES
 (1, 'MSI', '23.8 inch', '100Hz', '16:9', 'IPS', '1920x1080', '3.5 kg'),
 (8, 'Gigabyte', '', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `orders`
+--
+
+CREATE TABLE `orders` (
+  `MaDon` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL,
+  `DiaChi` varchar(255) NOT NULL,
+  `TongTien` int(11) NOT NULL,
+  `TrangThai` enum('đã giao','chờ xác nhận','đang giao','') NOT NULL,
+  `ThanhToan` enum('chuyển khoản','tiền mặt','','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `orders`
+--
+
+INSERT INTO `orders` (`MaDon`, `UserID`, `DiaChi`, `TongTien`, `TrangThai`, `ThanhToan`) VALUES
+(1, 5, 'abc', 0, 'chờ xác nhận', 'chuyển khoản');
 
 -- --------------------------------------------------------
 
@@ -320,7 +368,7 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `Gia`
 --
 
 CREATE TABLE `users` (
-  `ID` int(6) NOT NULL,
+  `ID` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(26) NOT NULL,
   `email` varchar(40) DEFAULT NULL,
@@ -335,7 +383,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date of birth`) VALUES
 (1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL),
-(2, 'to222', '123', NULL, NULL, NULL, NULL),
+(2, 'u', 'u', NULL, NULL, NULL, NULL),
 (3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05'),
 (4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07'),
 (5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15'),
@@ -401,10 +449,23 @@ ALTER TABLE `laptopgamingdetails`
   ADD KEY `MaSP` (`MaSP`);
 
 --
+-- Chỉ mục cho bảng `listproduct`
+--
+ALTER TABLE `listproduct`
+  ADD KEY `MaDon` (`MaDon`),
+  ADD KEY `MaSP` (`MaSP`);
+
+--
 -- Chỉ mục cho bảng `manhinhdetails`
 --
 ALTER TABLE `manhinhdetails`
   ADD KEY `MaSP` (`MaSP`);
+
+--
+-- Chỉ mục cho bảng `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`MaDon`);
 
 --
 -- Chỉ mục cho bảng `products`
@@ -437,6 +498,12 @@ ALTER TABLE `carts`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
+-- AUTO_INCREMENT cho bảng `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `MaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
@@ -446,7 +513,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -482,6 +549,13 @@ ALTER TABLE `laptopdetails`
 --
 ALTER TABLE `laptopgamingdetails`
   ADD CONSTRAINT `laptopgamingdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
+
+--
+-- Các ràng buộc cho bảng `listproduct`
+--
+ALTER TABLE `listproduct`
+  ADD CONSTRAINT `listproduct_ibfk_1` FOREIGN KEY (`MaDon`) REFERENCES `orders` (`MaDon`),
+  ADD CONSTRAINT `listproduct_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
 
 --
 -- Các ràng buộc cho bảng `manhinhdetails`

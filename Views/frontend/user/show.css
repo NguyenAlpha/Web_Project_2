@@ -1,16 +1,37 @@
-body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: #f7f7f7;
-    margin: 0;
-    padding: 0;
+.user__show .container {
+    margin-top: 20px;
 }
 
-/* Sidebar */
+.user__info .title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.user__info p {
+    margin-top: 5px;
+}
+
 .card {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 10px;
 }
 
+.col-md-3 {
+    width: 30%;
+    box-sizing: border-box;
+    padding-right: 20px;
+}
+
+
+
+.col-md-9 {
+    width: 70%;
+}
+
+.user__show .row {
+    display: flex   ;
+}
 .card-body h5 {
     margin-top: 10px;
     font-weight: bold;
@@ -56,11 +77,13 @@ img.rounded-circle {
     font-weight: bold;
     font-size: 18px;
 }
-
+.form-group {
+    margin-top: 15px;
+}
 .form-group label {
+    display: block;
     font-weight: 500;
     margin-bottom: 6px;
-    display: inline-block;
 }
 
 .form-control {
@@ -88,7 +111,10 @@ img.rounded-circle {
 .btn-danger:hover {
     background-color: #c0392b;
 }
-
+input[type="text"], input[type="email"] {
+    box-sizing: border-box;
+    width: 100%;
+}
 /* Gender radio spacing */
 input[type="radio"] {
     margin-right: 6px;
@@ -99,4 +125,14 @@ input[type="radio"] {
 select.form-control {
     border-radius: 6px;
     height: 38px;
+}
+.row {
+    gap: 10px;
+}
+select {
+    width: 250px;
+}
+.mt-4.text-center {
+    margin-top: 15px;
+    text-align: center;
 }
