@@ -65,3 +65,31 @@ function scrollLeftt(button) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('myForm');
+    const submitBtn = document.getElementById('submitBtnUser');
+
+    if (!form || !submitBtn) return;
+
+    const getInputState = () => {
+        const formData = new FormData(form);
+        const dob = [...form.querySelectorAll('select[name="dob[]"]')].map(select => select.value.trim());
+        return {
+            username: formData.get('username')?.trim(),
+            sex: formData.get('sex'),
+            phonenumber: formData.get('phonenumber')?.trim(),
+            email: formData.get('email')?.trim(),
+            dob: dob.join('-')
+        };
+    };
+
+    const originalData = getInputState();
+    submitBtn.disabled = true;
+
+    form.addEventListener('input', () => {
+        const currentData = getInputState();
+        const changed = Object.keys(originalData).some(key => originalData[key] !== currentData[key]);
+        submitBtn.disabled = !changed;
+    });
+});
+
