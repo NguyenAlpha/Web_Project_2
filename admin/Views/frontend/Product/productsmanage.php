@@ -79,7 +79,9 @@ $result = $conn->query($sql);
                 <th>Mã loại</th>
                 <th>Ảnh mô tả</th>
                 <th>Số lượng</th>
+                <th>Đã bán</th>
                 <th>Giá</th>
+                <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -99,7 +101,9 @@ $result = $conn->query($sql);
                     }
                     echo "</td>";
                     echo "<td>" . htmlspecialchars($row["SoLuong"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["DaBan"]) . "</td>";
                     echo "<td>" . number_format($row["Gia"], 0, ',', '.') . " ₫</td>";
+                    echo "<td>" . htmlspecialchars($row["TrangThai"]) . "</td>";
                     echo "<td>";
                     echo "<a class='btn edit-btn' href='editProduct.php?MaSP=" . urlencode($row["MaSP"]) . "'>Sửa</a>";
                     echo "<a class='btn delete-btn' href='?controller=admin&action=deleteProduct&MaSP=" . urlencode($row["MaSP"]) . "' onclick=\"return confirm('Bạn có chắc chắn muốn xoá sản phẩm: " . htmlspecialchars($row["TenSP"]) . "?');\">Xoá</a>";

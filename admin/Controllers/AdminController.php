@@ -327,86 +327,102 @@ public function editProduct()
 }
 
 public function deleteProduct() {
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaSP'])) {
-        $MaSP = intval($_GET['MaSP']);
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
 
-        $conn = new mysqli("localhost", "root", "", "tmdt");
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
+    // 1. Kiểm tra sản phẩm có tồn tại không
+    $product = $productModel->findById($MaSP);
+    if (!$product) {
+        $_SESSION['error'] = "Sản phẩm không tồn tại";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
 
-        // Lấy loại sản phẩm để biết cần xóa chi tiết ở bảng nào
-        $stmt = $conn->prepare("SELECT MaLoai FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows === 0) {
-            die("Sản phẩm không tồn tại.");
-        }
-
-        $row = $result->fetch_assoc();
-        $MaLoai = $row['MaLoai'];
-        $stmt->close();
-
-        // Xóa chi tiết sản phẩm dựa vào loại
-        switch ($MaLoai) {
-            case "Laptop":
-                $conn->query("DELETE FROM laptopdetails WHERE MaSP = $MaSP");
-                break;
-            case "LaptopGaming":
-                $conn->query("DELETE FROM laptopgamingdetails WHERE MaSP = $MaSP");
-                break;
-            case "GPU":
-                $conn->query("DELETE FROM gpudetails WHERE MaSP = $MaSP");
-                break;
-            case "Manhinh":
-                $conn->query("DELETE FROM manhinhdetails WHERE MaSP = $MaSP");
-                break;
-        }
-
-        // Xóa ảnh mô tả (nếu cần)
-        $stmt = $conn->prepare("SELECT AnhMoTaSP FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($row = $result->fetch_assoc()) {
-            $anh = $row['AnhMoTaSP'];
-            if (file_exists($anh)) {
-                unlink($anh); // xóa file ảnh
-            }
-        }
-        $stmt->close();
-
-        // Xóa sản phẩm chính
-        $stmt = $conn->prepare("DELETE FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        if ($stmt->execute()) {
-            echo "<script>
-            alert('Xóa sản phẩm thành công!');
-            window.location.href='index.php?controller=admin&action=productsmanage&deleted=true';
-            </script>";
-
+    // 2. Kiểm tra sản phẩm đã được bán chưa (DaBan > 0)
+    if ($product['DaBan'] > 0) {
+        // Nếu đã bán thì ẩn sản phẩm (cập nhật TrangThai = 'ẩn')
+        if ($productModel->updateProductStatus($MaSP, 'ẩn')) {
+            $_SESSION['success'] = "Đã ẩn sản phẩm vì sản phẩm đã được bán";
         } else {
-            echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+            $_SESSION['error'] = "Có lỗi khi ẩn sản phẩm";
         }
-
-        $stmt->close();
-        $conn->close();
     } else {
-        echo "Yêu cầu không hợp lệ.";
+        // Nếu chưa bán thì hiển thị confirm và xóa
+        if (isset($_GET['confirm']) && $_GET['confirm'] === 'true') {
+            // Thực hiện xóa sản phẩm
+            if ($productModel->deleteProduct($MaSP)) {
+                $_SESSION['success'] = "Đã xóa sản phẩm thành công";
+            } else {
+                $_SESSION['error'] = "Có lỗi khi xóa sản phẩm";
+            }
+        } else {
+            // Hiển thị trang xác nhận xóa
+            $this->loadView('frontend/product/confirmDeleteProduct.php', [
+                'product' => $product
+            ]);
+            return;
+        }
     }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
 }
-public function hideproduct() {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        // Gọi model để ẩn sản phẩm
-        require_once 'Models/ProductModel.php';
-        $productModel = new ProductModel();
-        $productModel->hideProductById($id);
+public function showProduct() {
+    // Kiểm tra quyền admin
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
     }
-    // Quay lại trang quản lý sản phẩm
-    header('Location: ?controller=admin&action=productsmanage');
+
+    // Kiểm tra tham số
+    if (!isset($_GET['MaSP'])) {
+        $_SESSION['error'] = "Thiếu thông tin sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
+
+    // Cập nhật trạng thái sản phẩm thành 'hiện'
+    if ($productModel->updateProductStatus($MaSP, 'hiện')) {
+        $_SESSION['success'] = "Đã hiển thị lại sản phẩm thành công";
+    } else {
+        $_SESSION['error'] = "Có lỗi khi hiển thị sản phẩm";
+    }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
+}
+public function hideProduct() {
+    // Kiểm tra quyền admin
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
+    }
+
+    // Kiểm tra tham số
+    if (!isset($_GET['MaSP'])) {
+        $_SESSION['error'] = "Thiếu thông tin sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
+
+    // Cập nhật trạng thái sản phẩm thành 'ẩn'
+    if ($productModel->updateProductStatus($MaSP, 'ẩn')) {
+        $_SESSION['success'] = "Đã ẩn sản phẩm thành công";
+    } else {
+        $_SESSION['error'] = "Có lỗi khi ẩn sản phẩm";
+    }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
 }
 public function CustomerCartAjax()
 {     
@@ -437,8 +453,6 @@ public function CustomerCartAjax()
         echo "<p>Giỏ hàng trống.</p>";
         exit;
     }
-
-    // In ra HTML dạng bảng
     echo "<style>
     .Cartnull
     {
