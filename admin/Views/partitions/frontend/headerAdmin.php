@@ -86,7 +86,8 @@
                 <div class="title">Admin Dashboard - Quản Lý</div>
             </div>
             <div class="admin-menu">
-                <div><a href="?">Trang chủ</a></div>
+                <div><a href="?controller=admin&action=dashboard">Trang chủ</a></div>
+                <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
                 <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
                 <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
                 <div><a href="#">Đăng xuất</a></div>

@@ -21,8 +21,10 @@ class AdminController extends BaseController {
         } 
         return $this->loadView('partitions/frontend/formadminlogin.php');
     }
+    public function adminInfo() {
+        return $this->loadView('partitions/frontend/adminInfo.php');
+    }
     public function usersmanage() {
-        echo 'Đây là trang quản lý người dùng';
         return $this->loadView('frontend/admin/usersmanage.php');
     }
     public function productsmanage() {
@@ -32,8 +34,7 @@ class AdminController extends BaseController {
         return $this->loadView('frontend/product/addProduct.php');
     }
     public function dashboard() {
-        echo 'Đây là trang quản lý Dashboard';
-        return $this->loadView('frontend/admin/dashboard.php');
+        return $this->loadView('frontend/dashboard/index.php');
     }
     public function logout() {
         session_destroy();
@@ -261,13 +262,69 @@ public function addProduct() {
     }
 }
 
-public function editProduct() {
-    if (!isset($_GET['MaSP'])) {
-        echo "Thiếu mã sản phẩm.";
-        return;
+public function editProduct()
+{
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "tmdt";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Kết nối thất bại: " . $conn->connect_error);
     }
 
-    return $this->loadView('frontend/admin/editProduct.php');
+    // Lấy MaSP từ URL
+    if (isset($_GET['MaSP'])) {
+        $MaSP = $_GET['MaSP'];
+
+        // Lấy dữ liệu sản phẩm hiện tại
+        $sql = "SELECT * FROM products WHERE MaSP = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $MaSP);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
+
+        // Nếu submit cập nhật
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $TenSP = $_POST['TenSP'];
+            $MaLoai = $_POST['MaLoai'];
+            $SoLuong = $_POST['SoLuong'];
+            $Gia = $_POST['Gia'];
+            $AnhMoTaSP = $product['AnhMoTaSP']; // giữ ảnh cũ
+
+            // Nếu có upload ảnh mới
+            if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] === 0) {
+                $target_dir = "uploads/";
+                if (!is_dir($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+                $filename = basename($_FILES["AnhMoTaSP"]["name"]);
+                $target_file = $target_dir . uniqid() . "_" . $filename;
+
+                if (move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
+                    $AnhMoTaSP = $target_file;
+                }
+            }
+
+            // Cập nhật vào CSDL
+            $updateSql = "UPDATE products SET TenSP=?, MaLoai=?, AnhMoTaSP=?, SoLuong=?, Gia=? WHERE MaSP=?";
+            $updateStmt = $conn->prepare($updateSql);
+            $updateStmt->bind_param("ssssds", $TenSP, $MaLoai, $AnhMoTaSP, $SoLuong, $Gia, $MaSP);
+            $updateStmt->execute();
+
+            // Redirect sau khi cập nhật
+            header("Location: productsmanage.php");
+            exit();
+        }
+        // Load giao diện form sửa
+        include 'views/frontend/Product/editProduct.php';
+    } else {
+        echo "Thiếu Mã sản phẩm.";
+    }
+
+    $conn->close();
 }
 
 public function deleteProduct() {

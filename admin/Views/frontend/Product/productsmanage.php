@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "tmdt";
-
+include "./Views/partitions/frontend/headerAdmin.php";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
@@ -101,7 +101,7 @@ $result = $conn->query($sql);
                     echo "<td>" . htmlspecialchars($row["SoLuong"]) . "</td>";
                     echo "<td>" . number_format($row["Gia"], 0, ',', '.') . " ₫</td>";
                     echo "<td>";
-                    echo "<a class='btn edit-btn' href='?controller=admin&action=editProduct" . urlencode($row["MaSP"]) . "'>Sửa</a>";
+                    echo "<a class='btn edit-btn' href='editProduct.php?MaSP=" . urlencode($row["MaSP"]) . "'>Sửa</a>";
                     echo "<a class='btn delete-btn' href='?controller=admin&action=deleteProduct&MaSP=" . urlencode($row["MaSP"]) . "' onclick=\"return confirm('Bạn có chắc chắn muốn xoá sản phẩm: " . htmlspecialchars($row["TenSP"]) . "?');\">Xoá</a>";
                     echo "</td>";
                     echo "</tr>";
