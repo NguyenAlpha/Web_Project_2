@@ -88,7 +88,7 @@
             <div class="admin-menu">
                 <div><a href="?">Trang chủ</a></div>
                 <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
-                <div><a href="#">Sản phẩm</a></div>
+                <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
                 <div><a href="#">Đăng xuất</a></div>
             </div>
         </div>

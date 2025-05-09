@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 09, 2025 lúc 05:26 AM
+-- Thời gian đã tạo: Th5 09, 2025 lúc 02:49 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `test1`
+-- Cơ sở dữ liệu: `tmdt`
 --
 
 -- --------------------------------------------------------
@@ -88,61 +88,62 @@ CREATE TABLE `carts` (
   `ID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `MaSP` int(11) NOT NULL,
-  `SoLuong` int(11) NOT NULL
+  `SoLuong` int(11) NOT NULL,
+  `DonGia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `carts`
 --
 
-INSERT INTO `carts` (`ID`, `userID`, `MaSP`, `SoLuong`) VALUES
-(1, 1, 21, 1),
-(2, 1, 14, 5),
-(3, 2, 13, 10),
-(4, 3, 4, 2),
-(5, 3, 12, 1),
-(6, 3, 18, 3),
-(7, 4, 3, 1),
-(8, 4, 7, 2),
-(9, 4, 22, 1),
-(10, 5, 9, 1),
-(11, 5, 15, 4),
-(12, 6, 2, 1),
-(13, 6, 11, 2),
-(14, 6, 19, 1),
-(15, 6, 24, 1),
-(16, 7, 1, 3),
-(17, 7, 8, 1),
-(18, 8, 4, 2),
-(19, 8, 13, 1),
-(20, 8, 21, 1),
-(21, 9, 6, 1),
-(22, 9, 14, 2),
-(23, 10, 10, 1),
-(24, 10, 16, 1),
-(25, 10, 23, 2),
-(26, 11, 17, 3),
-(27, 11, 21, 1),
-(28, 12, 1, 1),
-(29, 12, 6, 1),
-(30, 12, 9, 1),
-(31, 12, 13, 1),
-(32, 13, 3, 2),
-(33, 13, 7, 1),
-(34, 13, 24, 1),
-(35, 14, 8, 1),
-(36, 14, 12, 2),
-(37, 14, 18, 1),
-(38, 15, 2, 1),
-(39, 15, 6, 3),
-(40, 15, 14, 1),
-(41, 16, 4, 1),
-(42, 16, 10, 2),
-(43, 16, 16, 1),
-(44, 16, 22, 1),
-(45, 17, 11, 1),
-(46, 17, 19, 2),
-(47, 17, 23, 1);
+INSERT INTO `carts` (`ID`, `userID`, `MaSP`, `SoLuong`, `DonGia`) VALUES
+(1, 1, 21, 1, 0),
+(2, 1, 14, 5, 0),
+(3, 2, 13, 10, 0),
+(4, 3, 4, 2, 0),
+(5, 3, 12, 1, 0),
+(6, 3, 18, 3, 0),
+(7, 4, 3, 1, 0),
+(8, 4, 7, 2, 0),
+(9, 4, 22, 1, 0),
+(10, 5, 9, 1, 0),
+(11, 5, 15, 4, 0),
+(12, 6, 2, 1, 0),
+(13, 6, 11, 2, 0),
+(14, 6, 19, 1, 0),
+(15, 6, 24, 1, 0),
+(16, 7, 1, 3, 0),
+(17, 7, 8, 1, 0),
+(18, 8, 4, 2, 0),
+(19, 8, 13, 1, 0),
+(20, 8, 21, 1, 0),
+(21, 9, 6, 1, 0),
+(22, 9, 14, 2, 0),
+(23, 10, 10, 1, 0),
+(24, 10, 16, 1, 0),
+(25, 10, 23, 2, 0),
+(26, 11, 17, 3, 0),
+(27, 11, 21, 1, 0),
+(28, 12, 1, 1, 0),
+(29, 12, 6, 1, 0),
+(30, 12, 9, 1, 0),
+(31, 12, 13, 1, 0),
+(32, 13, 3, 2, 0),
+(33, 13, 7, 1, 0),
+(34, 13, 24, 1, 0),
+(35, 14, 8, 1, 0),
+(36, 14, 12, 2, 0),
+(37, 14, 18, 1, 0),
+(38, 15, 2, 1, 0),
+(39, 15, 6, 3, 0),
+(40, 15, 14, 1, 0),
+(41, 16, 4, 1, 0),
+(42, 16, 10, 2, 0),
+(43, 16, 16, 1, 0),
+(44, 16, 22, 1, 0),
+(45, 17, 11, 1, 0),
+(46, 17, 19, 2, 0),
+(47, 17, 23, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -449,31 +450,32 @@ CREATE TABLE `users` (
   `email` varchar(40) DEFAULT NULL,
   `sex` varchar(10) DEFAULT NULL,
   `phonenumber` varchar(11) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL
+  `date_of_birth` date DEFAULT NULL,
+  `avatar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`) VALUES
-(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL),
-(2, 'u', 'u', 'u1@d.c', 'Nam', '11111111', '1965-11-30'),
-(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05'),
-(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07'),
-(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15'),
-(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22'),
-(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18'),
-(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30'),
-(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10'),
-(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20'),
-(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10'),
-(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25'),
-(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05'),
-(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14'),
-(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01'),
-(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12'),
-(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08');
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`, `avatar`) VALUES
+(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL, ''),
+(2, 'u', 'u', 'u1@d.c', 'Nam', '0328989480', '1965-11-30', ''),
+(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05', ''),
+(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07', ''),
+(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15', ''),
+(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22', ''),
+(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18', ''),
+(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30', ''),
+(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10', ''),
+(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20', ''),
+(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10', ''),
+(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25', ''),
+(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05', ''),
+(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14', ''),
+(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', ''),
+(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', ''),
+(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '');
 
 --
 -- Chỉ mục cho các bảng đã đổ

@@ -18,20 +18,18 @@ class AdminController extends BaseController {
                 $_SESSION["admin"] = $admin;
                 header("Location: ./index.php");
             }
-        }
-        $this->loadView('partitions/frontend/formadminlogin.php');
-    }
-    public function homepageadmin() {
-        echo 'Đây là trang admin';
-        return $this->loadView('frontend/admin/adminhomepage.php');
+        } 
+        return $this->loadView('partitions/frontend/formadminlogin.php');
     }
     public function usersmanage() {
         echo 'Đây là trang quản lý người dùng';
         return $this->loadView('frontend/admin/usersmanage.php');
     }
     public function productsmanage() {
-        echo 'Đây là trang quản lý sản phẩm';
-        return $this->loadView('frontend/admin/productsmanage.php');
+        return $this->loadView('frontend/product/productsmanage.php');
+    }
+    public function addProductPage() {
+        return $this->loadView('frontend/product/addProduct.php');
     }
     public function dashboard() {
         echo 'Đây là trang quản lý Dashboard';
@@ -87,6 +85,7 @@ class AdminController extends BaseController {
     
         $this->loadView("frontend/Customer/EditCustomer.php", [
             "customer" => $customer
+            
         ]);
     }
     public function updateCustomer() {
@@ -151,7 +150,208 @@ public function deleteCustomer()
         echo "Không tìm thấy ID khách hàng để xóa.";
     }
 }
+public function getTableFields()
+{
+    if (!isset($_GET['type']) || empty($_GET['type'])) {
+        echo json_encode([]);
+        return;
+    }
 
+    $MaLoai = $_GET['type'];
+    $tableName = strtolower($MaLoai) . 'details';
+
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) {
+        echo json_encode([]);
+        return;
+    }
+
+    // Kiểm tra bảng tồn tại
+    $check = $conn->query("SHOW TABLES LIKE '$tableName'");
+    if (!$check || $check->num_rows == 0) {
+        echo json_encode([]);
+        return;
+    }
+
+    $columns = [];
+    $result = $conn->query("SHOW COLUMNS FROM `$tableName`");
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $fieldName = $row['Field'];
+            if ($fieldName !== 'MaSP') { // Bỏ khóa ngoại
+                $columns[] = $fieldName;
+            }
+        }
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($columns);
+}
+
+public function addProduct() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $conn = new mysqli("localhost", "root", "", "tmdt");
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+
+        // XỬ LÝ UPLOAD ẢNH
+        $target_dir = "/assets/uploads/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true); // tạo folder nếu chưa có
+        }
+
+        $filename = basename($_FILES["AnhMoTaSP"]["name"]);
+        $newFileName = time() . "_" . $filename;
+        $target_file = $target_dir . $newFileName;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        $check = getimagesize($_FILES["AnhMoTaSP"]["tmp_name"]);
+        if ($check === false) {
+            die("File không phải là ảnh.");
+        }
+
+        $allowed = ['jpg', 'jpeg', 'png'];
+        if (!in_array($imageFileType, $allowed)) {
+            die("Chỉ cho phép định dạng JPG, JPEG, PNG.");
+        }
+
+        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
+            die("Lỗi khi upload ảnh.");
+        }
+
+        // INSERT VÀO BẢNG `products` VỚI LINK ẢNH ĐÃ XỬ LÝ
+        $AnhMoTaSP = $target_file;
+        $stmt = $conn->prepare("INSERT INTO products (TenSP, AnhMoTaSP, SoLuong, Gia, MaLoai) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssiis", $_POST['TenSP'], $AnhMoTaSP, $_POST['SoLuong'], $_POST['Gia'], $_POST['MaLoai']);    
+
+        $stmt->execute();
+        $MaSP = $stmt->insert_id;
+        $stmt->close();
+        switch ($_POST['MaLoai']) {
+            case "Laptop":
+                $stmt = $conn->prepare("INSERT INTO laptopdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
+                break;
+            case "Laptop Gaming":
+                $stmt = $conn->prepare("INSERT INTO laptopgamingdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
+                break;
+            case "GPU":
+                $stmt = $conn->prepare("INSERT INTO gpudetails (MaSP, ThuongHieu, GPU, CUDA, TocDoBoNho, BoNho, Nguon) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("issssss", $MaSP, $_POST['ThuongHieu'], $_POST['GPU'], $_POST['CUDA'], $_POST['TocDoBoNho'], $_POST['BoNho'], $_POST['Nguon']);
+                break;
+            case "ManHinh":
+                $stmt = $conn->prepare("INSERT INTO manhinhdetails (MaSP, ThuongHieu, KichThuocManHinh, TangSoQuet, TiLe, TamNen, DoPhanGiai, KhoiLuong) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['KichThuocManHinh'], $_POST['TangSoQuet'], $_POST['TiLe'], $_POST['TamNen'], $_POST['DoPhanGiai'], $_POST['KhoiLuong']);
+                break;
+        }
+
+        if ($stmt && $stmt->execute()) {
+            echo "<script>alert('Thêm sản phẩm thành công!'); window.location.href='index.php?controller=admin&action=productsmanage';</script>";
+        } else {
+            echo "Lỗi khi thêm chi tiết sản phẩm: " . $conn->error;
+        }
+
+        $stmt->close();
+        $conn->close();
+    } else {
+        include('./Views/Frontend/Admin/addProduct.php');
+    }
+}
+
+public function editProduct() {
+    if (!isset($_GET['MaSP'])) {
+        echo "Thiếu mã sản phẩm.";
+        return;
+    }
+
+    return $this->loadView('frontend/admin/editProduct.php');
+}
+
+public function deleteProduct() {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaSP'])) {
+        $MaSP = intval($_GET['MaSP']);
+
+        $conn = new mysqli("localhost", "root", "", "tmdt");
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+
+        // Lấy loại sản phẩm để biết cần xóa chi tiết ở bảng nào
+        $stmt = $conn->prepare("SELECT MaLoai FROM products WHERE MaSP = ?");
+        $stmt->bind_param("i", $MaSP);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            die("Sản phẩm không tồn tại.");
+        }
+
+        $row = $result->fetch_assoc();
+        $MaLoai = $row['MaLoai'];
+        $stmt->close();
+
+        // Xóa chi tiết sản phẩm dựa vào loại
+        switch ($MaLoai) {
+            case "Laptop":
+                $conn->query("DELETE FROM laptopdetails WHERE MaSP = $MaSP");
+                break;
+            case "LaptopGaming":
+                $conn->query("DELETE FROM laptopgamingdetails WHERE MaSP = $MaSP");
+                break;
+            case "GPU":
+                $conn->query("DELETE FROM gpudetails WHERE MaSP = $MaSP");
+                break;
+            case "Manhinh":
+                $conn->query("DELETE FROM manhinhdetails WHERE MaSP = $MaSP");
+                break;
+        }
+
+        // Xóa ảnh mô tả (nếu cần)
+        $stmt = $conn->prepare("SELECT AnhMoTaSP FROM products WHERE MaSP = ?");
+        $stmt->bind_param("i", $MaSP);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $anh = $row['AnhMoTaSP'];
+            if (file_exists($anh)) {
+                unlink($anh); // xóa file ảnh
+            }
+        }
+        $stmt->close();
+
+        // Xóa sản phẩm chính
+        $stmt = $conn->prepare("DELETE FROM products WHERE MaSP = ?");
+        $stmt->bind_param("i", $MaSP);
+        if ($stmt->execute()) {
+            echo "<script>
+            alert('Xóa sản phẩm thành công!');
+            window.location.href='index.php?controller=admin&action=productsmanage&deleted=true';
+            </script>";
+
+        } else {
+            echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+        }
+
+        $stmt->close();
+        $conn->close();
+    } else {
+        echo "Yêu cầu không hợp lệ.";
+    }
+}
+public function hideproduct() {
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        // Gọi model để ẩn sản phẩm
+        require_once 'Models/ProductModel.php';
+        $productModel = new ProductModel();
+        $productModel->hideProductById($id);
+    }
+    // Quay lại trang quản lý sản phẩm
+    header('Location: ?controller=admin&action=productsmanage');
+}
 public function CustomerCartAjax()
 {     
     $this->loadModel("AdminModel");
@@ -176,7 +376,6 @@ public function CustomerCartAjax()
         $carts[$key]["productPrice"] = $product["Gia"] ?? 0;
         $carts[$key]["sumPrice"] = $carts[$key]["productPrice"] * $cart["SoLuong"];
     }
-
     // Nếu giỏ hàng trống
     if (empty($carts)) {
         echo "<p>Giỏ hàng trống.</p>";
@@ -185,6 +384,14 @@ public function CustomerCartAjax()
 
     // In ra HTML dạng bảng
     echo "<style>
+    .Cartnull
+    {
+        text-align: center;       /* Căn giữa ngang */
+        font-weight: bold;        /* In đậm */
+        padding: 20px;            /* Thêm khoảng cách bên trong cho đẹp */
+        font-size: 20px;          /* Cỡ chữ vừa phải */
+        color: #333;              /* Màu chữ đậm hơn một chút */
+    }
     table.cart-table {
         width: 100%;
         border-collapse: collapse;
@@ -214,6 +421,7 @@ public function CustomerCartAjax()
         text-align: right;
         padding: 10px;
     }
+    
     .motaSP {
     display: flex;
     align-items: center;
@@ -247,7 +455,6 @@ public function CustomerCartAjax()
 }
 
 </style>";
-
 // In ra HTML
 echo "<table class='cart-table'>";
 echo "<tr>
@@ -258,7 +465,7 @@ foreach ($carts as $item) {
     echo '<tr>';
     echo '<td> <div class="motaSP">
             <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
-                <img src="' . '.' . htmlspecialchars($item['productPicture']) . '" alt="Ảnh mô tả sản phẩm" style="width:100px;">
+                <img src="' . '.' ($item['productPicture']) . '" alt="Ảnh mô tả sản phẩm" style="width:100px;">
             </a></div>
             <div><a href="index.php?controller=product&action=show&id=' . $item['MaSP'] . '" target="_blank">
                 ' . htmlspecialchars($item['productName']) . '
@@ -281,5 +488,7 @@ echo "<tr class='cart-total'>
 }
 
 }
+
+
 
 ?>
