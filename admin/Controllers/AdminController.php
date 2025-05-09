@@ -200,7 +200,7 @@ public function addProduct() {
         }
 
         // XỬ LÝ UPLOAD ẢNH
-        $target_dir = "./assets/uploads/";
+        $target_dir = "./assets/image/";
 
         $filename = basename($_FILES["AnhMoTaSP"]["name"]);
         $newFileName = time() . "_" . $filename;
@@ -295,7 +295,7 @@ public function editProduct()
 
             // Nếu có upload ảnh mới
             if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] === 0) {
-                $target_dir = "uploads/";
+                $target_dir = "image/";
                 if (!is_dir($target_dir)) {
                     mkdir($target_dir, 0777, true);
                 }

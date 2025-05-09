@@ -95,7 +95,7 @@ $result = $conn->query($sql);
                     echo "<td>" . htmlspecialchars($row["MaLoai"]) . "</td>";
                     echo "<td>";
                     if (!empty($row["AnhMoTaSP"])) {
-                        echo "<img src='." . htmlspecialchars($row["AnhMoTaSP"]) . "' alt='Ảnh SP'>";
+                        echo "<img src='." . $row["AnhMoTaSP"] . "' alt='Ảnh SP'>";
                     } else {
                         echo "Không có ảnh";
                     }
