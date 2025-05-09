@@ -1,8 +1,3 @@
-function cuonTrai(button) {
-    console.log("Hello world!");
-}
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll("#filterForm input[type='checkbox']");
     const submitBtn = document.getElementById("filterButton");
@@ -93,3 +88,131 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const inputs = document.querySelectorAll('.input-number');
+    if (!inputs.length) return;
+
+    inputs.forEach(input => {
+        input.addEventListener('keydown', function (e) {
+            const allowedKeys = [
+                'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'
+            ];
+
+            // Cho phép phím số 0–9 (keyCode 48–57), numpad 0–9 (96–105), hoặc các phím đặc biệt
+            if (
+                (e.key >= '0' && e.key <= '9') || 
+                allowedKeys.includes(e.key)
+            ) {
+                return;
+            }
+
+            e.preventDefault(); // Chặn nếu không hợp lệ
+        });
+    });
+});
+
+function initQuantityHandlers() {
+    const detailCount = document.querySelector('.detail__count');
+    if (!detailCount) return;
+
+    const input = detailCount.querySelector('.input-number');
+    const plusBtn = detailCount.querySelector('.count-plus');
+    const minusBtn = detailCount.querySelector('.count-minus');
+
+    // Lấy min/max trực tiếp từ input
+    const min = parseInt(input.min) || 1;
+    const max = parseInt(input.max) || 99;
+
+    // Cập nhật trạng thái nút
+    function updateButtonsState() {
+        const value = parseInt(input.value) || min;
+        minusBtn.style.cursor = value <= min ? 'not-allowed' : 'pointer';
+        minusBtn.style.opacity = value <= min ? 0.5 : 1;
+        plusBtn.style.cursor = value >= max ? 'not-allowed' : 'pointer';
+        plusBtn.style.opacity = value >= max ? 0.5 : 1;
+    }
+
+    // Trừ số
+    minusBtn.addEventListener('click', function () {
+        let value = parseInt(input.value) || min;
+        if (value > min) {
+            input.value = value - 1;
+            updateButtonsState();
+        }
+    });
+
+    // Cộng số
+    plusBtn.addEventListener('click', function () {
+        let value = parseInt(input.value) || min;
+        if (value < max) {
+            input.value = value + 1;
+            updateButtonsState();
+        }
+    });
+
+    // Người dùng nhập tay
+    input.addEventListener('input', function () {
+        input.value = input.value.replace(/\D/g, ''); // chỉ số
+        let value = parseInt(input.value);
+        if (value > max) input.value = max;
+        if (value < min || isNaN(value)) input.value = min;
+        updateButtonsState();
+    });
+
+    // Lần đầu
+    updateButtonsState();
+}
+
+function initQuantityHandlers() {
+    const detailCount = document.querySelector('.detail__count');
+    if (!detailCount) return;
+
+    const input = detailCount.querySelector('.input-number');
+    const plusBtn = detailCount.querySelector('.fa-plus');
+    const minusBtn = detailCount.querySelector('.fa-minus');
+
+    // Lấy min/max trực tiếp từ input
+    const min = parseInt(input.min) || 1;
+    const max = parseInt(input.max) || 99;
+
+    // Cập nhật trạng thái nút
+    function updateButtonsState() {
+        const value = parseInt(input.value) || min;
+        minusBtn.style.cursor = value <= min ? 'not-allowed' : 'pointer';
+        minusBtn.style.opacity = value <= min ? 0.5 : 1;
+        plusBtn.style.cursor = value >= max ? 'not-allowed' : 'pointer';
+        plusBtn.style.opacity = value >= max ? 0.5 : 1;
+    }
+
+    // Trừ số
+    minusBtn.addEventListener('click', function () {
+        let value = parseInt(input.value) || min;
+        if (value > min) {
+            input.value = value - 1;
+            updateButtonsState();
+        }
+    });
+
+    // Cộng số
+    plusBtn.addEventListener('click', function () {
+        let value = parseInt(input.value) || min;
+        if (value < max) {
+            input.value = value + 1;
+            updateButtonsState();
+        }
+    });
+
+    // Người dùng nhập tay
+    input.addEventListener('input', function () {
+        input.value = input.value.replace(/\D/g, ''); // chỉ số
+        let value = parseInt(input.value);
+        if (value > max) input.value = max;
+        if (value < min || isNaN(value)) input.value = min;
+        updateButtonsState();
+    });
+
+    // Lần đầu
+    updateButtonsState();
+}
+
+document.addEventListener('DOMContentLoaded', initQuantityHandlers);

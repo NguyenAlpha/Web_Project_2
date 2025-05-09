@@ -70,7 +70,7 @@ class UserController extends BaseController {
     public function logout() {
         if(isset($_SESSION['user'])) {
             session_destroy();
-            header("Location: ./index.php");
+            header("Location: ?");
             exit;
         }
     }

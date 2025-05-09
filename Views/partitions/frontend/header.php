@@ -25,7 +25,7 @@
                     <a href="./index.php"><img src="./assets/image/Asset_1.png" alt=""></a>
                 </div>
                 <div class="header__search">
-                    <form action="./index.php?controller=home&action=search" method="get">
+                    <form action="./index.php?controller=home&action=search" method="ge t">
                         <input type="hidden" name="controller" value="home">
                         <input type="hidden" name="action" value="search">
                         <?php if(isset($textSearch)):?>
