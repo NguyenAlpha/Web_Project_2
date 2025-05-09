@@ -70,8 +70,8 @@ $result = $conn->query($sql);
             gap: 10px;
         }
         .product-image-container {
-            width: 60px;
-            height: 60px;
+            width: 16%;
+            height: 16%;
             margin: 0 auto;
             overflow: hidden;
             display: flex;
@@ -120,8 +120,8 @@ $result = $conn->query($sql);
                             echo "<td>" . htmlspecialchars($row["MaLoai"]) . "</td>";
                             echo "<td>";
                             if (!empty($row["AnhMoTaSP"])) {
-                                echo "<div style='width: 60px; height: 60px; margin: 0 auto; overflow: hidden; display: flex; align-items: center; justify-content: center;'>";
-                                echo "<img src='." . htmlspecialchars($row["AnhMoTaSP"]) . "' alt='Ảnh SP' style='max-width: 100%; max-height: 100%; object-fit: contain;'>";
+                                echo "<div style='width:35%; height: 15%; margin: 0 auto; overflow: hidden; display: flex; align-items: center; justify-content: center;'>";
+                                echo "<img src='." . htmlspecialchars($row["AnhMoTaSP"]) . "' alt='Ảnh SP' style='max-width: 80%; max-height: 80%; object-fit: contain;'>";
                                 echo "</div>";
                             } else {
                                 echo "<span class='text-muted'>Không có ảnh</span>";
