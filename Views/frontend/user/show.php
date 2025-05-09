@@ -2,20 +2,13 @@
 <main class="user__show">
     <link rel="stylesheet" href="./Views/frontend/user/show.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
-    <div class="container">
-        <div class="user__info">
-            <h1 class="title">CHI TIẾT TÀI KHOẢN</h1>
-            <p>Tên: <?=$user['username']?></p>
-            <p>Mật khẩu: <?=$user['password']?></p>
-        </div>
-    </div>
     <div class="container mt-4">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body text-center">
-                        <img src="avatar.png" alt="avatar" class="rounded-circle mb-2" width="80">
+                        <img src="<?=$linkIMG ?? './assets/image/avatar.jpg'?>" alt="avatar" class="rounded-circle avatar" width="80">
                         <h5><?php echo $user['username']; ?></h5>
                     </div>
                     <ul class="list-group list-group-flush">

@@ -16,6 +16,7 @@ class UserController extends BaseController {
     }
 
     public function login() {
+        $erroLogin = '';
         // nếu đã đăng nhập thì chuyển hướng về trang chủ
         if(isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=show");
@@ -37,15 +38,18 @@ class UserController extends BaseController {
                     exit;
                 }
             } else {
-                echo "Đăng nhập thất bại";
+                $erroLogin = "Tên đăng nhập hoặc mật khẩu không đúng!";
             }
         }
-        $this->loadView("partitions/frontend/login.php");
+        $this->loadView("partitions/frontend/login.php", [
+            'erroLogin' => $erroLogin
+        ]
+    );
     }
 
     public function register() {
         // nếu đã đăng nhập thì chuyển hướng về trang chủ
-         if(isset($_SESSION['user'])) {
+        if(isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=show");
             exit;
         }
@@ -64,9 +68,11 @@ class UserController extends BaseController {
     }  
 
     public function logout() {
-        session_destroy();
-        header("Location: ./index.php");
-        exit;
+        if(isset($_SESSION['user'])) {
+            session_destroy();
+            header("Location: ./index.php");
+            exit;
+        }
     }
 
     public function show() {

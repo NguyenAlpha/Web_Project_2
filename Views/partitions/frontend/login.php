@@ -15,6 +15,9 @@
                         <label for="password">Mật khẩu:</label>
                         <input type="password" name="password" placeholder="Mật khẩu">
                     </div>
+                    <div class="block">
+                        <p class="error"><?=$erroLogin ?? ''?></p>
+                    </div>
                     <div class="block submit">
                         <button class="login-register__submit">Đăng nhập</button>
                     </div>
