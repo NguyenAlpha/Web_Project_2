@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 07, 2025 lúc 12:09 PM
+-- Thời gian đã tạo: Th5 09, 2025 lúc 05:26 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -269,7 +269,80 @@ INSERT INTO `listproduct` (`MaDon`, `MaSP`, `SoLuong`) VALUES
 --
 -- Bẫy `listproduct`
 --
+DELIMITER $$
+CREATE TRIGGER `trg_update_TongTien_after_insert` AFTER INSERT ON `listproduct` FOR EACH ROW BEGIN
+    DECLARE product_price INT;
+    DECLARE add_amount INT;
 
+    -- Lấy giá sản phẩm từ bảng products
+    SELECT Gia INTO product_price
+    FROM products
+    WHERE MaSP = NEW.MaSP;
+
+    -- Tính tổng tiền thêm mới = đơn giá * số lượng
+    SET add_amount = product_price * NEW.SoLuong;
+
+    -- Cập nhật tổng tiền cho đơn hàng tương ứng
+    UPDATE orders
+    SET TongTien = TongTien + add_amount
+    WHERE MaDon = NEW.MaDon;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_order_total` AFTER INSERT ON `listproduct` FOR EACH ROW BEGIN
+    UPDATE orders
+    SET TongTien = (
+        SELECT SUM(thanh_tien) -- Giả sử có trường thanh_tien trong listproduct
+        FROM listproduct
+        WHERE MaDon = NEW.MaDon
+    )
+    WHERE MaDon = NEW.MaDon;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_order_total_after_delete` AFTER DELETE ON `listproduct` FOR EACH ROW BEGIN
+    DECLARE product_price INT;
+    
+    SELECT Gia INTO product_price FROM products WHERE MaSP = OLD.MaSP;
+    
+    UPDATE orders 
+    SET TongTien = IFNULL(TongTien, 0) - (OLD.SoLuong * product_price)
+    WHERE MaDon = OLD.MaDon;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_order_total_after_insert` AFTER INSERT ON `listproduct` FOR EACH ROW BEGIN
+    DECLARE product_price INT;
+    
+    -- Lấy giá sản phẩm từ bảng product (giả sử cột giá là 'Gia' và khóa là 'MaSP')
+    SELECT Gia INTO product_price FROM products WHERE MaSP = NEW.MaSP;
+    
+    -- Cập nhật tổng tiền = số lượng * đơn giá + tổng hiện tại
+    UPDATE orders 
+    SET TongTien = IFNULL(TongTien, 0) + (NEW.SoLuong * product_price)
+    WHERE MaDon = NEW.MaDon;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_order_total_after_update` AFTER UPDATE ON `listproduct` FOR EACH ROW BEGIN
+    DECLARE product_price INT;
+    DECLARE price_diff INT;
+    
+    SELECT Gia INTO product_price FROM products WHERE MaSP = NEW.MaSP;
+    
+    -- Tính chênh lệch giá trị cần điều chỉnh
+    SET price_diff = (NEW.SoLuong * product_price) - (OLD.SoLuong * product_price);
+    
+    UPDATE orders 
+    SET TongTien = IFNULL(TongTien, 0) + price_diff
+    WHERE MaDon = NEW.MaDon;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -308,7 +381,7 @@ CREATE TABLE `orders` (
   `DiaChi` varchar(255) NOT NULL,
   `TongTien` int(11) NOT NULL,
   `TrangThai` enum('đã giao','chờ xác nhận','đang giao','') NOT NULL,
-  `ThanhToan` enum('chuyển khoản','tiền mặt','','') NOT NULL
+  `ThanhToan` enum('chuyển khoản','tiền mặt') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -330,36 +403,38 @@ CREATE TABLE `products` (
   `MaLoai` varchar(255) NOT NULL,
   `AnhMoTaSP` varchar(255) NOT NULL,
   `SoLuong` int(11) NOT NULL,
-  `Gia` int(11) NOT NULL
+  `DaBan` int(11) NOT NULL,
+  `Gia` int(11) NOT NULL,
+  `TrangThai` enum('hiện','ẩn') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `Gia`) VALUES
-(1, 'Màn hình MSI PRO MP242L', 'ManHinh', './assets/image/50725_m__n_h__nh_msi_pro_mp242l__4_.jpg', 460, 1890000),
-(2, 'Laptop ASUS VivoBook Go 14 E1404FA-NK177W', 'Laptop', './assets/image/e1404fa-1.png', 200, 11490000),
-(3, 'Laptop Gaming MSI Katana 15 B13UDXK 2270VN', 'LaptopGaming', './assets/image/8qziagrd.png', 60, 20900000),
-(4, 'Laptop Lenovo LOQ 15ARP9 83JC003YVN', 'LaptopGaming', './assets/image/48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg', 50, 27790000),
-(6, 'Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC', 'GPU', './assets/image/bzilxs4m.png', 2, 97990000),
-(7, 'Laptop GIGABYTE G5 MF5-52VN383SH', 'LaptopGaming', './assets/image/47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg', 55, 20790000),
-(8, 'Màn Hình Gaming GIGABYTE GS27F', 'ManHinh', './assets/image/man_hinh_gaming_gigabyte_gs27f__5_.jpg', 100, 3298000),
-(9, 'Card màn hình ASUS Dual GeForce RTX™ 3060 V2 12GB GDDR6', 'GPU', './assets/image/imagertx3060V2_12GB.png', 30, 7790000),
-(10, 'Laptop Acer Aspire Lite AL14-51M-36MH_NX.KTVSV.001', 'Laptop', './assets/image/49837_laptop_acer_aspire_lite_al14_51m_36mh_nx_ktvsv_001__2_.jpg', 20, 9190000),
-(11, 'Laptop Asus TUF Gaming F15 FX507ZC4-HN095W', 'LaptopGaming', './assets/image/46655_laptop_asus_tuf_gaming_f15_fx507zc4_hn095w__3_.jpg', 100, 19990000),
-(12, 'Laptop Lenovo Legion Pro 5 16IRX9 83DF0046VN', 'LaptopGaming', './assets/image/47462_laptop_lenovo_legion_pro_5_16irx9_83df0046vn__1_.jpg', 20, 51990000),
-(13, 'Laptop Gaming Acer Aspire 7 A715-76G-5806 - NH.QMFSV.002', 'LaptopGaming', './assets/image/45836_ap7.jpg', 50, 18990000),
-(14, 'Laptop Gaming Acer Nitro 5 Tiger AN515-58-5935 NH.QLZSV.001', 'LaptopGaming', './assets/image/45837_bnfg.jpg', 33, 22290000),
-(15, 'Laptop Acer Aspire 3 A315-44P-R5QG NX.KSJSV.001', 'Laptop', './assets/image/50618_laptop_acer_aspire_3_a315_44p_r5qg_nx_ksjsv_001__4_.jpg', 22, 12900000),
-(16, 'Laptop Asus Vivobook 14 OLED A1405VA-KM095W', 'Laptop', './assets/image/44758_laptop_asus_vivobook_14_oled_a1405va_km095w__7_.jpg', 100, 16990000),
-(17, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G', 'LaptopGaming', './assets/image/49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg', 50, 17990000),
-(18, 'Laptop ASUS Vivobook S 16 OLED S5606MA-MX051W', 'Laptop', './assets/image/g8gdssys.png', 50, 25490000),
-(19, 'Laptop HP ProBook 440 G11 A74B4PT', 'Laptop', './assets/image/49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg', 200, 21490000),
-(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 10, 64990000),
-(22, 'VGA Gigabyte RTX 4060 Windforce OC 8GB', 'GPU', './assets/image/45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg', 100, 8299000),
-(23, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB', 'GPU', './assets/image/46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg', 12, 5599000),
-(24, 'Laptop Dell Latitude 3450 71058806', 'Laptop', './assets/image/51342_laptop_dell_latitude_3450_71058806__1_.jpg', 100, 24990000);
+INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `DaBan`, `Gia`, `TrangThai`) VALUES
+(1, 'Màn hình MSI PRO MP242L', 'ManHinh', './assets/image/50725_m__n_h__nh_msi_pro_mp242l__4_.jpg', 460, 22, 1890000, 'hiện'),
+(2, 'Laptop ASUS VivoBook Go 14 E1404FA-NK177W', 'Laptop', './assets/image/e1404fa-1.png', 200, 71, 11490000, 'hiện'),
+(3, 'Laptop Gaming MSI Katana 15 B13UDXK 2270VN', 'LaptopGaming', './assets/image/8qziagrd.png', 60, 55, 20900000, 'hiện'),
+(4, 'Laptop Lenovo LOQ 15ARP9 83JC003YVN', 'LaptopGaming', './assets/image/48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg', 50, 65, 27790000, 'hiện'),
+(6, 'Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC', 'GPU', './assets/image/bzilxs4m.png', 2, 2, 97990000, 'hiện'),
+(7, 'Laptop GIGABYTE G5 MF5-52VN383SH', 'LaptopGaming', './assets/image/47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg', 55, 48, 20790000, 'hiện'),
+(8, 'Màn Hình Gaming GIGABYTE GS27F', 'ManHinh', './assets/image/man_hinh_gaming_gigabyte_gs27f__5_.jpg', 100, 1, 3298000, 'hiện'),
+(9, 'Card màn hình ASUS Dual GeForce RTX™ 3060 V2 12GB GDDR6', 'GPU', './assets/image/imagertx3060V2_12GB.png', 30, 13, 7790000, 'hiện'),
+(10, 'Laptop Acer Aspire Lite AL14-51M-36MH_NX.KTVSV.001', 'Laptop', './assets/image/49837_laptop_acer_aspire_lite_al14_51m_36mh_nx_ktvsv_001__2_.jpg', 20, 62, 9190000, 'hiện'),
+(11, 'Laptop Asus TUF Gaming F15 FX507ZC4-HN095W', 'LaptopGaming', './assets/image/46655_laptop_asus_tuf_gaming_f15_fx507zc4_hn095w__3_.jpg', 100, 40, 19990000, 'hiện'),
+(12, 'Laptop Lenovo Legion Pro 5 16IRX9 83DF0046VN', 'LaptopGaming', './assets/image/47462_laptop_lenovo_legion_pro_5_16irx9_83df0046vn__1_.jpg', 20, 15, 51990000, 'hiện'),
+(13, 'Laptop Gaming Acer Aspire 7 A715-76G-5806 - NH.QMFSV.002', 'LaptopGaming', './assets/image/45836_ap7.jpg', 50, 32, 18990000, 'hiện'),
+(14, 'Laptop Gaming Acer Nitro 5 Tiger AN515-58-5935 NH.QLZSV.001', 'LaptopGaming', './assets/image/45837_bnfg.jpg', 33, 38, 22290000, 'hiện'),
+(15, 'Laptop Acer Aspire 3 A315-44P-R5QG NX.KSJSV.001', 'Laptop', './assets/image/50618_laptop_acer_aspire_3_a315_44p_r5qg_nx_ksjsv_001__4_.jpg', 22, 16, 12900000, 'hiện'),
+(16, 'Laptop Asus Vivobook 14 OLED A1405VA-KM095W', 'Laptop', './assets/image/44758_laptop_asus_vivobook_14_oled_a1405va_km095w__7_.jpg', 100, 44, 16990000, 'hiện'),
+(17, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G', 'LaptopGaming', './assets/image/49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg', 50, 15, 17990000, 'hiện'),
+(18, 'Laptop ASUS Vivobook S 16 OLED S5606MA-MX051W', 'Laptop', './assets/image/g8gdssys.png', 50, 22, 25490000, 'hiện'),
+(19, 'Laptop HP ProBook 440 G11 A74B4PT', 'Laptop', './assets/image/49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg', 200, 62, 21490000, 'hiện'),
+(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 10, 15, 64990000, 'hiện'),
+(22, 'VGA Gigabyte RTX 4060 Windforce OC 8GB', 'GPU', './assets/image/45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg', 100, 41, 8299000, 'hiện'),
+(23, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB', 'GPU', './assets/image/46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg', 12, 4, 5599000, 'hiện'),
+(24, 'Laptop Dell Latitude 3450 71058806', 'Laptop', './assets/image/51342_laptop_dell_latitude_3450_71058806__1_.jpg', 100, 53, 24990000, 'hiện');
 
 -- --------------------------------------------------------
 
@@ -374,16 +449,16 @@ CREATE TABLE `users` (
   `email` varchar(40) DEFAULT NULL,
   `sex` varchar(10) DEFAULT NULL,
   `phonenumber` varchar(11) DEFAULT NULL,
-  `date of birth` date DEFAULT NULL
+  `date_of_birth` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date of birth`) VALUES
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`) VALUES
 (1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL),
-(2, 'u', 'u', NULL, NULL, NULL, NULL),
+(2, 'u', 'u', 'u1@d.c', 'Nam', '11111111', '1965-11-30'),
 (3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05'),
 (4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07'),
 (5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15'),
