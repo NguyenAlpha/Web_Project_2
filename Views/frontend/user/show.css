@@ -39,9 +39,10 @@
 }
 
 img.rounded-circle {
-    border: 3px solid #e74c3c;
-    padding: 2px;
+    border: 1px solid #000000;
+    border-radius: 50px;
     background-color: #fff;
+    object-fit: cover;
 }
 
 .list-group-item {
@@ -136,3 +137,18 @@ select {
     margin-top: 15px;
     text-align: center;
 }
+
+.flex {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label.image {
+    cursor: pointer;
+    padding: 4px;
+    border: 1px solid rgb(88, 88, 222);
+    border-radius: 5px;
+}
+

@@ -37,36 +37,52 @@
                     </form>
                 </div>
                 <div class="header--right">
-                    <div class="header--right__item header--right__hotline">
-                        <i class="fa-solid fa-phone"></i>
-                        <a href="tel:0888999">Hotline</a>
-                    </div>
+                    <a href="tel:0888999">
+                        <div class="header--right__item header--right__hotline">
+                            <i class="fa-solid fa-phone"></i>    
+                            Hotline
+                        </div>
+                    </a>
 
-                    <div class="header--right__item header--right__cart">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <a href="./index.php?controller=cart&action=show">Giỏ hàng</a>  
-                    </div>
+                    <a href="./index.php?controller=cart&action=show">
+                        <div class="header--right__item header--right__cart">
+                            <i class="fa-solid fa-cart-shopping"></i>Giỏ hàng
+                        </div>
+                    </a>  
 
-                    <div class="header--right__item header--right__account">
-                        <i class="fa-solid fa-user"></i>
-                        <?php  if(isset($_SESSION["user"])):?>
-                            <a href="./index.php?controller=user&action=show"><?php echo $_SESSION["user"]["username"]?></a>
-                        <?php  else:  ?>
-                            <a href="./index.php?controller=user&action=login">Đăng Nhập</a>
-                        <?php endif;?>
-                    </div>
+                    
+                    <?php  if(isset($_SESSION["user"])):?>
+                    <a href="./index.php?controller=user&action=show">
+                        <div class="header--right__item header--right__account">
+                            <i class="fa-solid fa-user"></i>    
+                            <?php echo $_SESSION["user"]["username"]?>
+                        </div>
+                    </a>
+                    <?php  else:  ?>
+                    <a href="./index.php?controller=user&action=login">
+                        <div class="header--right__item header--right__account">
+                            <i class="fa-solid fa-user"></i>    
+                            Đăng Nhập
+                        </div>
+                    </a>
+                    <?php endif;?>
 
                     <?php if(!isset($_SESSION["user"])):?>
+                    <a href="./index.php?controller=user&action=register">
                         <div class="header--right__item">
-                        <i class="fa-solid fa-user"></i>
-                        <a href="./index.php?controller=user&action=register">Đăng ký</a>
+                            <i class="fa-solid fa-user"></i>
+                            Đăng ký
                         </div>
+                    </a>
                     <?php endif;?>
 
                     <?php  if(isset($_SESSION["user"])):?>
+                    <a href="./index.php?controller=user&action=logout">
                         <div class="header--right__item header--right__cart">
-                            <a href="./index.php?controller=user&action=logout">đăng xuất</a>
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            đăng xuất
                         </div>
+                    </a>
                     <?php endif;?>
                 </div>
             </div>
@@ -76,7 +92,6 @@
                 <ul>
                     <?php foreach($menus as $menuItem):?>
                         <a href="./index.php?controller=category&action=show&id=<?= $menuItem['MaLoai'] ?>"><li class="navbar__item"><?= $menuItem['TenLoai']?></li></a>
-                        
                     <?php endforeach; ?>
                 </ul>
             </div>
