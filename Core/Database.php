@@ -3,7 +3,7 @@
         private $host = "localhost";
         private $username = "root";
         private $password = "";
-        private $database = "test1";
+        private $database = "test2";
         // Hàm kết nối database
         public function connect() {
             $conn = new mysqli($this->host, $this->username, $this->password, $this->database);
