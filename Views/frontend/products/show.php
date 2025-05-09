@@ -58,6 +58,65 @@
                         <p class="error">Chưa có thông số</p>
                     <?php endif;?>
                 </div>
+                <?php if(!empty($PSC)):?>
+                <div class="product__detail__box3">
+                    <div class="home-page header-product-bar">
+                        <h2 class="home-page name-product-bar">Sản phầm cùng Loại</h2>
+                        <div class="home-page line"></div>
+                        <a href="./index.php?controller=category&action=show&id=<?=$product['MaLoai']?>" class="home-page see-more">xem tất cả<i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                    <div class="product__item wrap">
+                    <?php foreach($PSC as $item): ?>
+                    <?php if($item['MaSP'] == $product['MaSP']): continue;?>
+                    <?php endif;?>
+                    <div class="product__item__card">
+                        <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
+                            <div class="product__item__card__img">
+                                <img src="<?=$item['AnhMoTaSP']?>" alt="">
+                            </div>
+                            <div class="product__item__card__content">
+                                <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
+                                <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
+                            </div>
+                            <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
+                        </a>
+                        <div class="button__addcart__box">
+                            <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                        </div>
+                    </div>
+                    
+                    <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endif;?>
+                <?php if(!empty($BSP)):?>
+                <div class="product__detail__box3">
+                    <div class="home-page header-product-bar">
+                        <h2 class="home-page name-product-bar">Sản phầm bán chạy</h2>
+                        <div class="home-page line"></div>
+                        <!-- <a href="./index.php" class="home-page see-more">xem tất cả<i class="fa fa-angle-double-right"></i></a> -->
+                    </div>
+                    <div class="product__item wrap">
+                    <?php foreach($BSP as $item): ?>
+                    <div class="product__item__card">
+                        <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
+                            <div class="product__item__card__img">
+                                <img src="<?=$item['AnhMoTaSP']?>" alt="">
+                            </div>
+                            <div class="product__item__card__content">
+                                <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
+                                <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
+                            </div>
+                            <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
+                        </a>
+                        <div class="button__addcart__box">
+                            <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endif;?>
             </div>
         </div>
     </div>

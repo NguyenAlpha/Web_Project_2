@@ -30,9 +30,12 @@
                 $products = array_merge($products, $categoryProducts);
             }
 
+            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 25);
+
             return $this->loadView("frontend/home/index.php",[
                 "products" => $products,
-                'categories' => $categories
+                'categories' => $categories,
+                'BSP' => $bestSellingProducts,
             ]);
         }
         public function search() {

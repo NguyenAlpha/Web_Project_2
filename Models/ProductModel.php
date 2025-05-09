@@ -22,12 +22,21 @@
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
 
-        public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0) {
+        public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0, $orderBy = []) {
+            $orderClause = '';
+            if (!empty($orderBy)) {
+                // Ví dụ: ['Gia DESC', 'TenSanPham ASC']
+                $orderClause = "ORDER BY " . implode(", ", $orderBy);
+            }
+        
             $query = "SELECT * FROM " . self::TABLE . "
                       WHERE MaLoai = '$categoryID'
+                      $orderClause
                       LIMIT $limit OFFSET $offset";
+        
             return $this->getByQuery($query);
         }
+        
     
         // Lấy số lượng sản phẩm theo danh mục (phân trang)
         public function getProductCountByCategory($categoryID) {

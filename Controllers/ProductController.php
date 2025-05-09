@@ -37,8 +37,11 @@
                 $productNameExtension = implode(" / ",$productNameExtension);
             }
 
-            
+            $categoryId = $product['MaLoai'];
 
+            $ProductsOfTheSameCategory = $this->productModel->getProductsByCategoryId($categoryId, 20, 0);
+
+            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 15);
             // Lấy tên các thuộc tính của sản phẩm
             $attributes = $this->categoryModel->getFiltersByCategoryId($product['MaLoai']);
 
@@ -46,7 +49,9 @@
                 'product' => $product,
                 'details' => $details,
                 'attributes' => $attributes,
-                'productNameExtension' => $productNameExtension
+                'productNameExtension' => $productNameExtension,
+                'PSC' => $ProductsOfTheSameCategory,
+                'BSP' => $bestSellingProducts,
             ]);
         }
 

@@ -270,9 +270,14 @@ input {
 	color: #fff;
 }
 
+.da-ban-text {
+	font-size: 13px;
+	padding: 2px;
+}
+
 /* ============================================ PRODUCT DETAIL====================================================== */
 .product__detail {
-	margin-top: 20px;
+	margin-top: 40px;
 	width: 100%;
 }
 
@@ -282,11 +287,13 @@ input {
 }
 
 .product__detail__box1{
+	box-sizing: border-box;
+	width: 1200px;
 	background: #fff;
 	display: flex;
 	padding: 10px;
 	border-radius: 15px;
-	width: 100%;
+	box-shadow: 0px 0px 5px #0000006e;
 }
 
 .product__detail--left img {
@@ -361,13 +368,17 @@ input {
 .product__detail__title {
 	font-weight: 700;
 	font-size: 30px;
+	margin: 5px 0; 
 }
 
 .product__detail__box2 {
+	box-sizing: border-box;
+	width: 1200px;
 	padding: 20px;
 	border-radius: 15px;
 	margin-top: 40px;
 	background-color: #fff;
+	box-shadow: 0px 0px 5px #0000006e;
 }
 
 table.product__detail__list{
@@ -391,6 +402,11 @@ tr:nth-child(2n) {
 
 tr:nth-child(2n +1) {
 	background-color: #f8f8f8;
+}
+
+.product__detail__box3 {
+	box-sizing: border-box;
+	margin-top: 40px;
 }
 
 /* ======================== FOOTER =================================================*/

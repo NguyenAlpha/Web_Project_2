@@ -79,5 +79,14 @@ class UserController extends BaseController {
             'user' => $_SESSION['user']
         ]);
     }
+
+    public function update() {
+
+        $this->userModel->updateUser($_GET['userID'], $_POST['username'], $_POST['phonenumber'], $_POST['sex'], $_POST['dob'], $_POST['email']);
+        $_SESSION['user'] = $this->userModel->getUser((int)($_SESSION['user']['ID']));
+        header("Location: ./index.php?controller=user&action=show");
+        // echo '<pre>';
+        // print_r($_POST);
+    }
 }
 ?>

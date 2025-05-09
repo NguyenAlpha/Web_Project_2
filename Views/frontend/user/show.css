@@ -1,11 +1,18 @@
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
 }
 
-.title {
-    margin-top: 30px;
-    font-size: 32px;
+/* Sidebar */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-body h5 {
+    margin-top: 10px;
     font-weight: bold;
     text-align: center;
     color: #333;
@@ -62,9 +69,14 @@ body {
     font-weight: 600;
     font-size: 18px;
 }
-
+.form-group {
+    margin-top: 15px;
+}
 .form-group label {
+    display: block;
     font-weight: 500;
+    margin-bottom: 6px;
+    display: inline-block;
 }
 
 .form-control {
@@ -80,6 +92,27 @@ body {
 }
 
 .btn-danger:hover {
-    background-color: #c82333;
-    box-shadow: 0 6px 14px rgba(220, 53, 69, 0.4);
+    background-color: #c0392b;
+}
+
+/* Gender radio spacing */
+input[type="radio"] {
+    margin-right: 6px;
+    margin-left: 12px;
+}
+
+/* Birth date dropdowns */
+select.form-control {
+    border-radius: 6px;
+    height: 38px;
+}
+.row {
+    gap: 10px;
+}
+select {
+    width: 250px;
+}
+.mt-4.text-center {
+    margin-top: 15px;
+    text-align: center;
 }
