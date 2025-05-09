@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     
     <script src="./assets/javascript/even.js"></script>
+    <script src="./assets/javascript/add.js"></script>
 </head>
 <body>
     <header>
@@ -25,7 +26,7 @@
                     <a href="./index.php"><img src="./assets/image/Asset_1.png" alt=""></a>
                 </div>
                 <div class="header__search">
-                    <form action="./index.php?controller=home&action=search" method="get">
+                    <form action="./index.php?controller=home&action=search" method="ge t">
                         <input type="hidden" name="controller" value="home">
                         <input type="hidden" name="action" value="search">
                         <?php if(isset($textSearch)):?>
