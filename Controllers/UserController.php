@@ -53,7 +53,9 @@ class UserController extends BaseController {
             $name = $_POST['username'];
             $password = $_POST['password'];
             $phone = $_POST['phone'];
-            $this->userModel->addUser($name, $password, $phone);
+            $sex = $_POST['sex'];
+            $dob= $_POST['date_of_birth'];
+            $this->userModel->addUser($name, $password, $phone, $sex, $dob);
             $user = $this->userModel->checkUser($name, $password);
             $_SESSION['user'] = $user;
             header("Location: ./index.php");
