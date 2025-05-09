@@ -17,9 +17,9 @@
                         <img src="<?=$cart['AnhMoTaSP']?>" alt="">
                         <p class="name-product"><?=$cart['TenSP']?></p>
                     </td>
-                    <td class="center"><?=$cart['Gia']?></td>
+                    <td class="center"><?=number_format($cart['Gia'],0, ',', '.') . "đ"?></td>
                     <td class="center"><?=$cart['SoLuong']?></td>
-                    <td class="center"><?=$cart['TongTien']?></td>
+                    <td class="center"><?=number_format($cart['TongTien'], 0, ',', '.') . "đ"?></td>
                     <td class="center"><a href="#" class="delete-btn">Xóa</a></td>
                 </tr>
                 <?php endforeach;endif?>
