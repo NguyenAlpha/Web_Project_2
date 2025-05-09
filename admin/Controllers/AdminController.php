@@ -198,7 +198,7 @@ public function addProduct() {
         }
 
         // XỬ LÝ UPLOAD ẢNH
-        $target_dir = "/assets/uploads/";
+        $target_dir = "./assets/uploads/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0777, true); // tạo folder nếu chưa có
         }
