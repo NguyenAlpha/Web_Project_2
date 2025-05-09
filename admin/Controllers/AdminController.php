@@ -191,6 +191,8 @@ public function getTableFields()
 }
 
 public function addProduct() {
+    // echo '<pre>';
+    // print_r($_FILES["AnhMoTaSP"]);
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = new mysqli("localhost", "root", "", "tmdt");
         if ($conn->connect_error) {
@@ -199,9 +201,6 @@ public function addProduct() {
 
         // XỬ LÝ UPLOAD ẢNH
         $target_dir = "./assets/uploads/";
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true); // tạo folder nếu chưa có
-        }
 
         $filename = basename($_FILES["AnhMoTaSP"]["name"]);
         $newFileName = time() . "_" . $filename;
@@ -218,7 +217,7 @@ public function addProduct() {
             die("Chỉ cho phép định dạng JPG, JPEG, PNG.");
         }
 
-        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
+        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], __DIR__. '/../../assets/image/'. $newFileName)) {
             die("Lỗi khi upload ảnh.");
         }
 
