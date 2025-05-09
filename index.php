@@ -2,8 +2,10 @@
     session_start();
     $username = '';
     if(isset($_SESSION["user"])) {
+    
     //$username = $_SESSION["user"]['username'];
     }
+    
 
     require "./Core/Database.php";
     require "./Models/BaseModel.php";

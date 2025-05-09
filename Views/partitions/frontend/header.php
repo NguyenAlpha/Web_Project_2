@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     
     <script src="./assets/javascript/even.js"></script>
+    <script src="./assets/javascript/add.js"></script>
 </head>
 <body>
     <header>
