@@ -1,24 +1,26 @@
-<!-- views/user/address.php -->
-<div class="card">
-  <div class="card-header bg-white d-flex justify-content-between align-items-center">
-    <h5 class="mb-0">Sổ địa chỉ</h5>
-    <a href="index.php?controller=user&action=add_address" class="btn btn-primary">+ Thêm địa chỉ mới</a>
+<div id="ajax-content-area">
+<link rel="stylesheet" href="./Views/frontend/user/address.css">
+<table>
+            <tr><th>Địa chỉ</th></tr>
+
+            <?php 
+            foreach ($addresses as $addr): ?>
+                <tr><td><?=($addr['address'])?> <button class="">sửa</button></td></tr>
+
+            <?php endforeach; ?>
+
+            </table>
+        <br>
+<form id="addAddressForm" class="mt-3 border p-3 bg-light">
+  <div class="mb-2">
+    <label>Địa chỉ</label>
+    <input type="text" class="form-control" name="address" required>
   </div>
-  <div class="card-body">
-    <?php if (!empty($addresses)) : ?>
-      <?php foreach ($addresses as $address) : ?>
-        <div class="border-bottom py-3">
-          <?php if ($address['is_default']) : ?>
-            <span class="badge bg-danger">Mặc định</span>
-          <?php endif; ?>
-          <strong><?php echo $address['fullname']; ?></strong> | 
-          <span><?php echo $address['phone']; ?></span><br>
-          <span><?php echo $address['address']; ?>, <?php echo $address['city']; ?>, <?php echo $address['country']; ?></span><br>
-          <a href="index.php?controller=user&action=edit_address&id=<?php echo $address['id']; ?>" class="text-primary">Cập nhật</a>
-        </div>
-      <?php endforeach; ?>
-    <?php else : ?>
-      <p>Bạn chưa có địa chỉ nào.</p>
-    <?php endif; ?>
+  <div class="mb-2">
+    <label>Thành phố</label>
+    <input type="text" class="form-control" name="city" required>
   </div>
+  <button class="btn btn-success" type="submit">Lưu địa chỉ</button>
+</form>
 </div>
+

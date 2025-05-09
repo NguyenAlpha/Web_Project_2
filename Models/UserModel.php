@@ -31,6 +31,10 @@
                 return "";
             }
         }
+        public function getaddress($id){
+            $sql = "SELECT * FROM address WHERE userID = $id";
+            return $this->getByQuery($sql);
+        }
     }
     
 ?>
