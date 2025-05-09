@@ -28,7 +28,9 @@ class AdminController extends BaseController {
     public function productsmanage() {
         return $this->loadView('frontend/product/productsmanage.php');
     }
-    
+    public function addProductPage() {
+        return $this->loadView('frontend/product/addProduct.php');
+    }
     public function dashboard() {
         echo 'Đây là trang quản lý Dashboard';
         return $this->loadView('frontend/admin/dashboard.php');
@@ -148,10 +150,48 @@ public function deleteCustomer()
         echo "Không tìm thấy ID khách hàng để xóa.";
     }
 }
+public function getTableFields()
+{
+    if (!isset($_GET['type']) || empty($_GET['type'])) {
+        echo json_encode([]);
+        return;
+    }
+
+    $MaLoai = $_GET['type'];
+    $tableName = strtolower($MaLoai) . 'details';
+
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) {
+        echo json_encode([]);
+        return;
+    }
+
+    // Kiểm tra bảng tồn tại
+    $check = $conn->query("SHOW TABLES LIKE '$tableName'");
+    if (!$check || $check->num_rows == 0) {
+        echo json_encode([]);
+        return;
+    }
+
+    $columns = [];
+    $result = $conn->query("SHOW COLUMNS FROM `$tableName`");
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $fieldName = $row['Field'];
+            if ($fieldName !== 'MaSP') { // Bỏ khóa ngoại
+                $columns[] = $fieldName;
+            }
+        }
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($columns);
+}
 
 public function addProduct() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $conn = new mysqli("localhost", "root", "", "test2");
+        $conn = new mysqli("localhost", "root", "", "tmdt");
         if ($conn->connect_error) {
             die("Kết nối thất bại: " . $conn->connect_error);
         }
@@ -234,7 +274,7 @@ public function deleteProduct() {
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaSP'])) {
         $MaSP = intval($_GET['MaSP']);
 
-        $conn = new mysqli("localhost", "root", "", "test2");
+        $conn = new mysqli("localhost", "root", "", "tmdt");
         if ($conn->connect_error) {
             die("Kết nối thất bại: " . $conn->connect_error);
         }
@@ -310,7 +350,7 @@ public function hideproduct() {
         $productModel->hideProductById($id);
     }
     // Quay lại trang quản lý sản phẩm
-    header('Location: index.php?controller=admin&action=productsmanage');
+    header('Location: ?controller=admin&action=productsmanage');
 }
 public function CustomerCartAjax()
 {     

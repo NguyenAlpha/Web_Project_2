@@ -2,13 +2,12 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "test2";
+$dbname = "tmdt";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
-
 $sql = "SELECT * FROM products";
 $result = $conn->query($sql);
 ?>
@@ -71,8 +70,7 @@ $result = $conn->query($sql);
 </head>
 <body>
     <h2 style="text-align: center;">Danh sách sản phẩm</h2>
-    <a href="./addProduct.php" class="add-button">Thêm sản phẩm</a>
-    <a href="./addCategory.php" class="addCategory-button">Thêm loại sản phẩm</a>
+    <a href="?controller=admin&action=addProductPage" class="add-button">Thêm sản phẩm</a>
     <table>
         <thead>
             <tr>

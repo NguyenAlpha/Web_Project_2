@@ -1,6 +1,6 @@
 <?php
 // Kết nối DB
-$conn = new mysqli("localhost", "root", "", "test2");
+$conn = new mysqli("localhost", "root", "", "tmdt");
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
@@ -59,7 +59,7 @@ function loadDetailsForm() {
 
     if (!type) return;
 
-    fetch('index.php?controller=admin&action=getTableFields&type=' + type)
+    fetch('?controller=admin&action=getTableFields&type=' + type)
         .then(response => response.json())
         .then(fields => {
             if (fields.length > 0) {
