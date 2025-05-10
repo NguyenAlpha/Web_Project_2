@@ -19,7 +19,7 @@ class AddressController extends BaseController
         $this->addressModel->geteditaddress($newAddress, $id);
 
         // Gợi ý: nên chuyển hướng sau khi update
-        header("Location: index.php?controller=Address&action=list");
+        header("Location: index.php?controller=user&action=show");
         exit;
     }
     public function addaddress() {
