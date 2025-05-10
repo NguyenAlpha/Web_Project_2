@@ -38,7 +38,7 @@ class AdminController extends BaseController {
         return $this->loadView('frontend/dashboard/index.php');
     }
     public function logout() {
-        session_destroy();
+        unset($_SESSION['admin']);
         header('Location: ./index.php');
         exit;
     }
