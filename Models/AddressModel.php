@@ -18,9 +18,8 @@
       header("Location: ./index.php?controller=user&action=show"); 
    }
 
-   public function getaddaddress($address, $id) {
-      $sql = "INSERT INTO address (address, id) VALUES ('$address', '$id')";
-
+   public function getaddaddress($userID, $address)  {
+      $sql = "INSERT INTO address (userID, address) VALUES ($userID, '$address')";
       $this->add($sql);
   }
   

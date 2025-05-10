@@ -35,7 +35,10 @@
         
         <br>
         
-        <form id="addAddressForm" method="post" action="index.php?controller=Address&action=addaddress"  style="display:none;" class="mt-3 border p-3 bg-light">
+        <form id="addAddressForm" method="get" action="index.php"  style="display:none;" class="mt-3 border p-3 bg-light">
+            <input type="hidden" name="controller" value="Address">
+            <input type="hidden" name="action" value="addaddress">
+            <input type="hidden" name="userID" value="<?=$_SESSION['user']['ID']?>">
             <div class="mb-2">
                 <label>Địa chỉ</label>
                 <input type="text" class="form-control" name="address" required>
