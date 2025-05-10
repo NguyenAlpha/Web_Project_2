@@ -15,7 +15,7 @@
             return $attribute;
         }
 
-        function getProductByCategoryFilters($categoryId, $attributes = [], $postFilters = [], $limit = 50, $offset = 0) {
+        function getProductByCategoryFilters($categoryId, $attributes = [], $postFilters = [], $limit = 50, $offset = 0, $TrangThai = '') {
             $sql = "SELECT DISTINCT products.* FROM {$categoryId}details
                     INNER JOIN products ON {$categoryId}details.MaSP = products.MaSP";
             
@@ -44,8 +44,12 @@
                 $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
                 $whereConditions[] = "products.Gia <= $maxPrice";
             }
-            
-    
+
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai'";
+                $whereConditions[] = $TrangThai;
+            }
+
             if (!empty($whereConditions)) {
                 $sql .= " WHERE " . implode(" AND ", $whereConditions);
             }
@@ -54,7 +58,7 @@
         }
         
         // Lấy tổng số sản phẩm thỏa filter (cho phân trang)
-        function getCountProductWithFilters($categoryId, $attributes = [], $postFilters = []) {
+        function getCountProductWithFilters($categoryId, $attributes = [], $postFilters = [], $TrangThai = '') {
             $sql = "SELECT COUNT(DISTINCT products.MaSP) as count FROM {$categoryId}details
                     INNER JOIN products ON {$categoryId}details.MaSP = products.MaSP";
 
@@ -83,7 +87,11 @@
                 $maxPrice = (int) str_replace('.', '', $postFilters['giaCao']);
                 $whereConditions[] = "products.Gia <= $maxPrice";
             }
-            
+
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai'";
+                $whereConditions[] = $TrangThai;
+            }
 
             if (!empty($whereConditions)) {
                 $sql .= " WHERE " . implode(" AND ", $whereConditions);

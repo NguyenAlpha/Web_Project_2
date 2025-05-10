@@ -83,6 +83,10 @@ input {
     color: rgb(0, 0, 0);
     text-shadow: 3px 3px 5px #0000002f;
 }
+
+.hidden {
+  display: none;
+}
 /* =============================================================== */
 .header {
 	background: rgb(0,38,133);
@@ -202,7 +206,7 @@ input {
 	background-color: #fff;
 	border-radius: 15px;
 	position: relative;
-	box-shadow: 0px 0px 5px #0000006e;
+	box-shadow: 0px 0px 5px #0000003b;
 }
 
 .product__item__card__img {
@@ -294,7 +298,7 @@ input {
 	display: flex;
 	padding: 10px;
 	border-radius: 15px;
-	box-shadow: 0px 0px 5px #0000006e;
+	box-shadow: 0px 0px 5px #0000003f;
 }
 
 .product__detail__box1 .flex {
@@ -335,6 +339,7 @@ input {
 .fa-plus, .fa-minus {
 	background-color: #d3d2d2;
 	font-size: 20px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.214);
 }
 
 i.fa-minus, i.fa-plus {
@@ -349,7 +354,7 @@ i.fa-minus:hover, i.fa-plus:hover {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
+	gap: 3px;
 }
 
 .product__detail__buy{
@@ -413,10 +418,10 @@ i.fa-minus:hover, i.fa-plus:hover {
 	border-radius: 15px;
 	margin-top: 40px;
 	background-color: #fff;
-	box-shadow: 0px 0px 5px #0000006e;
+	box-shadow: 0px 0px 5px #00000038;
 }
 
-.product__detail__list table.product__detail__list{
+table.product__detail__list{
 	width: 100%;
 	margin-top: 30px;
 	font-size: 18px;
@@ -792,7 +797,7 @@ button:disabled {
 	border-radius: 10px;
 	transition: all 0.3s;
 	color: red;
-
+	box-shadow: 0 0 5px #0000002f;
 }
 
 .table-cart .delete-btn:hover {

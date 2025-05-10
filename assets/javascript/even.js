@@ -164,55 +164,99 @@ function initQuantityHandlers() {
 }
 
 function initQuantityHandlers() {
-    const detailCount = document.querySelector('.detail__count');
-    if (!detailCount) return;
+    const detailCounts = document.querySelectorAll('.detail__count');
+    if (!detailCounts.length) return;
 
-    const input = detailCount.querySelector('.input-number');
-    const plusBtn = detailCount.querySelector('.fa-plus');
-    const minusBtn = detailCount.querySelector('.fa-minus');
+    detailCounts.forEach(detailCount => {
+        const input = detailCount.querySelector('.input-number');
+        const plusBtn = detailCount.querySelector('.fa-plus');
+        const minusBtn = detailCount.querySelector('.fa-minus');
+        const row = detailCount.closest('tr'); // lấy hàng cha <tr>
 
-    // Lấy min/max trực tiếp từ input
-    const min = parseInt(input.min) || 1;
-    const max = parseInt(input.max) || 99;
+        if (!input || !plusBtn || !minusBtn || !row) return;
 
-    // Cập nhật trạng thái nút
-    function updateButtonsState() {
-        const value = parseInt(input.value) || min;
-        minusBtn.style.cursor = value <= min ? 'not-allowed' : 'pointer';
-        minusBtn.style.opacity = value <= min ? 0.5 : 1;
-        plusBtn.style.cursor = value >= max ? 'not-allowed' : 'pointer';
-        plusBtn.style.opacity = value >= max ? 0.5 : 1;
-    }
+        const giaEl = row.querySelector('.td-Gia');
+        const soTienEl = row.querySelector('.td-SoTien');
+        if (!giaEl || !soTienEl) return;
 
-    // Trừ số
-    minusBtn.addEventListener('click', function () {
-        let value = parseInt(input.value) || min;
-        if (value > min) {
-            input.value = value - 1;
-            updateButtonsState();
+        const min = parseInt(input.min) || 1;
+        const max = parseInt(input.max) || 99;
+
+        const updateButtonsState = () => {
+            const value = parseInt(input.value) || min;
+            minusBtn.style.cursor = value <= min ? 'not-allowed' : 'pointer';
+            minusBtn.style.opacity = value <= min ? 0.5 : 1;
+            plusBtn.style.cursor = value >= max ? 'not-allowed' : 'pointer';
+            plusBtn.style.opacity = value >= max ? 0.5 : 1;
+        };
+
+        function updateTongTien() {
+            const soTienElements = document.querySelectorAll('.td-SoTien');
+            const tongTienEl = document.querySelector('.TongTien');
+
+            let total = 0;
+
+            soTienElements.forEach(el => {
+                const text = el.innerText.replace(/\./g, '').replace('đ', '').trim();
+                const num = parseInt(text);
+                if (!isNaN(num)) total += num;
+            });
+
+            const formatted = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            if (tongTienEl) {
+                tongTienEl.innerText = formatted + "đ";
+            }
         }
-    });
 
-    // Cộng số
-    plusBtn.addEventListener('click', function () {
-        let value = parseInt(input.value) || min;
-        if (value < max) {
-            input.value = value + 1;
-            updateButtonsState();
+        const updateSoTien = () => {
+            const giaText = giaEl.innerText.replace(/\./g, '').replace('đ', '').trim();
+            const giaNumber = parseInt(giaText);
+            const quantity = parseInt(input.value) || min;
+            const tongTien = giaNumber * quantity;
+            const formatted = tongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            soTienEl.innerText = formatted + "đ";
+            updateTongTien();
+            addCart(quantity)
+        };
+
+        function addCart(quantity) {
+            const id = row.querySelector('.td-ID');
+            fetch('index.php?controller=Ajax&action=updateQuantity&id=' + id.innerHTML + '&quantity=' + quantity)
+            .then(res => res.text())
+            .then(data => console.log(data));
         }
-    });
 
-    // Người dùng nhập tay
-    input.addEventListener('input', function () {
-        input.value = input.value.replace(/\D/g, ''); // chỉ số
-        let value = parseInt(input.value);
-        if (value > max) input.value = max;
-        if (value < min || isNaN(value)) input.value = min;
+        minusBtn.addEventListener('click', () => {
+            let value = parseInt(input.value) || min;
+            if (value > min) {
+                input.value = value - 1;
+                updateButtonsState();
+                updateSoTien();
+            }
+        });
+
+        plusBtn.addEventListener('click', () => {
+            let value = parseInt(input.value) || min;
+            if (value < max) {
+                input.value = value + 1;
+                updateButtonsState();
+                updateSoTien();
+            }
+        });
+
+        input.addEventListener('input', () => {
+            input.value = input.value.replace(/\D/g, '');
+            let value = parseInt(input.value);
+            if (value > max) input.value = max;
+            if (value < min || isNaN(value)) input.value = min;
+            updateButtonsState();
+            updateSoTien();
+        });
+
+        // Khởi tạo lần đầu
         updateButtonsState();
+        updateSoTien();
     });
-
-    // Lần đầu
-    updateButtonsState();
 }
-
 document.addEventListener('DOMContentLoaded', initQuantityHandlers);
+

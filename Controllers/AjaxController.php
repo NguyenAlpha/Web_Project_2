@@ -22,6 +22,12 @@ class AjaxController extends BaseController{
             'user' => $_SESSION['user']
         ]);
     }
+
+    public function updateQuantity() {
+        $this->loadModel("CartModel");
+        $cartModel = new CartModel();
+        $cartModel->updateQuantityByID($_GET['id'], $_GET['quantity']);
+    }
         
 
 }
