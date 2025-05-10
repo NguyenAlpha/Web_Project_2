@@ -79,6 +79,7 @@
             }
         }
         
+        
         protected function add($sql) {
             $this->conn->query($sql);
         }

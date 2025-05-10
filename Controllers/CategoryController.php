@@ -31,16 +31,16 @@
             if(isset($_POST['submit']) && $_POST['submit'] == 'filter') {
                 
                 $products = $this->productDetailModel->
-                getProductByCategoryFilters($categoryId, $attributes, $_POST, $limit, $offset);
+                getProductByCategoryFilters($categoryId, $attributes, $_POST, $limit, $offset, 'hiện');
 
                 $totalProducts = $this->productDetailModel->
-                getCountProductWithFilters($categoryId, $attributes, $_POST);
+                getCountProductWithFilters($categoryId, $attributes, $_POST, 'hiện');
             } else {
                 $products = $this->productModel->
-                getProductsByCategoryId($categoryId, $limit, $offset);
+                getProductsByCategoryId($categoryId, $limit, $offset,[],'hiện');
 
                 $totalProducts = $this->productModel->
-                getProductCountByCategory($categoryId);
+                getProductCountByCategory($categoryId, 'hiện');
             }
 
             $filters = $this->productDetailModel->getCategoryFilters($attributes, $categoryId);

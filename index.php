@@ -27,7 +27,7 @@
             $controllerObject = new $controllerName;
             $controllerObject->$action();
             
-            if(isset($_GET["controller"]) && $_GET["controller"]=='admin') {
+            if(isset($_GET["controller"]) && $_GET["controller"]=='admin' || $controllerName = 'AjaxController') {
             } else {
                 include "./Views/partitions/frontend/footer.php";
             }

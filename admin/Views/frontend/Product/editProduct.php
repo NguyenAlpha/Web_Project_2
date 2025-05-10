@@ -1,88 +1,116 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "tmdt";
+<div class="container py-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4><i class="bi bi-pencil-square"></i> Chỉnh sửa sản phẩm</h4>
+        </div>
+        
+        <div class="card-body">
+            <form method="post" action="?controller=admin&action=updateProduct" enctype="multipart/form-data">
+                <input type="hidden" name="MaSP" value="<?= $product['MaSP'] ?>">
+                <input type="hidden" name="current_image" value="<?= htmlspecialchars($product['AnhMoTaSP']) ?>">
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Thông tin cơ bản</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+                            <input type="text" name="TenSP" class="form-control" 
+                                   value="<?= htmlspecialchars($product['TenSP']) ?>" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Danh mục <span class="text-danger">*</span></label>
+                            <select name="MaLoai" class="form-select" id="categorySelect" required>
+                                <?php foreach ($categories as $cat): ?>
+                                    <option value="<?= $cat['MaLoai'] ?>" 
+                                        <?= $cat['MaLoai'] == $product['MaLoai'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($cat['TenLoai']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Số lượng <span class="text-danger">*</span></label>
+                            <input type="number" name="SoLuong" class="form-control" 
+                                   value="<?= $product['SoLuong'] ?>" min="0" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Giá (₫) <span class="text-danger">*</span></label>
+                            <input type="number" name="Gia" class="form-control" 
+                                   value="<?= $product['Gia'] ?>" min="0" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <select name="TrangThai" class="form-select" required>
+                                <option value="hiện" <?= $product['TrangThai'] == 'hiện' ? 'selected' : '' ?>>Hiển thị</option>
+                                <option value="ẩn" <?= $product['TrangThai'] == 'ẩn' ? 'selected' : '' ?>>Ẩn</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5>Hình ảnh sản phẩm</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Ảnh hiện tại</label>
+                            <div class="text-center">
+                                <?php if (!empty($product['AnhMoTaSP'])): ?>
+                                    <img src="<?= $product['AnhMoTaSP'] ?>" class="img-thumbnail" style="max-height: 200px;">
+                                <?php else: ?>
+                                    <div class="alert alert-warning">Không có ảnh</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Thay đổi ảnh</label>
+                            <input type="file" name="AnhMoTaSP" class="form-control" accept="image/*">
+                            <small class="text-muted">Định dạng: JPG, PNG, JPEG. Tối đa 2MB</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4" id="specsSection">
+                    <h5>Thông số kỹ thuật</h5>
+                    <div id="dynamicFields">
+                        <?php foreach ($detailFields as $field): ?>
+                            <div class="mb-3">
+                                <label class="form-label"><?= ucfirst(str_replace('_', ' ', $field)) ?></label>
+                                <input type="text" name="<?= $field ?>" class="form-control" 
+                                       value="<?= htmlspecialchars($details[$field] ?? '') ?>">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                
+                <div class="text-end">
+                    <a href="?controller=admin&action=productsmanage" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-
-if (isset($_GET['MaSP'])) {
-    $MaSP = $_GET['MaSP'];
-    $sql = "SELECT * FROM products WHERE MaSP = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $MaSP);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $product = $result->fetch_assoc();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $TenSP = $_POST['TenSP'];
-    $MaLoai = $_POST['MaLoai'];
-    $SoLuong = $_POST['SoLuong'];
-    $Gia = $_POST['Gia'];
-
-    // Giữ ảnh cũ nếu không upload ảnh mới
-    $AnhMoTaSP = $product['AnhMoTaSP'];
-
-    // Xử lý ảnh mới nếu có upload
-    if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] == 0) {
-        $target_dir = "uploads/";
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true);
-        }
-        $filename = basename($_FILES["AnhMoTaSP"]["name"]);
-        $target_file = $target_dir . uniqid() . "_" . $filename;
-
-        if (move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
-            $AnhMoTaSP = $target_file;
-        }
-    }
-
-    $sql = "UPDATE products SET TenSP=?, MaLoai=?, AnhMoTaSP=?, SoLuong=?, Gia=? WHERE MaSP=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssds", $TenSP, $MaLoai, $AnhMoTaSP, $SoLuong, $Gia, $MaSP);
-    $stmt->execute();
-
-    header("Location: productsmanage.php");
-    exit();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Sửa sản phẩm</title>
-</head>
-<body>
-    <h2>Sửa sản phẩm</h2>
-    <form method="POST" enctype="multipart/form-data">
-        Tên sản phẩm: <input type="text" name="TenSP" value="<?php echo htmlspecialchars($product['TenSP']); ?>"><br>
-        Mã loại: <input type="text" name="MaLoai" value="<?php echo htmlspecialchars($product['MaLoai']); ?>"><br>
-
-        <?php if (!empty($product['AnhMoTaSP'])): ?>
-            <p>Ảnh hiện tại:</p>
-            <img src="<?php echo htmlspecialchars($product['AnhMoTaSP']); ?>" alt="Ảnh SP" style="max-width: 150px;"><br>
-        <?php endif; ?>
-
-        Tải ảnh mới: <input type="file" name="AnhMoTaSP"><br>
-        Số lượng: <input type="number" name="SoLuong" value="<?php echo htmlspecialchars($product['SoLuong']); ?>"><br>
-        Giá: <input type="number" name="Gia" value="<?php echo htmlspecialchars($product['Gia']); ?>"><br>
-        <input type="submit" value="Cập nhật">
-        <a href="../admin/views/frontend/Product/productsmanage.php" style="
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 16px;
-            background-color: #6c757d;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-        ">⬅ Quay lại</a>
-    </form>
-</body>
-</html>
+<script>
+// Tải động form thông số khi thay đổi danh mục
+document.getElementById('categorySelect').addEventListener('change', function() {
+    const category = this.value;
+    const productId = <?= $product['MaSP'] ?>;
+    
+    fetch(`?controller=admin&action=getSpecFields&category=${category}&MaSP=${productId}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('dynamicFields').innerHTML = html;
+        })
+        .catch(error => console.error('Error:', error));
+});
+</script>

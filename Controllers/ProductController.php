@@ -39,9 +39,9 @@
 
             $categoryId = $product['MaLoai'];
 
-            $ProductsOfTheSameCategory = $this->productModel->getProductsByCategoryId($categoryId, 20, 0);
+            $ProductsOfTheSameCategory = $this->productModel->getProductsByCategoryId($categoryId, 20, 0, [], 'hiện');
 
-            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 15);
+            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 15, 'hiện');
             // Lấy tên các thuộc tính của sản phẩm
             $attributes = $this->categoryModel->getFiltersByCategoryId($product['MaLoai']);
 

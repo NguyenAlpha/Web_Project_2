@@ -5,14 +5,17 @@
             $this->conn = $this->connect();
         }
 
-        protected function get($table, $select = ['*'], $orderBy = [], $limit = 20) {
+        protected function get($table, $select = ['*'], $orderBy = [], $limit = 20, $TrangThai = '') {
             $select = implode(",", $select);
 
             $orderBy = implode(" ", $orderBy);
+            if(!empty($TrangThai)) {
+                $TrangThai = "WHERE TrangThai = '$TrangThai'";
+            }
             if($orderBy) {
-                $sql = "SELECT $select FROM $table ORDER BY $orderBy LIMIT $limit ";
+                $sql = "SELECT $select FROM $table $TrangThai ORDER BY $orderBy LIMIT $limit";
             } else {
-                $sql = "SELECT $select FROM $table LIMIT $limit";
+                $sql = "SELECT $select FROM $table $TrangThai LIMIT $limit";
             }
             $result = $this->conn->query($sql);
             $data = [];

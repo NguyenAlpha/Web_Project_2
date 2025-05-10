@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 09, 2025 lúc 02:49 PM
+-- Thời gian đã tạo: Th5 10, 2025 lúc 05:45 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -188,7 +188,8 @@ CREATE TABLE `gpudetails` (
 --
 
 INSERT INTO `gpudetails` (`MaSP`, `ThuongHieu`, `GPU`, `CUDA`, `TocDoBoNho`, `BoNho`, `Nguon`) VALUES
-(6, 'NVIDIA', 'NVIDIA GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W');
+(6, 'NVIDIA', 'NVIDIA GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W'),
+(21, 'ASUS', 'NVIDIA® GeForce RTX™4090', '16384 Units', '21 Gbps', '24GB', '1000W');
 
 -- --------------------------------------------------------
 
@@ -419,7 +420,7 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `DaBa
 (3, 'Laptop Gaming MSI Katana 15 B13UDXK 2270VN', 'LaptopGaming', './assets/image/8qziagrd.png', 60, 55, 20900000, 'hiện'),
 (4, 'Laptop Lenovo LOQ 15ARP9 83JC003YVN', 'LaptopGaming', './assets/image/48807_laptop_lenovo_loq_15arp9_83jc003yvn__3_.jpg', 50, 65, 27790000, 'hiện'),
 (6, 'Card màn hình MSI GeForce RTX 5090 32G GAMING TRIO OC', 'GPU', './assets/image/bzilxs4m.png', 2, 2, 97990000, 'hiện'),
-(7, 'Laptop GIGABYTE G5 MF5-52VN383SH', 'LaptopGaming', './assets/image/47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg', 55, 48, 20790000, 'hiện'),
+(7, 'Laptop GIGABYTE G5 MF5-52VN383SH', 'LaptopGaming', './assets/image/47728_laptop_gigabyte_g5_mf5_52vn383sh__1_.jpg', 55, 48, 20790000, 'ẩn'),
 (8, 'Màn Hình Gaming GIGABYTE GS27F', 'ManHinh', './assets/image/man_hinh_gaming_gigabyte_gs27f__5_.jpg', 100, 1, 3298000, 'hiện'),
 (9, 'Card màn hình ASUS Dual GeForce RTX™ 3060 V2 12GB GDDR6', 'GPU', './assets/image/imagertx3060V2_12GB.png', 30, 13, 7790000, 'hiện'),
 (10, 'Laptop Acer Aspire Lite AL14-51M-36MH_NX.KTVSV.001', 'Laptop', './assets/image/49837_laptop_acer_aspire_lite_al14_51m_36mh_nx_ktvsv_001__2_.jpg', 20, 62, 9190000, 'hiện'),
@@ -432,10 +433,9 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `DaBa
 (17, 'Laptop HP VICTUS 15-fa1155TX 952R1PA_16G', 'LaptopGaming', './assets/image/49855_laptop_hp_victus_15_fa1155tx_952r1pa_16g__2_.jpg', 50, 15, 17990000, 'hiện'),
 (18, 'Laptop ASUS Vivobook S 16 OLED S5606MA-MX051W', 'Laptop', './assets/image/g8gdssys.png', 50, 22, 25490000, 'hiện'),
 (19, 'Laptop HP ProBook 440 G11 A74B4PT', 'Laptop', './assets/image/49741_laptop_hp_probook_440_g11_a74b4pt__1_.jpg', 200, 62, 21490000, 'hiện'),
-(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 10, 15, 64990000, 'hiện'),
+(21, 'Card màn hình Asus ROG Strix GeForce RTX 4090 OC Edition 24GB GDDR6X', 'GPU', './assets/image/tn9pvbdr.png', 20, 15, 64990000, 'hiện'),
 (22, 'VGA Gigabyte RTX 4060 Windforce OC 8GB', 'GPU', './assets/image/45659_vga_gigabyte_rtx_4060_windforce_oc_8gb_anphat88.jpg', 100, 41, 8299000, 'hiện'),
-(23, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB', 'GPU', './assets/image/46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg', 12, 4, 5599000, 'hiện'),
-(24, 'Laptop Dell Latitude 3450 71058806', 'Laptop', './assets/image/51342_laptop_dell_latitude_3450_71058806__1_.jpg', 100, 53, 24990000, 'hiện');
+(23, 'VGA Gigabyte GeForce RTX 3050 WINDFORCE OC V2 8GB', 'GPU', './assets/image/46200_vga_gigabyte_geforce_rtx_3050_windforce___2_.jpg', 12, 4, 5599000, 'hiện');
 
 -- --------------------------------------------------------
 
@@ -506,145 +506,6 @@ ALTER TABLE `carts`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`MaLoai`);
-
---
--- Chỉ mục cho bảng `gpudetails`
---
-ALTER TABLE `gpudetails`
-  ADD KEY `MaSP` (`MaSP`);
-
---
--- Chỉ mục cho bảng `laptopdetails`
---
-ALTER TABLE `laptopdetails`
-  ADD KEY `MaSP` (`MaSP`);
-
---
--- Chỉ mục cho bảng `laptopgamingdetails`
---
-ALTER TABLE `laptopgamingdetails`
-  ADD KEY `MaSP` (`MaSP`);
-
---
--- Chỉ mục cho bảng `listproduct`
---
-ALTER TABLE `listproduct`
-  ADD KEY `MaDon` (`MaDon`),
-  ADD KEY `MaSP` (`MaSP`);
-
---
--- Chỉ mục cho bảng `manhinhdetails`
---
-ALTER TABLE `manhinhdetails`
-  ADD KEY `MaSP` (`MaSP`);
-
---
--- Chỉ mục cho bảng `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`MaDon`);
-
---
--- Chỉ mục cho bảng `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`MaSP`),
-  ADD KEY `MaLoai` (`MaLoai`);
-
---
--- Chỉ mục cho bảng `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- AUTO_INCREMENT cho các bảng đã đổ
---
-
---
--- AUTO_INCREMENT cho bảng `admins`
---
-ALTER TABLE `admins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT cho bảng `carts`
---
-ALTER TABLE `carts`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
---
--- AUTO_INCREMENT cho bảng `orders`
---
-ALTER TABLE `orders`
-  MODIFY `MaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT cho bảng `products`
---
-ALTER TABLE `products`
-  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT cho bảng `users`
---
-ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- Các ràng buộc cho các bảng đã đổ
---
-
---
--- Các ràng buộc cho bảng `address`
---
-ALTER TABLE `address`
-  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`);
-
---
--- Các ràng buộc cho bảng `carts`
---
-ALTER TABLE `carts`
-  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`),
-  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `gpudetails`
---
-ALTER TABLE `gpudetails`
-  ADD CONSTRAINT `gpudetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `laptopdetails`
---
-ALTER TABLE `laptopdetails`
-  ADD CONSTRAINT `laptopdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `laptopgamingdetails`
---
-ALTER TABLE `laptopgamingdetails`
-  ADD CONSTRAINT `laptopgamingdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `listproduct`
---
-ALTER TABLE `listproduct`
-  ADD CONSTRAINT `listproduct_ibfk_1` FOREIGN KEY (`MaDon`) REFERENCES `orders` (`MaDon`),
-  ADD CONSTRAINT `listproduct_ibfk_2` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `manhinhdetails`
---
-ALTER TABLE `manhinhdetails`
-  ADD CONSTRAINT `manhinhdetails_ibfk_1` FOREIGN KEY (`MaSP`) REFERENCES `products` (`MaSP`);
-
---
--- Các ràng buộc cho bảng `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MaLoai`) REFERENCES `categories` (`MaLoai`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

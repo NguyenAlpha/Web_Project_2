@@ -1,6 +1,7 @@
 <?php
 class AdminController extends BaseController {
     protected $conn;
+
     public function login() {
         if (isset($_POST["admin"])) {
             header("Location: ./index.php");
@@ -21,8 +22,10 @@ class AdminController extends BaseController {
         } 
         return $this->loadView('partitions/frontend/formadminlogin.php');
     }
+    public function adminInfo() {
+        return $this->loadView('partitions/frontend/adminInfo.php');
+    }
     public function usersmanage() {
-        echo 'Đây là trang quản lý người dùng';
         return $this->loadView('frontend/admin/usersmanage.php');
     }
     public function productsmanage() {
@@ -32,11 +35,10 @@ class AdminController extends BaseController {
         return $this->loadView('frontend/product/addProduct.php');
     }
     public function dashboard() {
-        echo 'Đây là trang quản lý Dashboard';
-        return $this->loadView('frontend/admin/dashboard.php');
+        return $this->loadView('frontend/dashboard/index.php');
     }
     public function logout() {
-        session_destroy();
+        unset($_SESSION['admin']);
         header('Location: ./index.php');
         exit;
     }
@@ -190,6 +192,8 @@ public function getTableFields()
 }
 
 public function addProduct() {
+    // echo '<pre>';
+    // print_r($_FILES["AnhMoTaSP"]);
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = new mysqli("localhost", "root", "", "tmdt");
         if ($conn->connect_error) {
@@ -197,10 +201,7 @@ public function addProduct() {
         }
 
         // XỬ LÝ UPLOAD ẢNH
-        $target_dir = "/assets/uploads/";
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true); // tạo folder nếu chưa có
-        }
+        $target_dir = "./assets/image/";
 
         $filename = basename($_FILES["AnhMoTaSP"]["name"]);
         $newFileName = time() . "_" . $filename;
@@ -217,7 +218,7 @@ public function addProduct() {
             die("Chỉ cho phép định dạng JPG, JPEG, PNG.");
         }
 
-        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
+        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], __DIR__. '/../../assets/image/'. $newFileName)) {
             die("Lỗi khi upload ảnh.");
         }
 
@@ -262,95 +263,266 @@ public function addProduct() {
 }
 
 public function editProduct() {
-    if (!isset($_GET['MaSP'])) {
-        echo "Thiếu mã sản phẩm.";
-        return;
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
     }
 
-    return $this->loadView('frontend/admin/editProduct.php');
+    $MaSP = (int)($_GET['MaSP'] ?? 0);
+    if ($MaSP <= 0) {
+        $_SESSION['error'] = "Mã sản phẩm không hợp lệ";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    // Kết nối database
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) die("Kết nối thất bại: " . $conn->connect_error);
+
+    // Lấy thông tin sản phẩm chính
+    $product = $conn->query("SELECT * FROM products WHERE MaSP = $MaSP")->fetch_assoc();
+    if (!$product) {
+        $_SESSION['error'] = "Không tìm thấy sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    // Lấy thông tin chi tiết
+    $detailTable = strtolower($product['MaLoai']) . 'details';
+    $details = $conn->query("SELECT * FROM $detailTable WHERE MaSP = $MaSP")->fetch_assoc();
+
+    // Lấy danh sách trường chi tiết động
+    $detailFields = [];
+    $res = $conn->query("SHOW COLUMNS FROM $detailTable");
+    while ($row = $res->fetch_assoc()) {
+        if ($row['Field'] != 'MaSP') {
+            $detailFields[] = $row['Field'];
+        }
+    }
+
+    // Lấy danh sách danh mục
+    $categories = $conn->query("SELECT * FROM categories")->fetch_all(MYSQLI_ASSOC);
+
+    require_once "Views/frontend/product/editProduct.php";
+    $conn->close();
+}
+
+public function updateProduct() {
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $_SESSION['error'] = "Phương thức không hợp lệ";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = (int)$_POST['MaSP'];
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) die("Kết nối thất bại: " . $conn->connect_error);
+
+    // Xử lý upload ảnh
+    $imagePath = $_POST['current_image'] ?? '';
+    if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] === UPLOAD_ERR_OK) {
+        $targetDir = "assets/image/";
+        $newFileName = uniqid() . '_' . basename($_FILES['AnhMoTaSP']['name']);
+        if (move_uploaded_file($_FILES['AnhMoTaSP']['tmp_name'], $targetDir . $newFileName)) {
+            $imagePath = $targetDir . $newFileName;
+            if (!empty($_POST['current_image']) && file_exists($_POST['current_image'])) {
+                unlink($_POST['current_image']);
+            }
+        }
+    }
+
+    // Bắt đầu transaction
+    $conn->begin_transaction();
+
+    try {
+        // 1. Cập nhật thông tin cơ bản
+        $stmt = $conn->prepare("UPDATE products SET TenSP=?, MaLoai=?, AnhMoTaSP=?, SoLuong=?, Gia=?, TrangThai=? WHERE MaSP=?");
+        $stmt->bind_param("sssiisi", $_POST['TenSP'], $_POST['MaLoai'], $imagePath, $_POST['SoLuong'], $_POST['Gia'], $_POST['TrangThai'], $MaSP);
+        $stmt->execute();
+
+        // 2. Cập nhật thông tin chi tiết
+        $detailTable = strtolower($_POST['MaLoai']) . 'details';
+        
+        // Lấy danh sách trường chi tiết
+        $detailFields = [];
+        $res = $conn->query("SHOW COLUMNS FROM $detailTable");
+        while ($row = $res->fetch_assoc()) {
+            if ($row['Field'] != 'MaSP') $detailFields[] = $row['Field'];
+        }
+
+        // Xóa chi tiết cũ và thêm mới
+        $conn->query("DELETE FROM $detailTable WHERE MaSP = $MaSP");
+        
+        $fields = ['MaSP'];
+        $values = [$MaSP];
+        $types = 'i'; // MaSP là integer
+        
+        foreach ($detailFields as $field) {
+            if (isset($_POST[$field])) {
+                $fields[] = $field;
+                $values[] = $_POST[$field];
+                $types .= 's'; // Các trường khác là string
+            }
+        }
+        
+        $fieldsStr = implode(', ', $fields);
+        $placeholders = implode(', ', array_fill(0, count($fields), '?'));
+        
+        $stmt = $conn->prepare("INSERT INTO $detailTable ($fieldsStr) VALUES ($placeholders)");
+        $stmt->bind_param($types, ...$values);
+        $stmt->execute();
+
+        $conn->commit();
+        $_SESSION['success'] = "Cập nhật sản phẩm thành công";
+    } catch (Exception $e) {
+        $conn->rollback();
+        $_SESSION['error'] = "Lỗi khi cập nhật: " . $e->getMessage();
+    }
+
+    $conn->close();
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
+}
+public function getSpecFields() {
+    if (!isset($_GET['category']) || !isset($_GET['MaSP'])) {
+        die("Thiếu tham số");
+    }
+
+    $category = $_GET['category'];
+    $MaSP = (int)$_GET['MaSP'];
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    
+    if ($conn->connect_error) die("Kết nối thất bại");
+
+    // Lấy các trường của bảng chi tiết
+    $table = strtolower($category) . 'details';
+    $fields = [];
+    $res = $conn->query("SHOW COLUMNS FROM $table");
+    while ($row = $res->fetch_assoc()) {
+        if ($row['Field'] != 'MaSP') $fields[] = $row['Field'];
+    }
+
+    // Lấy giá trị hiện tại nếu có
+    $details = [];
+    if ($MaSP > 0) {
+        $details = $conn->query("SELECT * FROM $table WHERE MaSP = $MaSP")->fetch_assoc();
+    }
+
+    // Render các trường input
+    foreach ($fields as $field) {
+        echo '<div class="mb-3">';
+        echo '<label class="form-label">'.ucfirst(str_replace('_', ' ', $field)).'</label>';
+        echo '<input type="text" name="'.$field.'" class="form-control" ';
+        echo 'value="'.htmlspecialchars($details[$field] ?? '').'">';
+        echo '</div>';
+    }
+
+    $conn->close();
+    exit;
 }
 
 public function deleteProduct() {
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['MaSP'])) {
-        $MaSP = intval($_GET['MaSP']);
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
 
-        $conn = new mysqli("localhost", "root", "", "tmdt");
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
+    // 1. Kiểm tra sản phẩm có tồn tại không
+    $product = $productModel->findById($MaSP);
+    if (!$product) {
+        $_SESSION['error'] = "Sản phẩm không tồn tại";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
 
-        // Lấy loại sản phẩm để biết cần xóa chi tiết ở bảng nào
-        $stmt = $conn->prepare("SELECT MaLoai FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows === 0) {
-            die("Sản phẩm không tồn tại.");
-        }
-
-        $row = $result->fetch_assoc();
-        $MaLoai = $row['MaLoai'];
-        $stmt->close();
-
-        // Xóa chi tiết sản phẩm dựa vào loại
-        switch ($MaLoai) {
-            case "Laptop":
-                $conn->query("DELETE FROM laptopdetails WHERE MaSP = $MaSP");
-                break;
-            case "LaptopGaming":
-                $conn->query("DELETE FROM laptopgamingdetails WHERE MaSP = $MaSP");
-                break;
-            case "GPU":
-                $conn->query("DELETE FROM gpudetails WHERE MaSP = $MaSP");
-                break;
-            case "Manhinh":
-                $conn->query("DELETE FROM manhinhdetails WHERE MaSP = $MaSP");
-                break;
-        }
-
-        // Xóa ảnh mô tả (nếu cần)
-        $stmt = $conn->prepare("SELECT AnhMoTaSP FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($row = $result->fetch_assoc()) {
-            $anh = $row['AnhMoTaSP'];
-            if (file_exists($anh)) {
-                unlink($anh); // xóa file ảnh
-            }
-        }
-        $stmt->close();
-
-        // Xóa sản phẩm chính
-        $stmt = $conn->prepare("DELETE FROM products WHERE MaSP = ?");
-        $stmt->bind_param("i", $MaSP);
-        if ($stmt->execute()) {
-            echo "<script>
-            alert('Xóa sản phẩm thành công!');
-            window.location.href='index.php?controller=admin&action=productsmanage&deleted=true';
-            </script>";
-
+    // 2. Kiểm tra sản phẩm đã được bán chưa (DaBan > 0)
+    if ($product['DaBan'] > 0) {
+        // Nếu đã bán thì ẩn sản phẩm (cập nhật TrangThai = 'ẩn')
+        if ($productModel->updateProductStatus($MaSP, 'ẩn')) {
+            $_SESSION['success'] = "Đã ẩn sản phẩm vì sản phẩm đã được bán";
         } else {
-            echo "Lỗi khi xóa sản phẩm: " . $conn->error;
+            $_SESSION['error'] = "Có lỗi khi ẩn sản phẩm";
         }
-
-        $stmt->close();
-        $conn->close();
     } else {
-        echo "Yêu cầu không hợp lệ.";
+        // Nếu chưa bán thì hiển thị confirm và xóa
+        if (isset($_GET['confirm']) && $_GET['confirm'] === 'true') {
+            // Thực hiện xóa sản phẩm
+            if ($productModel->deleteProduct($MaSP)) {
+                $_SESSION['success'] = "Đã xóa sản phẩm thành công";
+            } else {
+                $_SESSION['error'] = "Có lỗi khi xóa sản phẩm";
+            }
+        } else {
+            // Hiển thị trang xác nhận xóa
+            $this->loadView('frontend/product/confirmDeleteProduct.php', [
+                'product' => $product
+            ]);
+            return;
+        }
     }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
 }
-public function hideproduct() {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        // Gọi model để ẩn sản phẩm
-        require_once 'Models/ProductModel.php';
-        $productModel = new ProductModel();
-        $productModel->hideProductById($id);
+public function showProduct() {
+    // Kiểm tra quyền admin
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
     }
-    // Quay lại trang quản lý sản phẩm
-    header('Location: ?controller=admin&action=productsmanage');
+
+    // Kiểm tra tham số
+    if (!isset($_GET['MaSP'])) {
+        $_SESSION['error'] = "Thiếu thông tin sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
+
+    // Cập nhật trạng thái sản phẩm thành 'hiện'
+    if ($productModel->updateProductStatus($MaSP, 'hiện')) {
+        $_SESSION['success'] = "Đã hiển thị lại sản phẩm thành công";
+    } else {
+        $_SESSION['error'] = "Có lỗi khi hiển thị sản phẩm";
+    }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
+}
+public function hideProduct() {
+    // Kiểm tra quyền admin
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
+    }
+
+    // Kiểm tra tham số
+    if (!isset($_GET['MaSP'])) {
+        $_SESSION['error'] = "Thiếu thông tin sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = intval($_GET['MaSP']);
+    $this->loadModel("ProductModel");
+    $productModel = new ProductModel();
+
+    // Cập nhật trạng thái sản phẩm thành 'ẩn'
+    if ($productModel->updateProductStatus($MaSP, 'ẩn')) {
+        $_SESSION['success'] = "Đã ẩn sản phẩm thành công";
+    } else {
+        $_SESSION['error'] = "Có lỗi khi ẩn sản phẩm";
+    }
+
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
 }
 public function CustomerCartAjax()
 {     
@@ -381,8 +553,6 @@ public function CustomerCartAjax()
         echo "<p>Giỏ hàng trống.</p>";
         exit;
     }
-
-    // In ra HTML dạng bảng
     echo "<style>
     .Cartnull
     {

@@ -5,7 +5,7 @@
   <form action="index.php?controller=user&action=update&userID=<?= $user['ID'] ?>" method="post" id="myForm">
     <div class="card-body">
       <div class="form-group">
-        <label>Họ Tên</label>
+        <label>Tên tài khoản</label>
         <input type="text" class="form-control" name="username" value="<?= $user['username'] ?>">
       </div>
 

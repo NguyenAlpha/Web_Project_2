@@ -26,11 +26,11 @@
             $categories = $this->categoryModel->getAll(['*'],['STT']);
             $products = [];
             foreach($categories as $category) {
-                $categoryProducts = $this->productModel->getProductsByCategoryId($category['MaLoai'], 30);
+                $categoryProducts = $this->productModel->getProductsByCategoryId($category['MaLoai'], 30, 0,[], 'hiện');
                 $products = array_merge($products, $categoryProducts);
             }
 
-            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 25);
+            $bestSellingProducts = $this->productModel->getAll(['*'], ['DaBan DESC'], 25, 'hiện');
 
             return $this->loadView("frontend/home/index.php",[
                 "products" => $products,
@@ -48,8 +48,8 @@
                 header("Location: ./index.php");
                 exit;
             }
-            $products = $this->productModel->getProductBySearch($text, $limit, $offset);
-            $totalProducts = $this->productModel->getCountProductBySearch($text);
+            $products = $this->productModel->getProductBySearch($text, $limit, $offset, 'hiện');
+            $totalProducts = $this->productModel->getCountProductBySearch($text, 'hiện');
             $totalPages = ceil($totalProducts / $limit);
 
             $this->loadView("frontend/home/search.php", [

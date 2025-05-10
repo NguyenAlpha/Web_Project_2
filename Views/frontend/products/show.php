@@ -32,12 +32,26 @@
                             <?=number_format($product["Gia"],
                              0, ',', '.') . "đ"?>
                         </h2>
+                        <form action="./index.php?controller=cart&action=addProduct&MaSP=<?=$product['MaSP']?>" method="get">
+                            <input type="hidden" name="controller" value="cart">
+                            <input type="hidden" name="action" value="addProduct">
+                            <input type="hidden" name="MaSP" value="<?=$product['MaSP']?>">
+                            <div class="flex">
+                                <p class="product__count">Số Lượng</p>
 
-                        <!-- các nút mua, giỏ hàng -->
-                        <div class="product__button__buy__cart">
-                            <button class="product__detail__buy" type="submit">MUA NGAY</button>
-                            <button class="product__detail__cart" type="submit"><i class="fa-solid fa-cart-plus"></i>THÊM VÀO GIỎ</i></button>
-                        </div>
+                                <div class="detail__count">
+                                    <i class="fa-solid fa-minus"></i>
+                                    <input type="text" class="count-input input-number" value="1" min="1" max="<?=$product['SoLuong']?>" name="quantity">
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+                                <p>còn <?=$product['SoLuong']?></p>
+                            </div>
+                            <!-- các nút mua, giỏ hàng -->
+                            <div class="product__button__buy__cart">
+                                <button class="product__detail__buy" type="submit" name="buyNow" value="1">MUA NGAY</button>
+                                <button class="product__detail__cart" type="submit"><i class="fa-solid fa-cart-plus"></i>THÊM VÀO GIỎ</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="product__detail__box2">
