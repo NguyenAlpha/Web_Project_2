@@ -35,14 +35,10 @@
         
         <br>
         
-        <form id="addAddressForm" style="display:none;" class="mt-3 border p-3 bg-light">
+        <form id="addAddressForm" method="post" action="index.php?controller=Address&action=addaddress"  style="display:none;" class="mt-3 border p-3 bg-light">
             <div class="mb-2">
                 <label>Địa chỉ</label>
                 <input type="text" class="form-control" name="address" required>
-            </div>
-            <div class="mb-2">
-                <label>Thành phố</label>
-                <input type="text" class="form-control" name="city" required>
             </div>
             <button class="btn btn-success" type="submit">Lưu địa chỉ</button>
         </form>
