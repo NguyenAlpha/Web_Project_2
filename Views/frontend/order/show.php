@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-9" id="ajax-content-area">
-        <?php include 'Views/frontend/user/profile.php'; ?>
+        
       </div>
     </div>
   </div>

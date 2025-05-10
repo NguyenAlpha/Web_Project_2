@@ -2,11 +2,17 @@
 class CartController extends BaseController {
     private $categoryModel;
     private $cartModel;
+    private $addressModel;
+    private $userModel;
     public function __construct() {
         $this->loadModel("CategoryModel");
         $this->categoryModel = new CategoryModel();
         $this->loadModel("CartModel");
         $this->cartModel = new CartModel();
+        $this->loadModel("AddressModel");
+        $this->addressModel = new AddressModel();
+        $this->loadModel("UserModel");
+        $this->userModel = new UserModel();
 
         
     }
@@ -43,6 +49,7 @@ class CartController extends BaseController {
 
         $this->loadView("frontend/cart/show.php", [
             'carts' => $this->cartModel->getCartbyUserID($_SESSION['user']['ID']),
+            'addresses' => $this->userModel->getaddress($_SESSION['user']['ID'])
         ]);
         return;
     }

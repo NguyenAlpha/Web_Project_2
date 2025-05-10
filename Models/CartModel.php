@@ -36,4 +36,8 @@ class CartModel extends BaseModel {
    public function updateQuantityByID($id, $quantity) {
       $this->update('carts',['SoLuong' => $quantity],'ID',$id);
    }
+
+   public function deleteCartByUserID($userID) {
+      return $this->delete(self::TABLE,'userID',$userID);
+   }
 }
