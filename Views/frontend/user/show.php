@@ -21,7 +21,7 @@
 
 
                         </li>
-                        <li class="list-group-item">Quản lý đơn hàng</li>
+                        <li class="list-group-item"><a href="">Đơn hàng</a></li>
                         <li class="list-group-item">Sản phẩm đã xem</li>
                         <li class="list-group-item"><a href="index.php?controller=user&action=logout">Đăng xuất</a></li>
                     </ul>
