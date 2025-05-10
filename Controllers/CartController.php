@@ -17,6 +17,9 @@ class CartController extends BaseController {
 
     public function addProduct() {
         if(!isset($_SESSION['user'])) {
+            $this->loadView("partitions/frontend/header.php",[
+                "menus" => $this->categoryModel->getAll(['*'],['STT'])
+            ]);
             return $this->loadView('partitions/frontend/login.php', [
                 'cartAlert' => "Đăng nhập để thêm sản phẩm vào giỏ hàng"
             ]);

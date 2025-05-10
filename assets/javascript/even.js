@@ -173,11 +173,12 @@ function initQuantityHandlers() {
         const minusBtn = detailCount.querySelector('.fa-minus');
         const row = detailCount.closest('tr'); // lấy hàng cha <tr>
 
-        if (!input || !plusBtn || !minusBtn || !row) return;
-
-        const giaEl = row.querySelector('.td-Gia');
-        const soTienEl = row.querySelector('.td-SoTien');
-        if (!giaEl || !soTienEl) return;
+        if (!input || !plusBtn || !minusBtn) return;
+        
+        if(row) {
+            const giaEl = row.querySelector('.td-Gia');
+            const soTienEl = row.querySelector('.td-SoTien');        
+        }
 
         const min = parseInt(input.min) || 1;
         const max = parseInt(input.max) || 99;
@@ -231,6 +232,7 @@ function initQuantityHandlers() {
             if (value > min) {
                 input.value = value - 1;
                 updateButtonsState();
+                if(!row) return;
                 updateSoTien();
             }
         });
@@ -240,6 +242,7 @@ function initQuantityHandlers() {
             if (value < max) {
                 input.value = value + 1;
                 updateButtonsState();
+                if(!row) return;
                 updateSoTien();
             }
         });
@@ -255,7 +258,7 @@ function initQuantityHandlers() {
 
         // Khởi tạo lần đầu
         updateButtonsState();
-        updateSoTien();
+        // updateSoTien();
     });
 }
 document.addEventListener('DOMContentLoaded', initQuantityHandlers);

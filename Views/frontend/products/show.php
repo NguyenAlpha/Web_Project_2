@@ -81,8 +81,7 @@
                     </div>
                     <div class="product__item wrap">
                     <?php foreach($PSC as $item): ?>
-                    <?php if($item['MaSP'] == $product['MaSP']): continue;?>
-                    <?php endif;?>
+                    <?php if($item['MaSP'] == $product['MaSP']): continue; endif;?>
                     <div class="product__item__card">
                         <a href="./index.php?controller=product&action=show&id=<?=$item["MaSP"]?>">
                             <div class="product__item__card__img">
@@ -95,7 +94,7 @@
                             <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
                         </a>
                         <div class="button__addcart__box">
-                            <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                            <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
                         </div>
                     </div>
                     
@@ -124,7 +123,7 @@
                             <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
                         </a>
                         <div class="button__addcart__box">
-                            <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                            <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
                         </div>
                     </div>
                     <?php endforeach; ?>

@@ -74,7 +74,7 @@
                                     <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
                                 </a>
                                 <div class="button__addcart__box">
-                                    <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                                    <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
