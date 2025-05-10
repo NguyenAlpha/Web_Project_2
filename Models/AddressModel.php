@@ -10,4 +10,11 @@
     header("Location: ./index.php?controller=user&action=show"); 
     }
     
+
+
+
+   public function geteditaddress($address,$id){
+      $this->update("address",["address"=>$address],"id",$id);
+      header("Location: ./index.php?controller=user&action=show"); 
+   }
  }

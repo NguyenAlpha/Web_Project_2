@@ -7,5 +7,11 @@ class AddressController extends BaseController
         $this->addressModel = new AddressModel();
         $this->addressModel->getdeleteaddress($_GET["id"]);
 }
+
+public function updateaddress(){
+    $this->loadModel("AddressModel");
+    $this->addressModel = new AddressModel();
+    $this->addressModel->geteditaddress($_GET["address"],$_GET["id"]);
+}
 }
 ?>

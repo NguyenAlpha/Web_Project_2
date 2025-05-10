@@ -39,4 +39,5 @@
         // File controller không tồn tại
         include "./Views/errors/404.php";
     }
+    
 ?>

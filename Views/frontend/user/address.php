@@ -5,15 +5,30 @@
     <tr><th>Địa chỉ</th></tr>
     <?php foreach ($addresses as $addr): ?>
         <tr>
-            <td><?=($addr['address'])?>  
-            <a href="index.php?delete&id='.$_SESSION['id']" class="btn btn-edit">Sửa</a>
-            <a href="index.php?controller=Address&action=deleteaddress&id=<?= $addr['id'] ?>" class="btn btn-delete">Xóa</a>
+            <td>
+                <?= htmlspecialchars($addr['address']) ?>
+                <div class="tools">
+                    <!-- Nút sửa hiển thị đúng form theo ID -->
+                    <button onclick="toggleEditForm(<?= $addr['id'] ?>)" class="btn-edit" type="button">Sửa</button>
+                    <a href="index.php?controller=Address&action=deleteaddress&id=<?= $addr['id'] ?>" class="btn btn-delete">Xóa</a>
+                </div>
 
-
+                <!-- Form sửa địa chỉ riêng biệt theo ID -->
+                <form id="editForm_<?= $addr['id'] ?>" style="display:none;" class="mt-3 border p-3 bg-light" method="post" action="index.php?controller=Address&action=updateaddress&id=<?= $addr['id'] ?>">
+                    <input type="hidden" name="controller" value="address">
+                    <input type="hidden" name="action" value="updateaddress">
+                    <input type="hidden" name="id" value="<?= $addr['id']?>">
+                <div class="mb-2">
+                        <label>Địa chỉ mới</label>
+                        <input type="text" class="form-control" name="address" value="<?= htmlspecialchars($addr['address']) ?>" required>
+                    </div>
+                    <button  class="btn btn-edit" type="submit">Lưu địa chỉ</button>
+                </form>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
+
 
 <div class="center-button">
         <button onclick="bindAddressFormEvents()" class="btn-address" type="button">Thêm địa chỉ</button>

@@ -17,6 +17,7 @@
     
     <script src="./assets/javascript/even.js"></script>
     <script src="./assets/javascript/add.js"></script>
+    <script src="./assets/javascript/edit.js"></script>
 </head>
 <body>
     <header>
