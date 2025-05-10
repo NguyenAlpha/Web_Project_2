@@ -55,13 +55,19 @@
             return 0;
         }
 
-        public function getProductBySearch($text, $limit = 25, $offset = 0) {
-            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
+        public function getProductBySearch($text, $limit = 25, $offset = 0, $TrangThai = '') {
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
+            $sql = "SELECT * FROM products WHERE $TrangThai TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
             return $this->getByQuery($sql);
         }
 
-        public function getCountProductBySearch($text) {
-            $sql = "SELECT COUNT(*) AS count FROM products WHERE TenSP LIKE '%$text%'";
+        public function getCountProductBySearch($text, $TrangThai = '') {
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
+            $sql = "SELECT COUNT(*) AS count FROM products WHERE $TrangThai TenSP LIKE '%$text%'";
             $result = $this->conn->query($sql);
             if ($result) {
                 $row = $result->fetch_assoc();

@@ -48,8 +48,8 @@
                 header("Location: ./index.php");
                 exit;
             }
-            $products = $this->productModel->getProductBySearch($text, $limit, $offset);
-            $totalProducts = $this->productModel->getCountProductBySearch($text);
+            $products = $this->productModel->getProductBySearch($text, $limit, $offset, 'hiện');
+            $totalProducts = $this->productModel->getCountProductBySearch($text, 'hiện');
             $totalPages = ceil($totalProducts / $limit);
 
             $this->loadView("frontend/home/search.php", [
