@@ -1,6 +1,7 @@
 <?php
 class AdminController extends BaseController {
     protected $conn;
+
     public function login() {
         if (isset($_POST["admin"])) {
             header("Location: ./index.php");
@@ -261,69 +262,168 @@ public function addProduct() {
     }
 }
 
-public function editProduct()
-{
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "tmdt";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Kết nối thất bại: " . $conn->connect_error);
+public function editProduct() {
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
     }
 
-    // Lấy MaSP từ URL
-    if (isset($_GET['MaSP'])) {
-        $MaSP = $_GET['MaSP'];
+    $MaSP = (int)($_GET['MaSP'] ?? 0);
+    if ($MaSP <= 0) {
+        $_SESSION['error'] = "Mã sản phẩm không hợp lệ";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
 
-        // Lấy dữ liệu sản phẩm hiện tại
-        $sql = "SELECT * FROM products WHERE MaSP = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $MaSP);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
+    // Kết nối database
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) die("Kết nối thất bại: " . $conn->connect_error);
 
-        // Nếu submit cập nhật
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $TenSP = $_POST['TenSP'];
-            $MaLoai = $_POST['MaLoai'];
-            $SoLuong = $_POST['SoLuong'];
-            $Gia = $_POST['Gia'];
-            $AnhMoTaSP = $product['AnhMoTaSP']; // giữ ảnh cũ
+    // Lấy thông tin sản phẩm chính
+    $product = $conn->query("SELECT * FROM products WHERE MaSP = $MaSP")->fetch_assoc();
+    if (!$product) {
+        $_SESSION['error'] = "Không tìm thấy sản phẩm";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
 
-            // Nếu có upload ảnh mới
-            if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] === 0) {
-                $target_dir = "image/";
-                if (!is_dir($target_dir)) {
-                    mkdir($target_dir, 0777, true);
-                }
-                $filename = basename($_FILES["AnhMoTaSP"]["name"]);
-                $target_file = $target_dir . uniqid() . "_" . $filename;
+    // Lấy thông tin chi tiết
+    $detailTable = strtolower($product['MaLoai']) . 'details';
+    $details = $conn->query("SELECT * FROM $detailTable WHERE MaSP = $MaSP")->fetch_assoc();
 
-                if (move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], $target_file)) {
-                    $AnhMoTaSP = $target_file;
-                }
-            }
-
-            // Cập nhật vào CSDL
-            $updateSql = "UPDATE products SET TenSP=?, MaLoai=?, AnhMoTaSP=?, SoLuong=?, Gia=? WHERE MaSP=?";
-            $updateStmt = $conn->prepare($updateSql);
-            $updateStmt->bind_param("ssssds", $TenSP, $MaLoai, $AnhMoTaSP, $SoLuong, $Gia, $MaSP);
-            $updateStmt->execute();
-
-            // Redirect sau khi cập nhật
-            header("Location: productsmanage.php");
-            exit();
+    // Lấy danh sách trường chi tiết động
+    $detailFields = [];
+    $res = $conn->query("SHOW COLUMNS FROM $detailTable");
+    while ($row = $res->fetch_assoc()) {
+        if ($row['Field'] != 'MaSP') {
+            $detailFields[] = $row['Field'];
         }
-        // Load giao diện form sửa
-        include 'views/frontend/Product/editProduct.php';
-    } else {
-        echo "Thiếu Mã sản phẩm.";
+    }
+
+    // Lấy danh sách danh mục
+    $categories = $conn->query("SELECT * FROM categories")->fetch_all(MYSQLI_ASSOC);
+
+    require_once "Views/frontend/product/editProduct.php";
+    $conn->close();
+}
+
+public function updateProduct() {
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $_SESSION['error'] = "Phương thức không hợp lệ";
+        header("Location: index.php?controller=admin&action=productsmanage");
+        exit;
+    }
+
+    $MaSP = (int)$_POST['MaSP'];
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    if ($conn->connect_error) die("Kết nối thất bại: " . $conn->connect_error);
+
+    // Xử lý upload ảnh
+    $imagePath = $_POST['current_image'] ?? '';
+    if (isset($_FILES['AnhMoTaSP']) && $_FILES['AnhMoTaSP']['error'] === UPLOAD_ERR_OK) {
+        $targetDir = "assets/image/";
+        $newFileName = uniqid() . '_' . basename($_FILES['AnhMoTaSP']['name']);
+        if (move_uploaded_file($_FILES['AnhMoTaSP']['tmp_name'], $targetDir . $newFileName)) {
+            $imagePath = $targetDir . $newFileName;
+            if (!empty($_POST['current_image']) && file_exists($_POST['current_image'])) {
+                unlink($_POST['current_image']);
+            }
+        }
+    }
+
+    // Bắt đầu transaction
+    $conn->begin_transaction();
+
+    try {
+        // 1. Cập nhật thông tin cơ bản
+        $stmt = $conn->prepare("UPDATE products SET TenSP=?, MaLoai=?, AnhMoTaSP=?, SoLuong=?, Gia=?, TrangThai=? WHERE MaSP=?");
+        $stmt->bind_param("sssiisi", $_POST['TenSP'], $_POST['MaLoai'], $imagePath, $_POST['SoLuong'], $_POST['Gia'], $_POST['TrangThai'], $MaSP);
+        $stmt->execute();
+
+        // 2. Cập nhật thông tin chi tiết
+        $detailTable = strtolower($_POST['MaLoai']) . 'details';
+        
+        // Lấy danh sách trường chi tiết
+        $detailFields = [];
+        $res = $conn->query("SHOW COLUMNS FROM $detailTable");
+        while ($row = $res->fetch_assoc()) {
+            if ($row['Field'] != 'MaSP') $detailFields[] = $row['Field'];
+        }
+
+        // Xóa chi tiết cũ và thêm mới
+        $conn->query("DELETE FROM $detailTable WHERE MaSP = $MaSP");
+        
+        $fields = ['MaSP'];
+        $values = [$MaSP];
+        $types = 'i'; // MaSP là integer
+        
+        foreach ($detailFields as $field) {
+            if (isset($_POST[$field])) {
+                $fields[] = $field;
+                $values[] = $_POST[$field];
+                $types .= 's'; // Các trường khác là string
+            }
+        }
+        
+        $fieldsStr = implode(', ', $fields);
+        $placeholders = implode(', ', array_fill(0, count($fields), '?'));
+        
+        $stmt = $conn->prepare("INSERT INTO $detailTable ($fieldsStr) VALUES ($placeholders)");
+        $stmt->bind_param($types, ...$values);
+        $stmt->execute();
+
+        $conn->commit();
+        $_SESSION['success'] = "Cập nhật sản phẩm thành công";
+    } catch (Exception $e) {
+        $conn->rollback();
+        $_SESSION['error'] = "Lỗi khi cập nhật: " . $e->getMessage();
     }
 
     $conn->close();
+    header("Location: index.php?controller=admin&action=productsmanage");
+    exit;
+}
+public function getSpecFields() {
+    if (!isset($_GET['category']) || !isset($_GET['MaSP'])) {
+        die("Thiếu tham số");
+    }
+
+    $category = $_GET['category'];
+    $MaSP = (int)$_GET['MaSP'];
+    $conn = new mysqli("localhost", "root", "", "tmdt");
+    
+    if ($conn->connect_error) die("Kết nối thất bại");
+
+    // Lấy các trường của bảng chi tiết
+    $table = strtolower($category) . 'details';
+    $fields = [];
+    $res = $conn->query("SHOW COLUMNS FROM $table");
+    while ($row = $res->fetch_assoc()) {
+        if ($row['Field'] != 'MaSP') $fields[] = $row['Field'];
+    }
+
+    // Lấy giá trị hiện tại nếu có
+    $details = [];
+    if ($MaSP > 0) {
+        $details = $conn->query("SELECT * FROM $table WHERE MaSP = $MaSP")->fetch_assoc();
+    }
+
+    // Render các trường input
+    foreach ($fields as $field) {
+        echo '<div class="mb-3">';
+        echo '<label class="form-label">'.ucfirst(str_replace('_', ' ', $field)).'</label>';
+        echo '<input type="text" name="'.$field.'" class="form-control" ';
+        echo 'value="'.htmlspecialchars($details[$field] ?? '').'">';
+        echo '</div>';
+    }
+
+    $conn->close();
+    exit;
 }
 
 public function deleteProduct() {

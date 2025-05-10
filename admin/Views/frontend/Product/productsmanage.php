@@ -134,8 +134,7 @@ $result = $conn->query($sql);
                             echo "<td>";
                             echo "<div class='button-container'>";
                             
-                            // Nút Sửa - luôn hiển thị
-                            echo "<a class='btn-action btn-primary' href='editProduct.php?MaSP=" . urlencode($row["MaSP"]) . "' title='Sửa'>";
+                            echo "<a class='btn-action btn-primary' href='?controller=admin&action=editProduct&MaSP=" . urlencode($row["MaSP"]) . "' title='Sửa'>";
                             echo "<i class='bi bi-pencil'></i>";
                             echo "</a>";
                             
