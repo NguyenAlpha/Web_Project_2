@@ -17,4 +17,11 @@
       $this->update("address",["address"=>$address],"id",$id);
       header("Location: ./index.php?controller=user&action=show"); 
    }
+
+   public function getaddaddress($address, $id) {
+      $sql = "INSERT INTO address (address, id) VALUES ('$address', '$id')";
+
+      $this->add($sql);
+  }
+  
  }
