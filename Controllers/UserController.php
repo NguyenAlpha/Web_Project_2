@@ -95,5 +95,7 @@ class UserController extends BaseController {
         $_SESSION['user'] = $this->userModel->getUser((int)($_SESSION['user']['ID']));
         header("Location: ./index.php?controller=user&action=show");
     }
+
+    
 }
 ?>

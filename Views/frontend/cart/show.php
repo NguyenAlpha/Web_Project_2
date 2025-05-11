@@ -42,9 +42,47 @@
                             <?=number_format($TongTien,0, ',', '.') . "đ"?>
                         <?php endif?>
                     </td>
-                    <td class="center buy-btn"><a href="">Mua hàng</a></td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>
     </div>
+    <form action="?controller=order&action=addOrder" method="post">
+    <div class="address address-block">
+        <?php if(!empty($addresses)):?>
+            <p class="cart-address__title">Địa chỉ nhận hàng</p>
+            <p class="address"><b>Người Nhận: </b><?=$_SESSION['user']['username']?> (+84) <?=$_SESSION['user']['phonenumber']?></p>
+            <div class="cart-address__info flex">
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="">
+                    <select name="address" required>
+                        <?php foreach($addresses as $ar):?>
+                        <option><?=$ar['address']?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
+            </div>
+
+        <?php else:?>
+            <p class="cart-address__title">Địa chỉ nhận hàng</p>
+            <p>chưa có địa chỉ! <select name="address" required hidden></select> <a href="?controller=user&action=show" class="address__add">Thêm mới</a></p>
+        <?php endif;?>
+    </div>
+    <div class="pay pay--block">
+        <h2 class="pay__title">Hình thức thanh toán</h2>
+        <div class="pay__radio">
+            <input type="radio" value="cash" name="pay" id="cash">
+            <label for="cash"><i class="fa-solid fa-money-bill-1-wave"></i>Thanh toán tiền mặt khi nhận hàng</label>
+        </div>
+        <div class="pay__radio">
+            <input type="radio" value="transfer" name="pay" id="transfer" required>
+            <label for="transfer"><i class="fa-solid fa-money-bill-transfer"></i>Chuyển khoản ngân hàng</label>
+        </div>
+        <div class="flex pay-price">
+            <p class="pay__sum-price-title">Tổng thanh toán: </p>
+            <p class="pay__sum-price"><?=number_format($TongTien,0, ',', '.') . "đ"?></p>
+        </div>
+        <button type="submit" class="pay-submit">Đặt hàng</button>
+    </div>
+    </form>
 </main>
