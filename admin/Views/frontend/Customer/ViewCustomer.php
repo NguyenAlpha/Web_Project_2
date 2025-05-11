@@ -5,12 +5,15 @@ $password = "";
 $dbname = "tmdt";
 include "./Views/partitions/frontend/headerAdmin.php";
 
+<<<<<<< HEAD
 // Kết nối CSDL
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
+=======
+>>>>>>> e4b3ad6be284d928717801a7ab9a5d56c6b5a9b0
 ?>
 <!DOCTYPE html>
 <html lang="vi">
