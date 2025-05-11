@@ -157,23 +157,23 @@ include "./Views/partitions/frontend/headerAdmin.php";
                         
                         <!-- Ảnh hiện tại -->
                         <div class="mb-3">
-                            <label class="form-label">Ảnh hiện tại</label>
+                            
+                            <label` class="form-label">Ảnh hiện tại</label>
                             <div class="text-center border p-2 rounded bg-light">
                                 <?php if (!empty($product['AnhMoTaSP'])): ?>
                                     <?php
-                                    // Xử lý đường dẫn ảnh
-                                    $currentImage = $product['AnhMoTaSP'];
-                                    if (strpos($currentImage, 'assets/image/') === false) {
-                                        $currentImage = '../assets/image/' . basename($currentImage);
-                                    }
+                                    // Xử lý đường dẫn ảnh giống như trong productsmanage.php
+                                    $imagePath = '.' . $product['AnhMoTaSP'];
+                                    // Loại bỏ các dấu gạch chéo kép nếu có
+                                    $imagePath = str_replace('//', '/', $imagePath);
                                     ?>
-                                    <img src="<?= htmlspecialchars($currentImage) ?>" 
+                                    <img src="<?= htmlspecialchars($imagePath) ?>" 
                                         class="img-thumbnail" 
                                         style="max-height: 200px;"
                                         id="currentImage"
-                                        onerror="this.src='../assets/image/no-image.jpg'">
+                                        onerror="this.src='../assets/image/no-image.jpg'; this.onerror=null;">
                                     <div class="mt-2">
-                                        <small class="text-muted"><?= htmlspecialchars(basename($currentImage)) ?></small>
+                                        <small class="text-muted"><?= htmlspecialchars(basename($product['AnhMoTaSP'])) ?></small>
                                     </div>
                                 <?php else: ?>
                                     <div class="alert alert-warning py-4">Không có ảnh hiện tại</div>

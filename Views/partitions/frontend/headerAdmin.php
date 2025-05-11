@@ -196,7 +196,7 @@
                     <a href="index.php?controller=admin&action=addCustomer">Thêm khách hàng</a>
                 </div>
             </div>
-            <a href="#">Danh sách đơn hàng</a>
+
             <a href="#">Sản phẩm</a>
             <a href="#">Đăng xuất</a>
         </div>
