@@ -117,11 +117,13 @@ class AdminController extends BaseController {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
-            $gender = $_POST['gender'] ?? '';
             $email = $_POST['email'] ?? '';
-            $address = $_POST['address'] ?? '';
+            $gender = $_POST['gender'] ?? '';
+            $sex = $_POST['sex'] ?? '';
+            $phonenumber = $_POST['phonenumber'] ?? '';
+            $date_of_birth = $_POST['dob']?? '';
     
-            $success = $adminModel->addCustomer($username, $password, $gender, $email, $address);
+            $success = $adminModel->addCustomer($username, $password, $email,$sex, $phonenumber, $date_of_birth);
     
             if ($success) {
                 // Có thể load lại danh sách luôn:
