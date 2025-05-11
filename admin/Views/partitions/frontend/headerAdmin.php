@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,6 +90,7 @@
                 <div><a href="?controller=admin&action=dashboard">Trang chủ</a></div>
                 <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
                 <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
+                <div><a href="?controller=admin&action=manageorderlist">Danh sách đơn hàng</a></div>
                 <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
                 <div><a href="?controller=admin&action=logout">Đăng xuất</a></div>
             </div>

@@ -46,5 +46,24 @@ class OrderController extends BaseController {
         $this->orderModel->addOrder($carts,$userID, $address, $TongTien, $pay, $now);
         header("Location: ?controller=order&action=show&userID=$userID");
     }
+
+public function ajax_confirm() {
+    if (!isset($_GET['id'])) {
+        echo "Thiếu ID đơn hàng";
+        return;
+    }
+
+    $maDon = (int)$_GET['id'];
+    $this->loadModel('OrderModel');
+    $orderModel = new OrderModel();
+    $orderModel->updateStatusToConfirmed($maDon);
+
+    echo "✅ Đã xác nhận đơn #$maDon";
 }
+
+   
+
+}
+
+
 ?>

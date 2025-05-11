@@ -37,7 +37,7 @@
             $this->conn->query($sql);
         }
 
-        protected function update($table, $data, $column, $id) {
+        public function update($table, $data, $column, $id) {
             $newarr = [];
             foreach($data as $key => $value) {
                 $newarr[] = "$key = '$value'";
@@ -83,6 +83,17 @@
         protected function add($sql) {
             $this->conn->query($sql);
         }
+        protected function execute($sql, $params = []) {
+    $stmt = $this->conn->prepare($sql);
+    if (!empty($params)) {
+        // Tạo chuỗi types (i = integer)
+        $types = str_repeat("s", count($params)); // hoặc "i" nếu chỉ toàn số nguyên
+        $stmt->bind_param($types, ...$params);
+    }
+    return $stmt->execute();
+}
+
+        
     }
     
 ?>
