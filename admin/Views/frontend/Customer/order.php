@@ -48,7 +48,9 @@
                 <?php if ($don['TrangThai'] != 'Đã giao'): endif;?>
                 </div>
             </div>
-            <?php endforeach; endif; ?>
+            <?php endforeach; else: ?>
+                <p class="error">không có đơn nào</p>
+            <?php endif;?>
         </div>
     </div>
 </div>
