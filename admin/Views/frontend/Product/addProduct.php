@@ -203,7 +203,7 @@ document.getElementById('imageUpload').addEventListener('change', function(event
         }
         
         // Kiểm tra kích thước file
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             alert('File ảnh không được vượt quá 2MB');
             this.value = '';
             return;
