@@ -72,7 +72,6 @@ public function ajax_confirm() {
             'user' => $user
         ]);
     }
-
 }
 
 

@@ -240,7 +240,7 @@ th:nth-child(6), td:nth-child(6) { width: 15%; }
         <td><?php echo htmlspecialchars($value['username']); ?></td>
         <td><?php echo htmlspecialchars($value['email']); ?></td>
         <td>
-          <a href="?controller=order&action=userOrder&userID=<?=$value['ID']?>">Xem</a>
+          <a href="?controller=order&action=userOrder&userID=<?=$value['ID']?> " class="btn-action">Xem</a>
         <!-- </td>
         <>
           <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>

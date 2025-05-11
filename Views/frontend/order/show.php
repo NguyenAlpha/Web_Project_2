@@ -43,10 +43,12 @@
                     </div>
                     <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
                     <div class="flex">
+                        <a href="?controller=product&action=show&id=<?=$order['MaSP']?>">
                         <div class="flex">
                             <img src="<?=$order['AnhMoTaSP']?>" alt="">
                             <p><?=$order['TenSP']?></p>
                         </div>
+                        </a>
                         <div class="">
                             <div class="">
                                 <span>Số lượng: </span>

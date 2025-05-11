@@ -22,10 +22,12 @@
                 </div>
                 <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
                 <div class="flex">
-                    <div class="flex">
-                        <img src="../<?=$order['AnhMoTaSP']?>" alt="">
-                        <p><?=$order['TenSP']?></p>
-                    </div>
+                    <a href="../index.php?controller=product&action=show&id=<?=$order['MaSP']?>">
+                        <div class="flex">
+                            <img src="../<?=$order['AnhMoTaSP']?>" alt="">
+                            <p><?=$order['TenSP']?></p>
+                        </div>
+                        </a>
                     <div class="">
                         <div class="">
                             <span>Số lượng: </span>
@@ -40,7 +42,7 @@
                                     <?php endforeach; endif; ?>
                 <div class="list-box__footer">
                     <div class="">
-                        <span>Tổng tiền: </span>
+                        <b>Tổng tiền: </b>
                         <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
                     </div>
                 <?php if ($don['TrangThai'] != 'Đã giao'): endif;?>
