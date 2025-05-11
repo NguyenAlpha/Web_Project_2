@@ -81,12 +81,8 @@ class AdminController extends BaseController {
     public function CustomerID()
     {     $this->loadModel("AdminModel");
         $adminModel = new AdminModel();
-<<<<<<< HEAD
         $customers = $adminModel->customer($_GET["id"]);
         
-=======
-        $customers = $adminModel->getCustomerByID($id);
->>>>>>> d8beeeb4ddb864d4e7fa3934afb9c902c6d390f2
         // Truyền dữ liệu sang view
         $this->loadView ("frontend/Customer/ViewCustomer.php", [
             "customers" => $customers
