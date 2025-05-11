@@ -5,23 +5,6 @@ $password = "";
 $dbname = "tmdt";
 include "./Views/partitions/frontend/headerAdmin.php";
 
-// Kết nối CSDL
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-
-// Truy vấn danh sách khách hàng
-$sql = "SELECT * FROM users"; // hoặc 'users' nếu tên bảng là vậy
-$result = $conn->query($sql);
-
-$customers = [];
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $customers[] = $row;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
