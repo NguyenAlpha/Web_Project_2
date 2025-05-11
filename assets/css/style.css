@@ -924,3 +924,21 @@ b {
 	color: #00268c;
 	font-weight: 600;
 }
+
+/* ====================================================order list */
+.list-box {
+	background-color: #fff;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0 0 5px #00000016;
+	margin-bottom: 30px;
+}
+
+.list-box img {
+	height: 60px;
+	width: 60px;
+}
+
+.list-box__title {
+	border-bottom: 1px solid #a1a1a1;
+}

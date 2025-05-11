@@ -21,14 +21,55 @@
 
 
                         </li>
-                        <a href="?controller=order&action=show&userID=<?=$user['ID']?>"><li class="list-group-item">Đơn hàng</li></a>
+                        <a href="?controller=order&action=show&userID=<?=$user['ID']?>"><li class="list-group-item">Đơn hàng đã mua</li></a>
                         <li class="list-group-item">Sản phẩm đã xem</li>
                         <li class="list-group-item"><a href="index.php?controller=user&action=logout">Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-9" id="ajax-content-area">
-        
+            <div class="order-list">
+                <?php 
+                if(!empty($listMaDon)): foreach($listMaDon as $don):?>
+                <div class="list-box">
+                    <div class="flex list-box__title">
+                        <div class="">
+                            <div class=""><b>Đơn hàng: </b> <span>#<?=$don['MaDon']?></span></div>
+                            <div class=""><b>Địa chỉ giao: </b> <span><?=$don['DiaChi']?></span></div>
+                            <div class=""><b>Ngày đặt: </b> <span><?=$don['NgayDat']?></span></div>
+                            <div class=""><b>Ngày giao: </b> <span><?=$don['NgayGiao'] ?? ''?></span></div>
+                        </div>
+                        <b><?=$don['TrangThai']?></b>
+                    </div>
+                    <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
+                    <div class="flex">
+                        <div class="flex">
+                            <img src="<?=$order['AnhMoTaSP']?>" alt="">
+                            <p><?=$order['TenSP']?></p>
+                        </div>
+                        <div class="">
+                            <div class="">
+                                <span>Số lượng: </span>
+                                <b><?=$order['SoLuongOrder']?></b>
+                            </div>
+                            <div class="">
+                                <span>Đơn giá: </span>
+                                <b><?=number_format($order['Gia'],0, ',', '.') . "đ"?></b>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach;endif;?>
+                    <div class="">
+                        <div class="">
+                            <span>Tổng Tiền: </span>
+                            <b><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach;else:?>
+
+                <?php endif;?>
+            </div>
       </div>
     </div>
   </div>

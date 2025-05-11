@@ -23,9 +23,17 @@ class OrderModel extends BaseModel {
         $this->conn->query($sql2);
     }
 
-    public function getOrderByUserID() {
-        $sql = "SELECT * ";
-        $this->getByQuery($sql);
+    public function getOrderByUserID($userID) {
+        $sql = "SELECT *, listproduct.SoLuong AS SoLuongOrder, orders.TrangThai AS TrangThaiDon, orders.MaDon AS MaOrder FROM orders 
+        INNER JOIN listproduct ON listproduct.MaDon = orders.MaDon
+        INNER JOIN products ON products.MaSP = listproduct.MaSP 
+        WHERE UserID = $userID";
+        return $this->getByQuery($sql);
+    }
+
+    public function getListMaDon($userID) {
+        $sql = "SELECT * FROM orders WHERE UserID = $userID";
+        return $this->getByQuery($sql);
     }
 }
 
