@@ -9,7 +9,7 @@ class AdminModel extends BaseModel{
         if(!empty($id)) {
             $id = "ID = $id";
         }
-        $sql = "SELECT * FROM `users` WHERE $id";
+        $sql = "SELECT * FROM `users` WHERE ($id ?? 1)";
         
     return $this->getByQuery( $sql);
     }

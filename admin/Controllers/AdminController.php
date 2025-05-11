@@ -707,10 +707,7 @@ public function updateOrderStatus() {
     }
 }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> ac6261dfc8b632095f699b7f02e17260ecf384a9
 }
 ?>

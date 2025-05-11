@@ -68,7 +68,7 @@
                         <?php if ($don['TrangThai'] != 'Đã giao'): ?>
                             <?php endif; ?>
                         </div>
-                    </div>
+                </div>
                     <?php endforeach; endif; ?> 
                     
                     <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="margin-top: 10px;">

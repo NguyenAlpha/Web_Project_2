@@ -213,7 +213,6 @@ th:nth-child(6), td:nth-child(6) { width: 15%; }
 .close-button:hover {
     background-color: #303f9f;
 }
-<<<<<<< HEAD
 .btn-an{
 
 
@@ -262,7 +261,6 @@ th:nth-child(6), td:nth-child(6) { width: 15%; }
     <div id="cartContent"></div>
     <div class="popup-buttons">
         <button class="close-button"onclick="closeCartPopup()">Đóng</button>
-=======
 
 /* Form tìm kiếm */
 .search-form {
@@ -395,7 +393,6 @@ th:nth-child(6), td:nth-child(6) { width: 15%; }
                 <i class="bi bi-arrow-counterclockwise"></i> Xóa lọc
             </a>
         </form>
->>>>>>> ac6261dfc8b632095f699b7f02e17260ecf384a9
     </div>
 
     <table>

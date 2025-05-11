@@ -67,9 +67,9 @@ class OrderController extends BaseController {
 
     
     // Quay lại danh sách đơn hàng
-    $userID = $_SESSION['user']['ID'];
-    header("Location: index.php?controller=order&action=show&userID=" . $userID);
-    exit;
+    // $userID = $_SESSION['user']['ID'];
+    // header("Location: index.php?controller=order&action=show&userID=" . $userID);
+    // exit;
 }
 
 
