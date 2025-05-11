@@ -61,7 +61,17 @@ public function ajax_confirm() {
     echo "✅ Đã xác nhận đơn #$maDon";
 }
 
-    
+    public function userOrder() {
+        $userID = $_GET['userID'];
+        $orders = $this->orderModel->getOrderByUserID($_SESSION['user']['ID']);
+        $listMaDon = $this->orderModel->getListMaDon($_SESSION['user']['ID']);
+        $user = $_SESSION['user'];
+        $this->loadView('frontend/Customer/order.php', [
+            'orders' => $orders,
+            'listMaDon' => $listMaDon,
+            'user' => $user
+        ]);
+    }
 
 }
 

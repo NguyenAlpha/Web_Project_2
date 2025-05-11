@@ -179,7 +179,7 @@ th:nth-child(5), td:nth-child(5) {
         <td><?php echo htmlspecialchars($value['password']); ?></td>
         <td><?php echo htmlspecialchars($value['email']); ?></td>
         <td>
-          <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
+          <a href="?controller=order&action=userOrder&userID=<?=$_SESSION['user']['ID']?>" class="btn-action">Xem</a>
         </td>
         <td>
           <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
