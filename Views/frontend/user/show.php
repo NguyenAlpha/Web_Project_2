@@ -22,7 +22,6 @@
 
                         </li>
                         <a href="?controller=order&action=show&userID=<?=$user['ID']?>"><li class="list-group-item">Đơn hàng đã mua</li></a>
-                        <li class="list-group-item">Sản phẩm đã xem</li>
                         <li class="list-group-item"><a href="index.php?controller=user&action=logout">Đăng xuất</a></li>
                     </ul>
                 </div>

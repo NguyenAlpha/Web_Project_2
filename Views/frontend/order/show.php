@@ -19,9 +19,8 @@
                             <a href="#" class="ajax-link" data-url="?controller=Ajax&action=getaddress">Sổ địa chỉ</a>
                         </li>
                         <a href="?controller=order&action=show&userID=<?=$user['ID']?>">
-                            <li class="list-group-item">Đơn hàng </li>
+                            <li class="list-group-item">Đơn hàng đã mua</li>
                         </a>
-                        <li class="list-group-item">Lịch sử đơn hàng</li>
                         <li class="list-group-item">
                             <a href="index.php?controller=user&action=logout">Đăng xuất</a>
                         </li>

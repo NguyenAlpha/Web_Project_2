@@ -39,17 +39,19 @@ class CartController extends BaseController {
 
     public function show() {
         $this->loadView("partitions/frontend/header.php",[
-            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+            "menus" => $this->categoryModel->getAll(['*'],['STT']),
+            'title' => 'giỏ hàng'
         ]);
         if(!isset($_SESSION['user'])) {
             return $this->loadView('partitions/frontend/login.php', [
-                'cartAlert' => "Đăng nhập để xem giỏ hàng"
+                'cartAlert' => "Đăng nhập để xem giỏ hàng",
             ]);
         }
 
         $this->loadView("frontend/cart/show.php", [
             'carts' => $this->cartModel->getCartbyUserID($_SESSION['user']['ID']),
-            'addresses' => $this->userModel->getaddress($_SESSION['user']['ID'])
+            'addresses' => $this->userModel->getaddress($_SESSION['user']['ID']),
+            
         ]);
         return;
     }

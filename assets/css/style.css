@@ -485,7 +485,10 @@ footer {
 	font-size: 18px;
 }
 
-
+a.active {
+	background-color:rgb(17, 60, 170);
+	color: #fff;
+}
 /* ======================================================  CATEGORY FILTER    ============================================================================*/
 .main .container.category {
 	box-sizing: border-box;
@@ -948,3 +951,4 @@ b {
 	justify-content: end;
 	font-size: 20px;
 }
+
