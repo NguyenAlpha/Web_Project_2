@@ -283,8 +283,11 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f7fa;
     color: #333;
-    margin: 0;
-    padding: 0;
+    display: flexbox;
+    width: 80%;
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
 }
 
 .container {
