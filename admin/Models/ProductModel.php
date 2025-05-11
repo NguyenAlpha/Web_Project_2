@@ -2,42 +2,17 @@
     class ProductModel extends BaseModel {
         const TABLE = "products";
 
-        public function getAll($select = ['*'], $orderBy = [] ,$limit = 15) {
-            return $this->get(self::TABLE, $select, $orderBy, $limit);
+        public function getAll($select = ['*'], $orderBy = [] ,$limit = 15, $TrangThai = '') {
+            return $this->get(self::TABLE, $select, $orderBy, $limit, $TrangThai);
         }
 
-        public function findById($MaSP) {
-        $sql = "SELECT * FROM products WHERE MaSP = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
-    }
-    public function updateProductStatus($MaSP, $status) {
-            $sql = "UPDATE products SET TrangThai = ? WHERE MaSP = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("si", $status, $MaSP);
-            return $stmt->execute();
+        public function findById($id) {
+            return $this->find(self::TABLE, "MaSP", $id);
         }
 
-    public function deleteProduct($MaSP) {
-        // Lấy thông tin loại sản phẩm trước khi xóa
-        $product = $this->findById($MaSP);
-        if (!$product) return false;
-
-        // Xóa từ bảng chi tiết trước
-        $detailTable = strtolower($product['MaLoai']) . 'details';
-        $sql = "DELETE FROM $detailTable WHERE MaSP = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $MaSP);
-        $stmt->execute();
-
-        // Xóa từ bảng products
-        $sql = "DELETE FROM products WHERE MaSP = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $MaSP);
-        return $stmt->execute();
-    }
+        public function deleteProduct($data) {
+            $this->delete(self::TABLE, "MaSP", $data);
+        }
 
         public function add($data) {
             $this->create(self::TABLE, $data);
@@ -46,17 +21,32 @@
         public function updateProduct($data, $id) {
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
-        
-        public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0) {
+
+        public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0, $orderBy = [], $TrangThai = '') {
+            $orderClause = '';
+            if (!empty($orderBy)) {
+                // Ví dụ: ['Gia DESC', 'TenSanPham ASC']
+                $orderClause = "ORDER BY " . implode(", ", $orderBy);
+            }
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
             $query = "SELECT * FROM " . self::TABLE . "
-                      WHERE MaLoai = '$categoryID'
+                      WHERE $TrangThai MaLoai = '$categoryID'
+                      $orderClause
                       LIMIT $limit OFFSET $offset";
+            // echo $query . '<br>';
             return $this->getByQuery($query);
         }
+        
     
         // Lấy số lượng sản phẩm theo danh mục (phân trang)
-        public function getProductCountByCategory($categoryID) {
-            $sql = "SELECT COUNT(*) as count FROM " . self::TABLE . " WHERE MaLoai = '$categoryID'";
+        public function getProductCountByCategory($categoryID, $TrangThai = '') {
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
+            $sql = "SELECT COUNT(*) as count FROM " . self::TABLE . " WHERE $TrangThai MaLoai = '$categoryID'";
+            // echo $sql;
             $result = $this->conn->query($sql);
             if ($result) {
                 $row = $result->fetch_assoc();
@@ -65,13 +55,19 @@
             return 0;
         }
 
-        public function getProductBySearch($text, $limit = 25, $offset = 0) {
-            $sql = "SELECT * FROM products WHERE TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
+        public function getProductBySearch($text, $limit = 25, $offset = 0, $TrangThai = '') {
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
+            $sql = "SELECT * FROM products WHERE $TrangThai TenSP LIKE '%$text%' LIMIT $limit OFFSET $offset";
             return $this->getByQuery($sql);
         }
 
-        public function getCountProductBySearch($text) {
-            $sql = "SELECT COUNT(*) AS count FROM products WHERE TenSP LIKE '%$text%'";
+        public function getCountProductBySearch($text, $TrangThai = '') {
+            if(!empty($TrangThai)) {
+                $TrangThai = "TrangThai = '$TrangThai' AND";
+            }
+            $sql = "SELECT COUNT(*) AS count FROM products WHERE $TrangThai TenSP LIKE '%$text%'";
             $result = $this->conn->query($sql);
             if ($result) {
                 $row = $result->fetch_assoc();

@@ -341,6 +341,40 @@ th:nth-child(6), td:nth-child(6) { width: 15%; }
 </style>
 
 <div class="body">
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Email</th>
+      <th>Xem đơn hàng</th>
+      <th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($customers as $value): ?>
+      <tr>
+        <td><?php echo htmlspecialchars($value['username']); ?></td>
+        <td><?php echo htmlspecialchars($value['password']); ?></td>
+        <td><?php echo htmlspecialchars($value['email']); ?></td>
+        <td>
+          <a href="?controller=order&action=userOrder&userID=<?=$_SESSION['user']['ID']?>" class="btn-action">Xem</a>
+        </td>
+        <td>
+          <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
+          <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+
+<!-- Popup hiển thị giỏ hàng -->
+<div id="popupCart" class="popup-cart">
+    <h2 id="popupCartTitle"></h2>
+    <div id="cartContent"></div>
+    <div class="popup-buttons">
+        <button class="close-button"onclick="closeCartPopup()">Đóng</button>
     <!-- Phần lọc và tìm kiếm -->
     <div class="filter-section">
         <h2 style="color: #3949ab; margin-bottom: 20px;">Quản lý khách hàng</h2>
