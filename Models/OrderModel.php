@@ -41,6 +41,11 @@ class OrderModel extends BaseModel {
     return $stmt->get_result()->fetch_assoc();
 }
 
+public function updateStatus($maDon, $trangThai) {
+    $sql = "UPDATE donhang SET TrangThai = ? WHERE MaDon = ?";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([$trangThai, $maDon]);
+}
 
 }
 

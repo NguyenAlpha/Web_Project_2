@@ -6,12 +6,13 @@ public function getAllOrders() {
     return $this->getByQuery($sql);
 }
 
-public function confirmOrderById($id) {
-    $sql = "UPDATE orders SET TrangThai = 'đã xác nhận' WHERE MaDon = ?";
+public function updateOrderStatus($maDon, $trangThai) {
+    $sql = "UPDATE orders SET TrangThai = ? WHERE MaDon = ?";
     $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("si", $trangThai, $maDon);
     return $stmt->execute();
 }
+
 
 
 
