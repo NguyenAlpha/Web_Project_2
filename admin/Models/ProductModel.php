@@ -6,13 +6,38 @@
             return $this->get(self::TABLE, $select, $orderBy, $limit);
         }
 
-        public function findById($id) {
-            return $this->find(self::TABLE, "MaSP", $id);
+        public function findById($MaSP) {
+        $sql = "SELECT * FROM products WHERE MaSP = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $MaSP);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+    public function updateProductStatus($MaSP, $status) {
+            $sql = "UPDATE products SET TrangThai = ? WHERE MaSP = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("si", $status, $MaSP);
+            return $stmt->execute();
         }
 
-        public function deleteProduct($data) {
-            $this->delete(self::TABLE, "MaSP", $data);
-        }
+    public function deleteProduct($MaSP) {
+        // Lấy thông tin loại sản phẩm trước khi xóa
+        $product = $this->findById($MaSP);
+        if (!$product) return false;
+
+        // Xóa từ bảng chi tiết trước
+        $detailTable = strtolower($product['MaLoai']) . 'details';
+        $sql = "DELETE FROM $detailTable WHERE MaSP = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $MaSP);
+        $stmt->execute();
+
+        // Xóa từ bảng products
+        $sql = "DELETE FROM products WHERE MaSP = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $MaSP);
+        return $stmt->execute();
+    }
 
         public function add($data) {
             $this->create(self::TABLE, $data);
@@ -21,7 +46,7 @@
         public function updateProduct($data, $id) {
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
-
+        
         public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0) {
             $query = "SELECT * FROM " . self::TABLE . "
                       WHERE MaLoai = '$categoryID'

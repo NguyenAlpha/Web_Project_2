@@ -4,18 +4,14 @@ class UserController extends BaseController {
     private $userModel;
     private $categoryModel;
     public function __construct() {
-            $this->loadModel("UserModel");   //load productModel để tạo đối tượng productModel dòng 9
-            $this->userModel = new UserModel(); //tạo đối tượng categoryModel
-            $this->loadModel("CategoryModel");  //load categoryModel để tạo đối tượng categoryModel dòng 10
-            $this->categoryModel = new CategoryModel(); //tạo đối tượng categoryModel
-
-
-            $this->loadView("partitions/frontend/header.php",[
-                "menus" => $this->categoryModel->getAll(['*'],['STT'])
-            ]);
+        $this->loadModel("UserModel");   //load productModel để tạo đối tượng productModel dòng 9
+        $this->userModel = new UserModel(); //tạo đối tượng categoryModel
+        $this->loadModel("CategoryModel");  //load categoryModel để tạo đối tượng categoryModel dòng 10
+        $this->categoryModel = new CategoryModel(); //tạo đối tượng categoryModel
     }
 
     public function login() {
+        $erroLogin = '';
         // nếu đã đăng nhập thì chuyển hướng về trang chủ
         if(isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=show");
@@ -37,15 +33,24 @@ class UserController extends BaseController {
                     exit;
                 }
             } else {
-                echo "Đăng nhập thất bại";
+                $erroLogin = "Tên đăng nhập hoặc mật khẩu không đúng!";
             }
         }
-        $this->loadView("partitions/frontend/login.php");
+        $this->loadView("partitions/frontend/header.php",[
+            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+        ]);
+        $this->loadView("partitions/frontend/login.php", [
+            'erroLogin' => $erroLogin
+        ]
+    );
     }
 
     public function register() {
+        $this->loadView("partitions/frontend/header.php",[
+            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+        ]);
         // nếu đã đăng nhập thì chuyển hướng về trang chủ
-         if(isset($_SESSION['user'])) {
+        if(isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=show");
             exit;
         }
@@ -53,7 +58,9 @@ class UserController extends BaseController {
             $name = $_POST['username'];
             $password = $_POST['password'];
             $phone = $_POST['phone'];
-            $this->userModel->addUser($name, $password, $phone);
+            $sex = $_POST['sex'];
+            $dob= $_POST['date_of_birth'];
+            $this->userModel->addUser($name, $password, $phone, $sex, $dob);
             $user = $this->userModel->checkUser($name, $password);
             $_SESSION['user'] = $user;
             header("Location: ./index.php");
@@ -62,12 +69,17 @@ class UserController extends BaseController {
     }  
 
     public function logout() {
-        session_destroy();
-        header("Location: ./index.php");
-        exit;
+        if(isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+            header("Location: ?");
+            exit;
+        }
     }
 
     public function show() {
+        $this->loadView("partitions/frontend/header.php",[
+            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+        ]);
         // nếu chưa đăng nhập thì chuyển hướng về trang login
         if(!isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=login");
@@ -77,5 +89,13 @@ class UserController extends BaseController {
             'user' => $_SESSION['user']
         ]);
     }
+
+    public function update() {
+        $this->userModel->updateUser($_GET['userID'], $_POST['username'], $_POST['phonenumber'], $_POST['sex'], $_POST['dob'], $_POST['email']);
+        $_SESSION['user'] = $this->userModel->getUser((int)($_SESSION['user']['ID']));
+        header("Location: ./index.php?controller=user&action=show");
+    }
+
+    
 }
 ?>

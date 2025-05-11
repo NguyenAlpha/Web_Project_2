@@ -1,24 +1,51 @@
-<!-- views/user/address.php -->
-<div class="card">
-  <div class="card-header bg-white d-flex justify-content-between align-items-center">
-    <h5 class="mb-0">Sổ địa chỉ</h5>
-    <a href="index.php?controller=user&action=add_address" class="btn btn-primary">+ Thêm địa chỉ mới</a>
-  </div>
-  <div class="card-body">
-    <?php if (!empty($addresses)) : ?>
-      <?php foreach ($addresses as $address) : ?>
-        <div class="border-bottom py-3">
-          <?php if ($address['is_default']) : ?>
-            <span class="badge bg-danger">Mặc định</span>
-          <?php endif; ?>
-          <strong><?php echo $address['fullname']; ?></strong> | 
-          <span><?php echo $address['phone']; ?></span><br>
-          <span><?php echo $address['address']; ?>, <?php echo $address['city']; ?>, <?php echo $address['country']; ?></span><br>
-          <a href="index.php?controller=user&action=edit_address&id=<?php echo $address['id']; ?>" class="text-primary">Cập nhật</a>
-        </div>
-      <?php endforeach; ?>
-    <?php else : ?>
-      <p>Bạn chưa có địa chỉ nào.</p>
-    <?php endif; ?>
-  </div>
-</div>
+<div id="ajax-content-area">
+<link rel="stylesheet" href="./Views/frontend/user/address.css">
+
+<table>
+    <tr><th>Địa chỉ</th></tr>
+    <?php foreach ($addresses as $addr): ?>
+        <tr>
+            <td>
+                <?= htmlspecialchars($addr['address']) ?>
+                <div class="tools">
+                    <!-- Nút sửa hiển thị đúng form theo ID -->
+                    <button onclick="toggleEditForm(<?= $addr['id'] ?>)" class="btn-edit" type="button">Sửa</button>
+                    <a href="index.php?controller=Address&action=deleteaddress&id=<?= $addr['id'] ?>" class="btn btn-delete">Xóa</a>
+                </div>
+
+                <!-- Form sửa địa chỉ riêng biệt theo ID -->
+                <form id="editForm_<?= $addr['id'] ?>" style="display:none;" class="mt-3 border p-3 bg-light" method="post" action="index.php?controller=Address&action=updateaddress&id=<?= $addr['id'] ?>">
+                    <input type="hidden" name="controller" value="address">
+                    <input type="hidden" name="action" value="updateaddress">
+                    <input type="hidden" name="id" value="<?= $addr['id']?>">
+                <div class="mb-2">
+                        <label>Địa chỉ mới</label>
+                        <input type="text" class="form-control" name="address" value="<?= htmlspecialchars($addr['address']) ?>" required>
+                    </div>
+                    <button  class="btn btn-edit" type="submit">Lưu địa chỉ</button>
+                </form>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+
+<div class="center-button">
+        <button onclick="bindAddressFormEvents()" class="btn-address" type="button">Thêm địa chỉ</button>
+        
+        <br>
+        
+        <form id="addAddressForm" method="get" action="index.php"  style="display:none;" class="mt-3 border p-3 bg-light">
+            <input type="hidden" name="controller" value="Address">
+            <input type="hidden" name="action" value="addaddress">
+            <input type="hidden" name="userID" value="<?=$_SESSION['user']['ID']?>">
+            <div class="mb-2">
+                <label>Địa chỉ</label>
+                <input type="text" class="form-control" name="address" required>
+            </div>
+            <button class="btn btn-success" type="submit">Lưu địa chỉ</button>
+        </form>
+    </div>
+
+  
+ 

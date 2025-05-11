@@ -13,9 +13,10 @@
                             <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
                             <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
                         </div>
+                        <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
                     </a>
                     <div class="button__addcart__box">
-                        <button class="button button__addcart" type="submit" name="addcart">Mua ngay</button>
+                                                <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
                     </div>
                 </div>
                 <?php endforeach; ?>
