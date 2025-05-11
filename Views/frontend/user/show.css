@@ -153,3 +153,18 @@ label.image {
     border-radius: 5px;
 }
 
+.btn-confirm-delivered {
+    background-color: #198754;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-confirm-delivered:hover {
+    background-color: #146c43;
+    transform: scale(1.03);
+}

@@ -49,21 +49,25 @@ class OrderController extends BaseController {
 
 
    public function confirmDelivered() {
-    $maDon = $_GET['MaDon'] ?? null;
-
-    if ($maDon) {
-        require_once "./Models/OrderModel.php";
-        $model = new OrderModel();
-        $model->updateStatus($maDon, "Đã nhận hàng");
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $maDon = $_POST['MaDon'] ?? null;
+        if ($maDon) {
+            require_once "./Models/OrderModel.php";
+            $model = new OrderModel();
+            $model->updateStatus($maDon, "đã nhận hàng");
+        }
+        $userID = $_SESSION['user']['ID'];
+        header("Location: index.php?controller=order&action=show&userID=" . $userID);
+        exit;
     }
-
-    $maDon = (int)$_GET['id'];
-    $this->loadModel('OrderModel');
-    $orderModel = new OrderModel();
-    // $orderModel->updateStatusToConfirmed($maDon);
-
-    echo "✅ Đã xác nhận đơn #$maDon";
 }
+
+
+
+
+
+
+
 }
 
 
