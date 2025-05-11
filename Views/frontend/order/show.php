@@ -64,12 +64,10 @@
                             <span>Tổng tiền: </span>
                             <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
                         </div>
-
-                        <?php if ($don['TrangThai'] != 'Đã giao'): ?>
-                            <?php endif; ?>
-                        </div>
+                    <?php if ($don['TrangThai'] != 'Đã giao'): endif;?>
+                    </div>
                 </div>
-                    <?php endforeach; endif; ?> 
+                <?php endforeach; endif; ?>
                     
                     <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="margin-top: 10px;">
                         <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
