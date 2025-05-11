@@ -662,6 +662,30 @@ echo "<tr class='cart-total'>
         <td colspan='4'>Tổng tiền: " . number_format($tongTien, 0, ',', '.') . " đ</td>
       </tr>";
 }
+public function manageorderlist() {
+    $this->loadModel('OrderModel');
+    $orderModel = new OrderModel();
+    $orders = $orderModel->getAllOrders(); // chắc chắn hàm này tồn tại
+
+    include './Views/frontend/orderlist/orderlist.php'; 
+
+}
+
+
+public function confirmOrder() {
+    $this->loadModel('OrderModel');
+    $orderModel = new OrderModel();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $orderModel->confirmOrderById($id);
+        header('Location: index.php?controller=admin&action=manageorderlist');
+        exit();
+    } else {
+        echo "Lỗi: không tìm thấy ID đơn hàng.";
+    }
+}
+
 
 }
 

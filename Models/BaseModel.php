@@ -85,5 +85,15 @@
         protected function add($sql) {
             $this->conn->query($sql);
         }
+       public function execute($sql, $params = []) {
+    $stmt = $this->conn->prepare($sql);
+    if (!empty($params)) {
+        $types = str_repeat('s', count($params)); // tất cả là string, bạn có thể linh động hơn
+        $stmt->bind_param($types, ...$params);
+    }
+    $stmt->execute();
+    return $stmt;
+}
+
     }
 ?>

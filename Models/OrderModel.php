@@ -34,6 +34,13 @@ class OrderModel extends BaseModel {
         return $this->getByQuery($sql);
     }
 
+  public function getOrderById($maDon) {
+    $stmt = $this->conn->prepare("SELECT * FROM orders WHERE MaDon = ?");
+    $stmt->bind_param("i", $maDon);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
 
 }
 
