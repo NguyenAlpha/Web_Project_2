@@ -153,20 +153,34 @@ class AdminController extends BaseController {
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
     public function HienCustomer()
-    {
-        $this->loadModel("AdminModel");
-       $adminModel = new AdminModel();
-        $id = $_GET['id'];
-        $result = $adminModel->HideCustomer($_GET['id']);
-
-if ($result) {
-
-    header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
-} else {
-    header("Location: customer_list.php?error=Có lỗi xảy ra");
-}
-exit();
+    { 
+           $this->loadModel('AdminModel');
+    $adminModel = new AdminModel();
+        // Lấy trạng thái hiện tại
+    $current = $this->getCustomerByID($id);
+    if (!$current) return false;
+    
+    // Xác định trạng thái mới
+    $currentStatus = $current['TrangThai'] ?? 'Hiện';
+    $newStatus = ($currentStatus == 'Hiện') ? 'Ẩn' : 'Hiện';
+    
+    try {
+        // Sử dụng transaction để đảm bảo tính toàn vẹn dữ liệu
+        $this->conn->begin_transaction();
+        
+        $stmt = $this->conn->prepare("UPDATE users SET TrangThai = ? WHERE ID = ?");
+        $stmt->bind_param("si", $newStatus, $id);
+        $result = $stmt->execute();
+        
+        $this->conn->commit();
+        return $result;
+        
+    } catch (Exception $e) {
+        $this->conn->rollback();
+        error_log("Database error: " . $e->getMessage());
+        return false;
     }
+}
     public function deleteCustomer()
 {
     $this->loadModel('AdminModel');
