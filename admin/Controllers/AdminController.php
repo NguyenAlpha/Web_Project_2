@@ -456,48 +456,51 @@ public function getSpecFields() {
 }
 
 public function deleteProduct() {
-    $MaSP = intval($_GET['MaSP']);
-    
-    // Load các model cần thiết
-    $this->loadModel("ProductModel");
-    $this->loadModel("CartModel");
-    $productModel = new ProductModel();
-    $cartModel = new CartModel();
-
-    // Kiểm tra sản phẩm có tồn tại không
-    $product = $productModel->findById($MaSP);
-    if (!$product) {
-        $_SESSION['error'] = "Sản phẩm không tồn tại";
-        header("Location: index.php?controller=admin&action=productsmanage");
+    if (!isset($_SESSION['admin'])) {
+        header("Location: index.php?controller=admin&action=login");
         exit;
     }
 
-    // Nếu sản phẩm đã bán thì chỉ ẩn đi
-    if ($product['DaBan'] > 0) {
-        $productModel->updateProductStatus($MaSP, 'ẩn');
-        $_SESSION['success'] = "Đã ẩn sản phẩm vì đã có đơn hàng";
-    } 
-    // Nếu sản phẩm chưa bán thì xóa hoàn toàn
-    else {
-        // Hiển thị xác nhận nếu chưa confirm
-        if (!isset($_GET['confirm']) || $_GET['confirm'] !== 'true') {
-            $this->loadView('frontend/product/confirmDeleteProduct.php', [
-                'product' => $product
-            ]);
-            return;
+    $MaSP = intval($_GET['MaSP'] ?? 0);
+    
+    // Nếu chưa confirm, hiển thị trang xác nhận
+    if (!isset($_GET['confirm']) || $_GET['confirm'] !== 'true') {
+        $this->loadModel("ProductModel");
+        $productModel = new ProductModel();
+        $product = $productModel->findById($MaSP);
+        
+        if (!$product) {
+            $_SESSION['error'] = "Sản phẩm không tồn tại";
+            header("Location: index.php?controller=admin&action=productsmanage");
+            exit;
         }
-
-        // Xóa các mục trong giỏ hàng trước
+        
+        return $this->loadView('frontend/product/confirmDeleteProduct.php', [
+            'product' => $product
+        ]);
+    }
+    
+    // Nếu đã confirm, thực hiện xóa
+    $this->loadModel("ProductModel");
+    $this->loadModel("CartModel");
+    
+    $productModel = new ProductModel();
+    $cartModel = new CartModel();
+    
+    try {
+        // 1. Xóa các mục trong giỏ hàng liên quan
         $cartModel->deleteByProductId($MaSP);
         
-        // Sau đó xóa sản phẩm
+        // 2. Xóa sản phẩm (hàm này đã được cập nhật để xóa cả bảng chi tiết)
         if ($productModel->deleteProduct($MaSP)) {
-            $_SESSION['success'] = "Đã xóa sản phẩm và dọn giỏ hàng thành công";
+            $_SESSION['success'] = "Đã xóa sản phẩm thành công";
         } else {
-            $_SESSION['error'] = "Có lỗi khi xóa sản phẩm";
+            $_SESSION['error'] = "Không thể xóa sản phẩm";
         }
+    } catch (Exception $e) {
+        $_SESSION['error'] = "Lỗi khi xóa sản phẩm: " . $e->getMessage();
     }
-
+    
     header("Location: index.php?controller=admin&action=productsmanage");
     exit;
 }

@@ -10,8 +10,34 @@
             return $this->find(self::TABLE, "MaSP", $id);
         }
 
-        public function deleteProduct($data) {
-            $this->delete(self::TABLE, "MaSP", $data);
+        public function deleteProduct($MaSP) {
+            // Bắt đầu transaction
+            $this->conn->begin_transaction();
+            
+            try {
+                // 1. Lấy thông tin sản phẩm để xác định bảng chi tiết
+                $product = $this->findById($MaSP);
+                if (!$product) {
+                    throw new Exception("Sản phẩm không tồn tại");
+                }
+                
+                $detailTable = strtolower($product['MaLoai']) . 'details';
+                
+                // 2. Xóa từ bảng chi tiết trước
+                $this->delete($detailTable, 'MaSP', $MaSP);
+                
+                // 3. Sau đó xóa từ bảng products
+                $this->delete('products', 'MaSP', $MaSP);
+                
+                // Commit transaction nếu thành công
+                $this->conn->commit();
+                return true;
+            } catch (Exception $e) {
+                // Rollback nếu có lỗi
+                $this->conn->rollback();
+                error_log("Lỗi khi xóa sản phẩm: " . $e->getMessage());
+                throw $e; // Ném lại exception để controller bắt
+            }
         }
 
         public function add($data) {
