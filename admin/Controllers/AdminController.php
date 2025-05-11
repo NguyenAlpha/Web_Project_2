@@ -428,10 +428,14 @@ public function getSpecFields() {
 
 public function deleteProduct() {
     $MaSP = intval($_GET['MaSP']);
+    
+    // Load các model cần thiết
     $this->loadModel("ProductModel");
+    $this->loadModel("CartModel");
     $productModel = new ProductModel();
+    $cartModel = new CartModel();
 
-    // 1. Kiểm tra sản phẩm có tồn tại không
+    // Kiểm tra sản phẩm có tồn tại không
     $product = $productModel->findById($MaSP);
     if (!$product) {
         $_SESSION['error'] = "Sản phẩm không tồn tại";
@@ -439,29 +443,29 @@ public function deleteProduct() {
         exit;
     }
 
-    // 2. Kiểm tra sản phẩm đã được bán chưa (DaBan > 0)
+    // Nếu sản phẩm đã bán thì chỉ ẩn đi
     if ($product['DaBan'] > 0) {
-        // Nếu đã bán thì ẩn sản phẩm (cập nhật TrangThai = 'ẩn')
-        if ($productModel->updateProductStatus($MaSP, 'ẩn')) {
-            $_SESSION['success'] = "Đã ẩn sản phẩm vì sản phẩm đã được bán";
-        } else {
-            $_SESSION['error'] = "Có lỗi khi ẩn sản phẩm";
-        }
-    } else {
-        // Nếu chưa bán thì hiển thị confirm và xóa
-        if (isset($_GET['confirm']) && $_GET['confirm'] === 'true') {
-            // Thực hiện xóa sản phẩm
-            if ($productModel->deleteProduct($MaSP)) {
-                $_SESSION['success'] = "Đã xóa sản phẩm thành công";
-            } else {
-                $_SESSION['error'] = "Có lỗi khi xóa sản phẩm";
-            }
-        } else {
-            // Hiển thị trang xác nhận xóa
+        $productModel->updateProductStatus($MaSP, 'ẩn');
+        $_SESSION['success'] = "Đã ẩn sản phẩm vì đã có đơn hàng";
+    } 
+    // Nếu sản phẩm chưa bán thì xóa hoàn toàn
+    else {
+        // Hiển thị xác nhận nếu chưa confirm
+        if (!isset($_GET['confirm']) || $_GET['confirm'] !== 'true') {
             $this->loadView('frontend/product/confirmDeleteProduct.php', [
                 'product' => $product
             ]);
             return;
+        }
+
+        // Xóa các mục trong giỏ hàng trước
+        $cartModel->deleteByProductId($MaSP);
+        
+        // Sau đó xóa sản phẩm
+        if ($productModel->deleteProduct($MaSP)) {
+            $_SESSION['success'] = "Đã xóa sản phẩm và dọn giỏ hàng thành công";
+        } else {
+            $_SESSION['error'] = "Có lỗi khi xóa sản phẩm";
         }
     }
 

@@ -221,7 +221,7 @@ $result = $conn->query($sql);
                     echo "<td class='text-center'>" . htmlspecialchars($row["MaLoai"]) . "</td>";
                     echo "<td class='text-center'>";
                     if (!empty($row["AnhMoTaSP"])) {
-                        echo "<img src='" . htmlspecialchars($row["AnhMoTaSP"]) . "' class='product-image' alt='Ảnh sản phẩm'>";
+                        echo "<img src='." . ($row["AnhMoTaSP"]) . "' class='product-image' alt='Ảnh sản phẩm'>";
                     } else {
                         echo "<span class='text-muted'>Không có ảnh</span>";
                     }
