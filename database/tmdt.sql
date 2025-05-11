@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 11, 2025 lúc 11:31 AM
+-- Thời gian đã tạo: Th5 11, 2025 lúc 06:45 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -407,31 +407,32 @@ CREATE TABLE `users` (
   `sex` varchar(10) DEFAULT NULL,
   `phonenumber` varchar(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `avatar` varchar(255) NOT NULL
+  `avatar` varchar(255) NOT NULL,
+  `TrangThai` enum('hiện','khóa') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`, `avatar`) VALUES
-(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL, ''),
-(2, 'u', 'u', 'u1@d.c', 'Nam', '0328989480', '1965-11-30', ''),
-(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05', ''),
-(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07', ''),
-(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15', ''),
-(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22', ''),
-(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18', ''),
-(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30', ''),
-(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10', ''),
-(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20', ''),
-(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10', ''),
-(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25', ''),
-(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05', ''),
-(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14', ''),
-(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', ''),
-(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', ''),
-(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '');
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`, `avatar`, `TrangThai`) VALUES
+(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL, '', 'hiện'),
+(2, 'u', 'u', 'u1@d.c', 'Nam', '0328989480', '1965-11-30', '', 'hiện'),
+(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05', '', 'hiện'),
+(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07', '', 'hiện'),
+(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15', '', 'hiện'),
+(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22', '', 'hiện'),
+(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18', '', 'hiện'),
+(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30', '', 'hiện'),
+(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10', '', 'hiện'),
+(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20', '', 'hiện'),
+(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10', '', 'hiện'),
+(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25', '', 'hiện'),
+(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05', '', 'hiện'),
+(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14', '', 'hiện'),
+(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', '', 'hiện'),
+(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', '', 'hiện'),
+(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '', 'hiện');
 
 --
 -- Chỉ mục cho các bảng đã đổ
