@@ -168,7 +168,7 @@ th:nth-child(5), td:nth-child(5) {
       <th>Username</th>
       <th>Password</th>
       <th>Email</th>
-      <th>Giỏ hàng</th>
+      <th>Xem đơn hàng</th>
       <th>Thao tác</th>
     </tr>
   </thead>
@@ -182,8 +182,8 @@ th:nth-child(5), td:nth-child(5) {
           <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
         </td>
         <td>
-          <a href="admin/index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
-          <a href="admin/index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+          <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
+          <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
         </td>
       </tr>
     <?php endforeach; ?>
