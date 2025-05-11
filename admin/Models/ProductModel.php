@@ -21,6 +21,10 @@
         public function updateProduct($data, $id) {
             $this->update(self::TABLE, $data, "MaSP", $id);
         }
+        public function updateProductStatus($productId, $status) {
+            $sql = "UPDATE products SET TrangThai = ? WHERE MaSP = ?";
+            return $this->execute($sql, [$status, $productId]);
+        }
 
         public function getProductsByCategoryId($categoryID, $limit = 50, $offset = 0, $orderBy = [], $TrangThai = '') {
             $orderClause = '';

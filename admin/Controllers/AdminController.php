@@ -94,10 +94,10 @@ class AdminController extends BaseController {
         $adminModel = new AdminModel();
         $customers = $adminModel -> customer();
         $id = $_GET['id'];
-        $customers = $adminModel->getCustomerByID($id);
+        $customer = $adminModel->getCustomerByID($id);
     
         $this->loadView("frontend/Customer/EditCustomer.php", [
-            "customers" => $customers
+            "customer" => $customer
             
         ]);
     }
@@ -119,8 +119,7 @@ class AdminController extends BaseController {
             $adminModel->updateCustomer($key);
         }
     
-       header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
-
+        header("Location: index.php?controller=admin&action=customer");
         
     }
     public function addCustomer()
@@ -152,53 +151,23 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-    public function HienCustomer()
-    {
-        $this->loadModel("AdminModel");
-       $adminModel = new AdminModel();
-        $id = $_GET['id'];
-        $result = $adminModel->HideCustomer($_GET['id']);
-
-if ($result) {
-
-    header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
-} else {
-    header("Location: customer_list.php?error=Có lỗi xảy ra");
-}
-exit();
-    }
-    public function deleteCustomer()
+public function deleteCustomer()
 {
     $this->loadModel('AdminModel');
     $adminModel = new AdminModel();
-
     $this->loadModel('CartModel');
-    $cartModel = new CartModel();
-
-    $this->loadModel('OrderModel'); 
-    $orderModel = new OrderModel();
-
-    $this->loadModel('AddressModel');
-    $addressModel = new AddressModel();
-
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-
-        // Xoá các dữ liệu liên quan trước
-        $cartModel->deleteCart($id);
-        $addressModel->deleteAddress($id);
-        $orderModel->deleteOrder($id);
-   
-        // Cuối cùng xoá khách hàng
+    $CartModel = new CartModel();
+    if (isset($_GET['ID'])) {
+        $id = $_GET['ID'];
         $adminModel->deleteCustomer($id);
 
+        // Sau khi xóa có thể redirect về danh sách khách hàng
         header("Location: index.php?controller=admin&action=customer");
         exit;
     } else {
         echo "Không tìm thấy ID khách hàng để xóa.";
     }
 }
-
 public function getTableFields()
 {
     if (!isset($_GET['type']) || empty($_GET['type'])) {

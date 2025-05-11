@@ -40,4 +40,17 @@ class CartModel extends BaseModel {
    public function deleteCartByUserID($userID) {
       return $this->delete(self::TABLE,'userID',$userID);
    }
+   public function deleteByProductId($productId) {
+        $sql = "DELETE FROM carts WHERE MaSP = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $productId);
+        return $stmt->execute();
+   }
+    public function deleteAllCartItemsByProduct($productId) {
+        $sql = "DELETE FROM carts WHERE MaSP = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $productId);
+        return $stmt->execute();
+   }
+   
 }
