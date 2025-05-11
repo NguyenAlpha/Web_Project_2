@@ -88,139 +88,155 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #eef2f7;
-            margin: 0;
-        }
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #eef2f7;
+        margin: 0;
+        padding: 0;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
 
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border: none;
-        }
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
 
-        .card-header {
-            background-color: #00268c;
-            color: white;
-            border-radius: 10px 10px 0 0 !important;
-            padding: 15px 20px;
-        }
+    .card-header {
+        background-color: #00268c;
+        color: white;
+        padding: 15px 20px;
+        font-weight: 600;
+        font-size: 18px;
+    }
 
+    .stats {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+    }
+
+    .stat-box {
+        flex: 1;
+        min-width: 200px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .stat-box h3 {
+        margin: 0 0 10px 0;
+        color: #555;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .stat-box p {
+        font-size: 28px;
+        margin: 0;
+        color: #333;
+        font-weight: 700;
+    }
+
+    .warning {
+        color: #e74c3c;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        color: #333;
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .btn-action {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: #00268c;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        border: 1px solid #00268c;
+    }
+
+    .btn-action:hover {
+        background-color: #001a63;
+        border-color: #001a63;
+    }
+
+    .date-filter {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+        align-items: center;
+    }
+
+    .date-filter input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .text-end {
+        text-align: right;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
         .stats {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-direction: column;
         }
-
+        
         .stat-box {
-            flex: 1;
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.05);
-            text-align: center;
+            min-width: 100%;
         }
-
-        .stat-box h3 {
-            margin-top: 0;
-            color: #555;
-            font-size: 16px;
-        }
-
-        .stat-box p {
-            font-size: 24px;
-            margin: 10px 0;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .warning {
-            color: #e74c3c;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
+        
         th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 8px 10px;
+            font-size: 13px;
         }
-
-        th {
-            background-color: #00268c;
-            color: white;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-
-        tr:hover {
-            background-color: #f4f8ff;
-        }
-
-        .btn-action {
-            display: inline-block;
-            padding: 6px 12px;
-            background-color: white;
-            color: #00268c;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            border: 1px solid #00268c;
-        }
-
-        .btn-action:hover {
-            background-color: #00268c;
-            color: white;
-        }
-
-        .toggle-orders {
-            transition: all 0.3s ease;
-        }
-
-        .toggle-orders:hover {
-            background-color: #00268c;
-            color: white;
-        }
-
-        .order-details {
-            background-color: #f8f9fa;
-        }
-
-        .order-details table {
-            background-color: white;
-            margin: 0;
-        }
-
-        .order-details table th {
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        .text-end {
-            text-align: right;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-    </style>
+   
+    }
+    .body{
+        margin-left: 240px; padding: 20px;
+    }
+</style>
 </head>
 <body>
+    <div class="body">
     <div class="container">
         <h1 class="mb-4" style="color: #00268c;">Dashboard Quản Trị</h1>
         
@@ -390,6 +406,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

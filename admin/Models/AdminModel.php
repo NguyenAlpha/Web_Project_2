@@ -27,16 +27,17 @@ class AdminModel extends BaseModel{
         ]);
     }
  
-        public function addCustomer($username, $password, $sex, $email, $phonenumber, $date_of_birth) {
-            try {
-                $stmt = $this->conn->prepare("INSERT INTO users ( username, password, email, sex, phonenumber, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                return $stmt->execute([$username, $password, $sex, $email, $phonenumber, $date_of_birth]);
-            } catch (PDOException $e) {
-                // Ghi log nếu cần: error_log($e->getMessage());
-                return false;
-            }
+    public function addCustomer($username, $password, $email, $sex, $phonenumber, $date_of_birth) {
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO users (username, password, email, sex, phonenumber, date_of_birth) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $username, $password, $email, $sex, $phonenumber, $date_of_birth);
+            return $stmt->execute();
+        } catch (mysqli_sql_exception $e) {
+            // Ghi log nếu cần: error_log($e->getMessage());
+            return false;
         }
-        
+    }
+    
     public function deleteCustomer($id) {   
         $stmtCart = $this->conn->prepare("DELETE FROM carts WHERE userID = ?");
         $stmtCart->execute([$id]);

@@ -85,12 +85,12 @@ h2 {
 
     <label>Email:</label>
     <input type="email" name="email" value="<?php echo $customer['email'] ?>" required><br>
-    <label for="gender">Giới tính:</label><br>
-<select name="gender" id="gender" style="padding: 8px; border-radius: 5px;">
-  <option value="">-- Chọn giới tính --</option>
+    <label for="sex">Giới tính:</label><br>
+<select name="sex" id="sex" style="padding: 8px; border-radius: 5px;">
   <option value="Nam" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nam') echo 'selected'; ?>>Nam</option>
   <option value="Nữ" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nữ') echo 'selected'; ?>>Nữ</option>
 </select>
+   <label for="phone"></label>
     <button type="submit">Cập nhật</button>
 </form>
 

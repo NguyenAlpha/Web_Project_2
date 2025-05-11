@@ -24,70 +24,79 @@ if ($result->num_rows > 0) {
 }
 ?>
 <style>
-    body {
+body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f6fa;
     margin: 0;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #1a237e;
-    font-size: 28px;
-    margin-bottom: 30px;
-}
-
-table {
-    width: 90%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-    padding: 16px;
-    text-align: center;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-th {
-    background-color: #1a237e;
-    color: #ffffff;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-td {
-    font-size: 14px;
+    padding: 0;
+    background-color: #f4f6fa;
     color: #333;
 }
 
+.body {
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    font-size: 13px;
+    table-layout: fixed;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #3949ab;
+    color: #fff;
+    font-size: 15px;
+    top: 60px;
+    z-index: 2;
+}
+
 tr:hover {
-    background-color: #f9fbff;
+    background-color: #f1f1f1;
+}
+
+/* Cột */
+th:nth-child(1), td:nth-child(1),
+th:nth-child(2), td:nth-child(2),
+th:nth-child(4), td:nth-child(4) {
+    width: 15%;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 25%;
+}
+
+th:nth-child(5), td:nth-child(5) {
+    width: 20%;
 }
 
 .btn-action, .btn-xoa {
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 13px;
-    border: 1px solid;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
     margin: 2px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
 }
 
 .btn-action {
-    color: #1a237e;
     background-color: #fff;
-    border-color: #1a237e;
+    color: #1a237e;
+    border: 1px solid #1a237e;
 }
 
 .btn-action:hover {
@@ -96,9 +105,9 @@ tr:hover {
 }
 
 .btn-xoa {
-    color: #c62828;
     background-color: #fff;
-    border-color: #c62828;
+    color: #c62828;
+    border: 1px solid #c62828;
 }
 
 .btn-xoa:hover {
@@ -106,48 +115,20 @@ tr:hover {
     color: #fff;
 }
 
-.addsp {
-    text-align: center;
-    margin-top: 25px;
-}
-
-.addsp a {
-    padding: 10px 22px;
-    background-color: #fff;
-    color: #1a237e;
-    border: 1px solid #1a237e;
-    border-radius: 6px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.addsp a:hover {
-    background-color: #1a237e;
-    color: white;
-}
-
-/* Popup */
+/* Popup giỏ hàng */
 .popup-cart {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
+    background: #fff;
     padding: 30px;
-    width: 80%;
-    max-width: 900px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    border-radius: 12px;
-    z-index: 1000;
-    max-height: 90%;
-    overflow-y: auto;
-}
-
-.popup-cart h2 {
-    margin-top: 0;
-    color: #1a237e;
+    max-width: 700px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    border-radius: 10px;
 }
 
 .popup-overlay {
@@ -155,57 +136,39 @@ tr:hover {
     position: fixed;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.4);
     width: 100%;
     height: 100%;
-    z-index: 999;
+    background: rgba(0,0,0,0.4);
+    z-index: 9998;
+}
+
+.popup-buttons {
+    text-align: right;
+    margin-top: 20px;
 }
 
 .close-button {
+    padding: 6px 12px;
     background-color: #1a237e;
     color: white;
-    padding: 10px 18px;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .close-button:hover {
-    background-color: #0d1546;
-}
-/* Bố cục hiển thị gồm sidebar trái + nội dung phải */
-body {
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-.sidebar {
-    width: 250px;
-    background-color: #0d2a63;
-    min-height: 100vh;
-}
-
-.main-content {
-    flex: 1;
-    padding: 30px 40px;
-    background-color: #f4f6fa;
-}
-
-.main-content h1 {
-    text-align: center;
+    background-color: #303f9f;
 }
 </style>
+
+<div class="body">
 <table>
   <thead>
     <tr>
       <th>Username</th>
       <th>Password</th>
       <th>Email</th>
-      <th>Giỏ hàng</th>
+      <th>Xem đơn hàng</th>
       <th>Thao tác</th>
     </tr>
   </thead>
@@ -219,8 +182,8 @@ body {
           <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
         </td>
         <td>
-          <a href="admin/index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
-          <a href="admin/index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+          <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
+          <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
         </td>
       </tr>
     <?php endforeach; ?>
@@ -240,17 +203,27 @@ body {
 
 <script>
 function openCartPopup(customerID) {
-    document.getElementById('popupCart').style.display = 'block';
-    document.getElementById('popupOverlay').style.display = 'block';
-    document.getElementById('cartContent').innerHTML = "Đang tải giỏ hàng...";
+    const popup = document.getElementById('popupCart');
+    const overlay = document.getElementById('popupOverlay');
+    const cartContent = document.getElementById('cartContent');
+
+    popup.style.display = 'block';
+    overlay.style.display = 'block';
+
+    // Loading spinner
+    cartContent.innerHTML = '<div style="text-align:center;padding:20px;">Đang tải giỏ hàng...</div>';
+
     fetch(`index.php?controller=admin&action=CustomerCartAjax&customerID=${customerID}`)
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) throw new Error('Không thể lấy dữ liệu');
+        return response.text();
+    })
     .then(data => {
-        document.getElementById('cartContent').innerHTML = data;
+        cartContent.innerHTML = data;
     })
     .catch(error => {
         console.error('Lỗi:', error);
-        document.getElementById('cartContent').innerHTML = "Không tải được giỏ hàng.";
+        cartContent.innerHTML = '<div style="color:red; text-align:center;">Không thể tải giỏ hàng.</div>';
     });
 }
 
@@ -259,3 +232,5 @@ function closeCartPopup() {
     document.getElementById('popupOverlay').style.display = 'none';
 }
 </script>
+
+</div>
