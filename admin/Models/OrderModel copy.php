@@ -34,17 +34,12 @@ class OrderModel extends BaseModel {
         return $this->getByQuery($sql);
     }
 
-public function confirmOrderById($id) {
-    $sql = "UPDATE orders SET TrangThai = 'đã xác nhận' WHERE MaDon = ?";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    return $stmt->execute();
+  public function getOrderById($maDon) {
+    $stmt = $this->conn->prepare("SELECT * FROM orders WHERE MaDon = ?");
+    $stmt->bind_param("i", $maDon);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
 }
-
-
-
-
-
 
 
 }

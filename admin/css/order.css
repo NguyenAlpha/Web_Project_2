@@ -1,0 +1,98 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    box-sizing: border-box;
+	font-family: Roboto;
+	background-color: rgb(242, 244, 247);
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.oreder-containner {
+    margin-left: 240px;
+    padding: 40px;
+}
+.flex {
+	justify-content: space-between;
+	align-items: center;
+}
+
+.back-btn {
+	margin-bottom: 40px;
+	
+}
+
+.back-btn__link {
+	background-color: rgb(0, 39, 102);
+	padding: 14px;
+	border-radius: 15px;
+	font-size: 18px;
+	color: #fff;
+	box-shadow: 0 0 5px #00000051;
+}
+
+b {
+	font-weight: 600;
+}
+
+.list-box__title {
+	padding-bottom: 10px;
+}
+
+.list-box {
+	box-shadow: 0 0 5px #00000022;
+	width: 930px;
+}
+.list-box img {
+	width: 80px;
+	height: 80px;
+}
+
+.list-box a {
+	padding: 10px;
+}
+
+.order-list {
+	margin: 0 auto;
+}

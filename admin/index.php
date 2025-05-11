@@ -10,7 +10,6 @@
 
     $controllerName = ucfirst($controller) . "Controller";
     $controllerFile = "./Controllers/" . $controllerName . ".php";
-
     // Kiểm tra xem file controller có tồn tại không
     if (file_exists($controllerFile)) {
         require $controllerFile;
