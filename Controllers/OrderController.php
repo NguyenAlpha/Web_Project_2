@@ -52,9 +52,7 @@ class OrderController extends BaseController {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $maDon = $_POST['MaDon'] ?? null;
         if ($maDon) {
-            require_once "./Models/OrderModel.php";
-            $model = new OrderModel();
-            $model->updateStatus($maDon, "đã nhận hàng");
+            $this->orderModel->updateStatus($maDon, "đã nhận hàng");
         }
         $userID = $_SESSION['user']['ID'];
         header("Location: index.php?controller=order&action=show&userID=" . $userID);

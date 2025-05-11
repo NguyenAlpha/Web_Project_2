@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
             status.style.color = '#33ff33';
         } else if(text == 'đã hủy') {
             status.style.color = '#ff0000';
+        } else if(text == 'đã nhận hàng') {
+            status.style.color = '#33ff33';
         }
     });
 

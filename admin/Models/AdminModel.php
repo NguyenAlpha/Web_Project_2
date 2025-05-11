@@ -61,11 +61,13 @@ public function getAllCustomers() {
     require_once "views/admin/customerList.php";
 }
 
-    public function HideCustomer($id) {
-     $current = $this->getCustomerByID($id);
+        public function HideCustomer($id) {
+        $current = $this->getCustomerByID($id);
         if (!$current) return false;
         
-        $newStatus = ($current['TrangThai'] == '') ? 'Ẩn' : 'Hiện';
+        // Kiểm tra nếu TrangThai chưa có giá trị, mặc định sẽ là 'Hiện'
+        $currentStatus = $current['TrangThai'] ?? 'Hiện';
+        $newStatus = ($currentStatus == 'Hiện') ? 'Ẩn' : 'Hiện';
         
         $stmt = $this->conn->prepare("UPDATE users SET TrangThai = ? WHERE ID = ?");
         $stmt->bind_param("si", $newStatus, $id);

@@ -151,7 +151,22 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-public function deleteCustomer()
+    public function HienCustomer()
+    {
+        $this->loadModel("AdminModel");
+       $adminModel = new AdminModel();
+        $id = $_GET['id'];
+        $result = $adminModel->HideCustomer($_GET['id']);
+
+if ($result) {
+
+    header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
+} else {
+    header("Location: customer_list.php?error=Có lỗi xảy ra");
+}
+exit();
+    }
+    public function deleteCustomer()
 {
     $this->loadModel('AdminModel');
     $adminModel = new AdminModel();
