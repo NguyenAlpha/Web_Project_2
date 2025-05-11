@@ -3,7 +3,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "tmdt";
-include "./Views/partitions/frontend/headerAdmin.php";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
@@ -62,7 +61,7 @@ $categories = $conn->query("SELECT DISTINCT MaLoai FROM products")->fetch_all(MY
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
-        body {
+        .admin-container {
             display: flexbox;
             width: 80%;
             margin-left: 250px;
@@ -248,10 +247,30 @@ $categories = $conn->query("SELECT DISTINCT MaLoai FROM products")->fetch_all(MY
             justify-content: center;
             gap: 8px;
         }
+        .admin-sidebar .dropdown-menu {
+            background: #003a99;
+            padding: 0;
+        }
+
+        .admin-sidebar .dropdown-menu a {
+            color: white !important;
+            padding: 10px 20px 10px 40px;
+        }
+
+        .admin-sidebar .dropdown-menu a:hover {
+            background: #00268c !important;
+        }
     </style>
+    
 </head>
 <body>
-    <h1>Danh sách sản phẩm</h1>
+    <div class="admin-sidebar">
+        <?php
+        include "./Views/partitions/frontend/headerAdmin.php";
+        ?>
+    </div>
+    <div class="admin-container">
+        <h1>Danh sách sản phẩm</h1>
 
     <!-- Phần lọc và tìm kiếm -->
     <div class="filter-section">
@@ -400,6 +419,7 @@ $categories = $conn->query("SELECT DISTINCT MaLoai FROM products")->fetch_all(MY
             ?>
         </tbody>
     </table>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

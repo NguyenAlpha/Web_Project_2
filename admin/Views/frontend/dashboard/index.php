@@ -3,7 +3,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "tmdt";
-include "./Views/partitions/frontend/headerAdmin.php";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
@@ -12,7 +11,6 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
 }
-include "./Views/partitions/frontend/headerAdmin.php";
 // Lấy thống kê tổng quan
 $stats = [
     'total_products' => $conn->query("SELECT COUNT(*) FROM products")->fetch_row()[0],
@@ -192,9 +190,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
             width: 100%;
             z-index: 1000; /* Đảm bảo thanh điều hướng luôn trên cùng */
         }
+        .admin-sidebar .dropdown-menu {
+            background: #003a99;
+            padding: 0;
+        }
+
+        .admin-sidebar .dropdown-menu a {
+            color: white !important;
+            padding: 10px 20px 10px 40px;
+        }
+
+        .admin-sidebar .dropdown-menu a:hover {
+            background: #00268c !important;
+        }
     </style>
 </head>
 <body>
+    <div class="admin-sidebar">
+        <?php
+        include "./Views/partitions/frontend/headerAdmin.php";
+        ?>
+    </div>
      <div class="dd">
         <div class="container-fluid py-4">
         <div class="row mb-4">
