@@ -63,16 +63,15 @@ public function ajax_confirm() {
 
     public function userOrder() {
         $userID = $_GET['userID'];
-        $orders = $this->orderModel->getOrderByUserID($_SESSION['user']['ID']);
-        $listMaDon = $this->orderModel->getListMaDon($_SESSION['user']['ID']);
-        $user = $_SESSION['user'];
+        $orders = $this->orderModel->getOrderByUserID($userID);
+        $listMaDon = $this->orderModel->getListMaDon($userID);
+        $user = $this->userModel->getUser($userID);
         $this->loadView('frontend/Customer/order.php', [
             'orders' => $orders,
             'listMaDon' => $listMaDon,
             'user' => $user
         ]);
     }
-
 }
 
 

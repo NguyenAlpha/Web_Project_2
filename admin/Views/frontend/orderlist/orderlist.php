@@ -45,6 +45,10 @@
                         <option value="đã xác nhận" <?= $order['TrangThai'] == 'đã xác nhận' ? 'selected' : '' ?>>Đã xác nhận</option>
                     </select>
                     <button type="submit" class="btn btn-sm btn-primary mt-1">Cập nhật</button>
+                    <a href="index.php?controller=order&action=printInvoice&maDon=<?= $order['MaDon'] ?>" target="_blank">
+    <button class="btn btn-info">🧾 In hóa đơn</button>
+</a>
+
                 </form>
 
                         </td>

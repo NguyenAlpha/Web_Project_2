@@ -113,7 +113,7 @@ input {
 .header__search {
 	box-sizing: border-box;
 	width: 50%;
-	max-width: 600px;
+	max-width: 500px;
 	position: relative;
 }
 
