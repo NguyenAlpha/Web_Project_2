@@ -179,31 +179,13 @@
     <title>Admin</title>
 </head>
 <body>
-<<<<<<< HEAD
     <div class="sidebar">
         <div class="logo">
-            <a href="#"><img src="./assets/image/Asset_1.png" alt="Logo"></a>
-=======
-    <header>
-        <div class="admin-header">
-            <div class="admin-logo">
-                <div class="logo">
-                    <a href="#"><img src="../assets/image/Asset_1.png" alt="Logo"></a>
-                </div>
-                <div class="title">Admin Dashboard - Quản Lý</div>
-            </div>
-            <div class="admin-menu">
-                <div><a href="?controller=admin&action=dashboard">Trang chủ</a></div>
-                <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
-                <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
-                <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
-                <div><a href="?controller=admin&action=logout">Đăng xuất</a></div>
-            </div>
->>>>>>> 52f1851c303fb5a2319281ce92eed0e42c66117b
+            <a href=""><img src="../assets/image/Asset_1.png" alt="Logo"></a>
         </div>
         <div class="title">Admin Dashboard</div>
         <div class="admin-menu">
-            <a href="#">Trang chủ</a>
+            <a href="">Trang chủ</a>
 
             <div class="dropdown">
                 <div class="dropdown-toggle">

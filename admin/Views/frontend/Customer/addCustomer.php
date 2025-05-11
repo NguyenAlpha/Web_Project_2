@@ -90,6 +90,13 @@ h2 {
     <label>Email:</label>
     <input type="email" name="email" value=""><br>
 
+    <label>Giới Tính</label>
+     <input type="selection" name="sex" value=""><br>
+     <label>Phonenumber</label>
+     <input type="number" name="phonenumber" value=""><br>
+     <!-- sai cấu trúc -->
+    <label>Date of birth</label>
+    <input type="text">
     <label>Address:</label>
     <input type="text" name="address" value=""><br>
 

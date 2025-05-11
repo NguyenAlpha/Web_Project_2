@@ -27,10 +27,10 @@ class AdminModel extends BaseModel{
         ]);
     }
  
-        public function addCustomer($username, $password, $sex, $email, $phonenumber) {
+        public function addCustomer($username, $password, $sex, $email, $phonenumber, $date_of_birth) {
             try {
-                $stmt = $this->conn->prepare("INSERT INTO users ( username, password, email, sex, phonenumber) VALUES (?, ?, ?, ?, ?, ?)");
-                return $stmt->execute([$username, $password, $sex, $email]);
+                $stmt = $this->conn->prepare("INSERT INTO users ( username, password, email, sex, phonenumber, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                return $stmt->execute([$username, $password, $sex, $email, $phonenumber, $date_of_birth]);
             } catch (PDOException $e) {
                 // Ghi log nếu cần: error_log($e->getMessage());
                 return false;
