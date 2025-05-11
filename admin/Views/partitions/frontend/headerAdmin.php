@@ -181,7 +181,7 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <a href=""><img src="../assets/image/Asset_1.png" alt="Logo"></a>
+            <a href="index.php?controller=admin&action=dashboard"><img src="./assets/image/Asset_1.png" alt="Logo"></a>
         </div>
         <div class="title">Admin Dashboard</div>
         <div class="admin-menu">
@@ -197,8 +197,8 @@
                 </div>
             </div>
 
-            <a href="#">Sản phẩm</a>
-            <a href="#">Đăng xuất</a>
+            <a href="index.php?controller=admin&action=productsmanage">Sản phẩm</a>
+            <a href="index.php?controller=admin&action=logout">Đăng xuất</a>
         </div>
     </div>
 
