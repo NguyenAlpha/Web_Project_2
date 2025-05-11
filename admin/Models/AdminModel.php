@@ -27,59 +27,24 @@ class AdminModel extends BaseModel{
         ]);
     }
  
-    public function addCustomer($username, $password, $sex, $email, $phonenumber) {
-        try {
-            $stmt = $this->conn->prepare("INSERT INTO users (username, password, email, sex, phonenumber) VALUES (?, ?, ?, ?, ?)");
-            return $stmt->execute([$username, $password, $email ,$sex, $phonenumber]);
-        } catch (PDOException $e) {
-            
-            return false;
+        public function addCustomer($username, $password, $sex, $email, $phonenumber) {
+            try {
+                $stmt = $this->conn->prepare("INSERT INTO users ( username, password, email, sex, phonenumber) VALUES (?, ?, ?, ?, ?, ?)");
+                return $stmt->execute([$username, $password, $sex, $email]);
+            } catch (PDOException $e) {
+                // Ghi log nếu cần: error_log($e->getMessage());
+                return false;
+            }
         }
-    }
         
     public function deleteCustomer($id) {   
-        $stmtCart = $this->conn->query("DELETE FROM carts WHERE userID = $id");
-        $stmtUser = $this->conn->query("DELETE FROM users WHERE ID = $id");
-        header("Location: index.php?controller=admin&action=customer");
+        $stmtCart = $this->conn->prepare("DELETE FROM carts WHERE userID = ?");
+        $stmtCart->execute([$id]);
+        $stmtAddress = $this->conn->prepare("DELETE FROM address WHERE userID = ?");
+        $stmtAddress->execute([$id]);
+        $stmtUser = $this->conn->prepare("DELETE FROM users WHERE ID = ?");
+        return $stmtUser->execute([$id]);
 }
-    public function AddProductCustomer($id)
-    {
-    
-
-    // Kết nối database (giả sử có $this->db)
-    $maSP = (int)$id;
-    
-    // Kiểm tra xem sản phẩm đã có trong giỏ chưa
-    $sql = "SELECT SoLuong FROM cart WHERE maSP = :maSP AND userID = :userID";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([
-        ':maSP' => $maSP,
-        ':userID' => $_SESSION['userID'] 
-    ]);
-    
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($result) {
-        // Nếu đã có, thì tăng số lượng lên 1
-        $newQuantity = $result['SoLuong'] + 1;
-        $updateSql = "UPDATE carts SET SoLuong = :SoLuong WHERE maSP = :maSP AND userID = :userID";
-        $updateStmt = $this-> conn ->prepare($updateSql);
-        $updateStmt->execute([
-            ':SoLuong' => $newQuantity,
-            ':maSP' => $maSP,
-            ':userID' => $_SESSION['userID']
-        ]);
-    } else {
-        // Nếu chưa có, thêm mới sản phẩm vào giỏ hàng với số lượng = 1
-        $insertSql = "INSERT INTO carts (maSP, userID, SoLuong) VALUES (:maSP, :userID, 1)";
-        $insertStmt = $this->conn->prepare($insertSql);
-        $insertStmt->execute([
-            ':maSP' => $maSP,
-            ':userID' => $_SESSION['userID']
-        ]);
-    }
-
-
-    } 
+   
 }
 ?>
