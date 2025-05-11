@@ -39,12 +39,7 @@ class AdminModel extends BaseModel{
     }
     
     public function deleteCustomer($id) {   
-        $stmtCart = $this->conn->prepare("DELETE FROM carts WHERE userID = ?");
-        $stmtCart->execute([$id]);
-        $stmtAddress = $this->conn->prepare("DELETE FROM address WHERE userID = ?");
-        $stmtAddress->execute([$id]);
-        $stmtUser = $this->conn->prepare("DELETE FROM users WHERE ID = ?");
-        return $stmtUser->execute([$id]);
+          return $this->delete(self::TABLE,'ID',$id);
 }
 public function getAllCustomers() {
     $sql = "SELECT * FROM users";
@@ -65,5 +60,16 @@ public function getAllCustomers() {
 
     require_once "views/admin/customerList.php";
 }
+
+    public function HideCustomer($id) {
+     $current = $this->getCustomerByID($id);
+        if (!$current) return false;
+        
+        $newStatus = ($current['TrangThai'] == '') ? 'Ẩn' : 'Hiện';
+        
+        $stmt = $this->conn->prepare("UPDATE users SET TrangThai = ? WHERE ID = ?");
+        $stmt->bind_param("si", $newStatus, $id);
+        return $stmt->execute();
+    }
 }
 ?>

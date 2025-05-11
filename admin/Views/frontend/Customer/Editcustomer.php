@@ -74,23 +74,33 @@ h2 {
 }
 </style>
 <h2>Sửa thông tin khách hàng</h2>
-<form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update">
-    <input type="hidden" name="id" value="<?php echo $customer['ID'] ?>">
+<form action="index.php?controller=admin&action=updateCustomer" method="post" class="form-update" style="max-width: 500px; margin: auto;">
+    <input type="hidden" name="id" value="<?= $customers['ID'] ?>">
       
     <label>Username:</label>
-    <input type="text" name="username" value="<?php echo $customer['username'] ?>"><br>
+    <input type="text" name="username" value="<?= $customers['username'] ?>" required><br><br>
 
     <label>Password:</label>
-    <input type="text" name="password" value="<?php echo $customer['password'] ?>"><br>
+    <input type="text" name="password" value="<?= $customers['password'] ?>" required><br><br>
 
     <label>Email:</label>
-    <input type="email" name="email" value="<?php echo $customer['email'] ?>" required><br>
+    <input type="email" name="email" value="<?= $customers['email'] ?>" required><br><br>
+
     <label for="sex">Giới tính:</label><br>
-<select name="sex" id="sex" style="padding: 8px; border-radius: 5px;">
-  <option value="Nam" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nam') echo 'selected'; ?>>Nam</option>
-  <option value="Nữ" <?php if (isset($customer['sex']) && $customer['sex'] == 'Nữ') echo 'selected'; ?>>Nữ</option>
-</select>
-   <label for="phone"></label>
-    <button type="submit">Cập nhật</button>
+    <select name="sex" id="sex" style="padding: 8px; border-radius: 5px; width: 100%;" required>
+        <option value="Nam" <?= (isset($customers['sex']) && $customers['sex'] == 'Nam') ? 'selected' : '' ?>>Nam</option>
+        <option value="Nữ" <?= (isset($customers['sex']) && $customers['sex'] == 'Nữ') ? 'selected' : '' ?>>Nữ</option>
+    </select><br><br>
+
+    <label>Phonenumber:</label>
+    <input type="text" name="phonenumber" value="<?= $customers['phonenumber'] ?>" pattern="[0-9]{10}" maxlength="10" required
+           placeholder="Nhập 10 chữ số"><br><br>
+
+    <label>Ngày sinh:</label>
+    <input type="date" name="dob" value="<?= $customers['date_of_birth'] ?>" required><br><br>
+
+    <button type="submit" style="padding: 10px 20px; border-radius: 5px; background-color: #007bff; color: white; border: none;">Cập nhật</button>
+
+
 </form>
 
