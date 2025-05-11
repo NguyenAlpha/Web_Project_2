@@ -5,11 +5,8 @@ class AdminModel extends BaseModel{
         $sql = "SELECT * FROM admins WHERE username = '$username' AND password = '$password'";
         return $this->getAdmin($sql);
     }
-    public function customer($id = ''){
-        if(!empty($id)) {
-            $id = "ID = $id";
-        }
-        $sql = "SELECT * FROM `users` WHERE ($id ?? 1)";
+    public function customer(){
+        $sql = "SELECT * FROM `users` WHERE 1";
         
     return $this->getByQuery( $sql);
     }
