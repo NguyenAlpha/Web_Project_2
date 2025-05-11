@@ -4,17 +4,9 @@ $username = "root";
 $password = "";
 $dbname = "tmdt";
 include "./Views/partitions/frontend/headerAdmin.php";
-
-<<<<<<< HEAD
-// Kết nối CSDL
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-
-=======
->>>>>>> e4b3ad6be284d928717801a7ab9a5d56c6b5a9b0
+// print_r($customers);
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -69,22 +61,15 @@ if ($conn->connect_error) {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($customers as $value): ?>
-                <tr>
-                    <td><?= htmlspecialchars($value['ID']) ?></td>
-                    <td><?= htmlspecialchars($value['username']) ?></td>
-                    <td><?= htmlspecialchars($value['password']) ?></td>
-                    <td><?= htmlspecialchars($value['email']) ?></td>
-                    <td><?= htmlspecialchars($value['sex']) ?></td>
-                    <td><?= htmlspecialchars($value['phonenumber']) ?></td>
-                    <td><?= htmlspecialchars($value['date_of_birth']) ?></td>
-                    <td>
-                        <a href="javascript:void(0);" onclick="openCartPopup(<?= $value['ID'] ?>)" class="btn-action">Xem</a>
-                        <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
-                        <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <tr>
+                <td><?=$customers['ID']?></td>
+                <td><?=$customers['username']?></td>
+                <td><?=$customers['password']?></td>
+                <td><?=$customers['email']?></td>
+                <td><?=$customers['phonenumber']?></td>
+                <td><?=$customers['date_of_birth']?></td>
+                <td><?=$customers['date_of_birth']?></td>
+            </tr>
         </tbody>
     </table>
 </body>
