@@ -78,12 +78,16 @@ class AdminController extends BaseController {
             'allPrice' => array_sum(array_column($carts, 'sumPrice')),
         ]);
     }
-    public function CustomerID($id)
-    {
+    public function CustomerID()
+    {     $this->loadModel("AdminModel");
         $adminModel = new AdminModel();
-        $customers = $adminModel->customer($id);
+        $customers = $adminModel->customer($_GET["id"]);
+        
         // Truyền dữ liệu sang view
-        require_once "frontend/admin/ViewCustomer.php";
+        $this->loadView ("frontend/Customer/ViewCustomer.php", [
+            "customers" => $customers
+            
+        ]);;
     }
         public function editCustomer() {
         $this->loadModel("AdminModel");
@@ -707,10 +711,5 @@ public function updateOrderStatus() {
     }
 }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> ac6261dfc8b632095f699b7f02e17260ecf384a9
 }
 ?>
