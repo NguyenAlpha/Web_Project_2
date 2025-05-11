@@ -672,19 +672,31 @@ public function manageorderlist() {
 }
 
 
-public function confirmOrder() {
-    $this->loadModel('OrderModel');
-    $orderModel = new OrderModel();
+public function updateOrderStatus() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $maDon = $_POST['MaDon'] ?? null;
+        $trangThai = $_POST['TrangThai'] ?? null;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-        $id = $_POST['id'];
-        $orderModel->confirmOrderById($id);
-        header('Location: index.php?controller=admin&action=manageorderlist');
-        exit();
+        if ($maDon && $trangThai) {
+            // Gọi model để cập nhật
+            require_once "./Models/OrderModel.php";
+            $orderModel = new OrderModel();
+
+            $success = $orderModel->updateorderStatus($maDon, $trangThai);
+
+            if ($success) {
+                header("Location: index.php?controller=admin&action=manageorderlist");
+            } else {
+                echo "Cập nhật thất bại.";
+            }
+        } else {
+            echo "Thiếu thông tin đơn hàng hoặc trạng thái.";
+        }
     } else {
-        echo "Lỗi: không tìm thấy ID đơn hàng.";
+        echo "Phương thức không hợp lệ.";
     }
 }
+
 
 
 }

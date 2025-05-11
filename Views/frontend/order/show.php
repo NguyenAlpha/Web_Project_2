@@ -58,21 +58,26 @@
                             </div>
                         </div>
                     </div>
-                    <?php endforeach;endif;?>
+                                        <?php endforeach; endif; ?>
                     <div class="list-box__footer">
                         <div class="">
                             <span>Tổng tiền: </span>
                             <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
                         </div>
-                    </div>
-                </div>
-                <?php endforeach;else:?>
 
-                <?php endif;?>
+                        <?php if ($don['TrangThai'] != 'Đã giao'): ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; endif; ?> 
+                    
+                    <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="margin-top: 10px;">
+                        <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
+                        <button type="submit" class="btn btn-success btn-sm">✅ Xác nhận đã giao hàng</button>
+                    </form>
             </div>
-      </div>
+        </div>
     </div>
-  </div>
-</main>
+</div>
 </main>
 <script src="./assets/javascript/address.js"></script>

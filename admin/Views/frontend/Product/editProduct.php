@@ -172,9 +172,6 @@ include "./Views/partitions/frontend/headerAdmin.php";
                                         style="max-height: 200px;"
                                         id="currentImage"
                                         onerror="this.src='../assets/image/no-image.jpg'; this.onerror=null;">
-                                    <div class="mt-2">
-                                        <small class="text-muted"><?= htmlspecialchars(basename($product['AnhMoTaSP'])) ?></small>
-                                    </div>
                                 <?php else: ?>
                                     <div class="alert alert-warning py-4">Không có ảnh hiện tại</div>
                                 <?php endif; ?>
@@ -283,8 +280,11 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f7fa;
     color: #333;
-    margin: 0;
-    padding: 0;
+    display: flexbox;
+    width: 80%;
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
 }
 
 .container {

@@ -203,7 +203,7 @@ document.getElementById('imageUpload').addEventListener('change', function(event
         }
         
         // Kiểm tra kích thước file
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
             alert('File ảnh không được vượt quá 2MB');
             this.value = '';
             return;
@@ -251,6 +251,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f7fa;
     color: #333;
+    width: 80%;
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
 }
 
 .container {

@@ -36,15 +36,17 @@
                             <?php endif; ?>
                         </td>
                         <td>
-                           <?php if ($order['TrangThai'] !== 'đã xác nhận'): ?>
-                       <form method="post" action="index.php?controller=admin&action=confirmOrder" onsubmit="return confirm('Xác nhận đơn hàng này?')">
-                        <input type="hidden" name="id" value="<?= $order['MaDon'] ?>">
-                        <button type="submit" onclick="confirmOrderById($id)" class="btn btn-sm btn-success">✔ Xác nhận</button>
-                    </form>
+                           <form method="post" action="index.php?controller=admin&action=updateOrderStatus">
+                <input type="hidden" name="MaDon" value="<?= $order['MaDon'] ?>">
+                    <select name="TrangThai" class="form-select form-select-sm" required>
+                        <option value="chưa xử lý" <?= $order['TrangThai'] == 'chưa xử lý' ? 'selected' : '' ?>>Chưa xử lý</option>
+                        <option value="đang giao" <?= $order['TrangThai'] == 'đang giao' ? 'selected' : '' ?>>Đang giao</option>
+                        <option value="đã giao" <?= $order['TrangThai'] == 'đã giao' ? 'selected' : '' ?>>Đã giao</option>
+                        <option value="đã xác nhận" <?= $order['TrangThai'] == 'đã xác nhận' ? 'selected' : '' ?>>Đã xác nhận</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary mt-1">Cập nhật</button>
+                </form>
 
-                    <?php else: ?>
-                        <span class="text-muted">✓ Đã xử lý</span>
-                    <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
