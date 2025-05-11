@@ -1,0 +1,70 @@
+
+    .badge {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 5px;
+    }
+
+    .form-select-sm {
+        padding: 3px 8px;
+        font-size: 0.85rem;
+    }
+
+    .btn-sm {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        margin-top: 4px;
+    }
+
+    .btn-info:hover {
+        background-color: #138496;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    select.form-select-sm {
+        width: 110px;
+        margin: 0 auto;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    td form select {
+    min-width: 110px;
+}
+
+td form {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center;
+    gap: 8px;
+}
+
+
+    @media (max-width: 768px) {
+        .btn-info, .btn-primary {
+            width: 100%;
+        }
+    }
