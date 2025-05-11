@@ -1,5 +1,4 @@
 <?php
-
 include "./Views/partitions/frontend/headerAdmin.php";
 ?>
 <style>

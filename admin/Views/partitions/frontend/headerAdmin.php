@@ -181,7 +181,7 @@
 <body>
     <div class="sidebar">
         <div class="logo">
-            <a href="index.php?controller=admin&action=dashboard"><img src="./assets/image/Asset_1.png" alt="Logo"></a>
+            <a href="index.php?controller=admin&action=dashboard"><img src="../assets/image/Asset_1.png" alt="Logo"></a>
         </div>
         <div class="title">Admin Dashboard</div>
         <div class="admin-menu">
@@ -189,10 +189,10 @@
 
             <div class="dropdown">
                 <div class="dropdown-toggle">
-                    Khách hàng <span><i class="fa-solid fa-chevron-down"></i></span>
+                    Khách hàng 
                 </div>
                 <div class="dropdown-menu">
-                    <a href="/Web_Project_2/Views/fontend/Customer/ADMINCUSTOMER.php">Xem khách hàng</a>
+                    <a href="index.php?controller=admin&action=ADMINCUSTOMER">Xem khách hàng</a>
                     <a href="index.php?controller=admin&action=addCustomer">Thêm khách hàng</a>
                 </div>
             </div>
