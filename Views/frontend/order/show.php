@@ -39,7 +39,7 @@
                             <div class=""><b>Ngày đặt: </b> <span><?=$don['NgayDat']?></span></div>
                             <div class=""><b>Ngày giao: </b> <span><?=$don['NgayGiao'] ?? ''?></span></div>
                         </div>
-                        <b><?=$don['TrangThai']?></b>
+                        <b class="status"><?=$don['TrangThai']?></b>
                     </div>
                     <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
                     <div class="flex">
@@ -59,9 +59,9 @@
                         </div>
                     </div>
                     <?php endforeach;endif;?>
-                    <div class="flex list-box__footer">
+                    <div class="list-box__footer">
                         <div class="">
-                            <span>Tổng Tiền: </span>
+                            <span>Tổng tiền: </span>
                             <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
                         </div>
                     </div>

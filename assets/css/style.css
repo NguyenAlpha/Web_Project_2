@@ -945,5 +945,6 @@ b {
 
 .list-box__footer {
 	display: flex;
-	justify-content: center;
+	justify-content: end;
+	font-size: 20px;
 }
