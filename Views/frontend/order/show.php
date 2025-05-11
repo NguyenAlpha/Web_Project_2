@@ -30,53 +30,57 @@
             </div>
             <!-- Order content -->
             <div class="col-md-9" id="ajax-content-area">
-            <div class="order-list">
-                <?php 
-                if(!empty($listMaDon)): foreach($listMaDon as $don):?>
-                <div class="list-box">
-                    <div class="flex list-box__title">
-                        <div class="">
-                            <div class=""><b>Đơn hàng: </b> <span>#<?=$don['MaDon']?></span></div>
-                            <div class=""><b>Địa chỉ giao: </b> <span><?=$don['DiaChi']?></span></div>
-                            <div class=""><b>Ngày đặt: </b> <span><?=$don['NgayDat']?></span></div>
-                            <div class=""><b>Ngày giao: </b> <span><?=$don['NgayGiao'] ?? ''?></span></div>
-                        </div>
-                        <b class="status"><?=$don['TrangThai']?></b>
-                    </div>
-                    <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
-                    <div class="flex">
-                        <a href="?controller=product&action=show&id=<?=$order['MaSP']?>">
-                        <div class="flex">
-                            <img src="<?=$order['AnhMoTaSP']?>" alt="">
-                            <p><?=$order['TenSP']?></p>
-                        </div>
-                        </a>
-                        <div class="">
-                            <div class="">
-                                <span>Số lượng: </span>
-                                <b><?=$order['SoLuongOrder']?></b>
+                <div class="order-list">
+                    <?php if (!empty($listMaDon)): foreach ($listMaDon as $don): ?>
+                        <div class="list-box">
+                            <div class="flex list-box__title">
+                                <div class="">
+                                    <div><b>Đơn hàng: </b><span>#<?=$don['MaDon']?></span></div>
+                                    <div><b>Địa chỉ giao: </b><span><?=$don['DiaChi']?></span></div>
+                                    <div><b>Ngày đặt: </b><span><?=$don['NgayDat']?></span></div>
+                                    <div><b>Ngày giao: </b><span><?=$don['NgayGiao'] ?? ''?></span></div>
+                                </div>
+                                <b class="status"><?=$don['TrangThai']?></b>
                             </div>
-                            <div class="">
-                                <span>Đơn giá: </span>
-                                <b><?=number_format($order['Gia'],0, ',', '.') . "đ"?></b>
+
+                            <?php if (!empty($orders)): foreach ($orders as $order): if ($order['MaDon'] != $don['MaDon']) continue; ?>
+                                <div class="flex">
+                                    <div class="flex">
+                                        <img src="<?=$order['AnhMoTaSP']?>" alt="">
+                                        <p><?=$order['TenSP']?></p>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <span>Số lượng: </span><b><?=$order['SoLuongOrder']?></b>
+                                        </div>
+                                        <div>
+                                            <span>Đơn giá: </span><b><?=number_format($order['Gia'], 0, ',', '.') . "đ"?></b>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; endif; ?>
+
+                            <div class="list-box__footer">
+                                <div>
+                                    <span>Tổng tiền: </span>
+                                    <b style="color: red;"><?=number_format($don['TongTien'], 0, ',', '.') . "đ"?></b>
+                                </div>
+
+                                <?php if ($don['TrangThai'] != 'Đã giao'): ?>
+                                    <div style="text-align: right; margin-top: 8px;">
+                                            <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="text-align: right; margin-top: 8px;">
+                                <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
+                                <button type="submit" class="btn-confirm-delivered">
+                                    ✅ Xác nhận đã giao hàng
+                                </button>
+                            </form>
+
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    </div>
-                                        <?php endforeach; endif; ?>
-                    <div class="list-box__footer">
-                        <div class="">
-                            <span>Tổng tiền: </span>
-                            <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
-                        </div>
-                    <?php if ($don['TrangThai'] != 'Đã giao'): endif;?>
-                    </div>
+                    <?php endforeach; endif; ?>
                 </div>
-                <?php endforeach; endif; ?>
-                    
-                    <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="margin-top: 10px;">
-                        <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
-                        <button type="submit" class="btn btn-success btn-sm">✅ Xác nhận đã giao hàng</button>
-                    </form>
             </div>
         </div>
     </div>
