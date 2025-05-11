@@ -59,8 +59,23 @@
     }
 
     th {
-      background-color: #f2f2f2;
+        background-color: #00268c;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 14px;
+        text-align: center;
+        position: relative;
+        }
+    th.sortable:hover {
+        background-color: #001a63;
+        cursor: pointer;
     }
+
+    th .sort-icon {
+        margin-left: 5px;
+    }
+
 
     button {
       margin-right: 5px;

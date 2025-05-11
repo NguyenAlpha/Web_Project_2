@@ -53,16 +53,15 @@
 
     td form select {
     min-width: 110px;
-}
+    }
 
-td form {
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center;
-    gap: 8px;
-}
-
-
+    td form {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center;
+        gap: 8px;
+    }
+    
     @media (max-width: 768px) {
         .btn-info, .btn-primary {
             width: 100%;
