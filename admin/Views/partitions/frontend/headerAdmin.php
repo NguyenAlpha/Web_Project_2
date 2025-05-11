@@ -127,22 +127,16 @@
             <a href="index.php?controller=admin&action=dashboard"><img src="../assets/image/Asset_1.png" alt="Logo"></a>
         </div>
         <div class="title">Admin Dashboard</div>
-        <div class="admin-menu">
-            <a href="">Trang chủ</a>
-
-            <div class="dropdown">
-                <div class="dropdown-toggle">
-                    Khách hàng 
-                </div>
-                <div class="title">Admin Dashboard - Quản Lý</div>
-            </div>
-            <div class="admin-menu">
-                <div><a href="?controller=admin&action=dashboard">Trang chủ</a></div>
-                <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
-                <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
-                <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
-                <div><a href="?controller=admin&action=logout">Đăng xuất</a></div>
-            </div>
+        <ul class="admin-menu">
+            <li><a href="index.php?controller=admin&action=dashboard">Trang chủ</a></li>
+            
+            <li class="dropdown">
+                <button class="dropdown-toggle">Khách hàng </button>
+                <ul class="dropdown-menu">
+                    <li><a href="index.php?controller=admin&action=customer">Xem khách hàng</a></li>
+                    <li><a href="index.php?controller=admin&action=addCustomer">Thêm khách hàng</a></li>
+                </ul>
+            </li>
 
             <li><a href="index.php?controller=admin&action=productsmanage">Sản phẩm</a></li>
             <li><a href="index.php?controller=admin&action=logout">Đăng xuất</a></li>
