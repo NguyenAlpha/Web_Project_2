@@ -159,33 +159,44 @@ th:nth-child(5), td:nth-child(5) {
 .close-button:hover {
     background-color: #303f9f;
 }
+.btn-an{
+
+
+}
+
 </style>
 
 <div class="body">
 <table>
   <thead>
-    <tr>
+    </>
+      <th>ID</th>
       <th>Username</th>
-      <th>Password</th>
       <th>Email</th>
       <th>Xem đơn hàng</th>
-      <th>Thao tác</th>
+      <th>Xem chi tiết</th>
+      <!-- <th>Thao tác</th> -->
     </tr>
   </thead>
   <tbody>
     <?php foreach($customers as $value): ?>
-      <tr>
+
+      <tr>    
+        <td><?php echo  htmlspecialchars($value['ID']);?></td>
         <td><?php echo htmlspecialchars($value['username']); ?></td>
-        <td><?php echo htmlspecialchars($value['password']); ?></td>
         <td><?php echo htmlspecialchars($value['email']); ?></td>
         <td>
           <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
-        </td>
-        <td>
+        <!-- </td>
+        <>
           <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
           <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+           <a href="http://" class="btn-an">Ẩn</a> 
+        </td> -->
         </td>
+        <td> <a href="index.php?controller=admin&action=CustomerID&id=<?= $value['ID']?>" class="btn-action">Xem</a></td>
       </tr>
+
     <?php endforeach; ?>
   </tbody>
 </table>
