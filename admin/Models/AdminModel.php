@@ -54,20 +54,19 @@ public function getAllCustomers() {
 
     return $customers;
 }
-   public function Viewcustomer() {
-    $AdminModel = new AdminModel();
-    $customers = $AdminModel->getAllCustomers();
+    public function Viewcustomer() {
+        $AdminModel = new AdminModel();
+        $customers = $AdminModel->getAllCustomers();
+        require_once "views/admin/customerList.php";
+    }
 
-    require_once "views/admin/customerList.php";
-}
-
-        public function HideCustomer($id) {
-        $current = $this->getCustomerByID($id);
-        if (!$current) return false;
+    public function changeCustomerStatus($id) {
+        $user = $this->getCustomerByID($id);
+        if (!$user) return false;
         
         // Kiểm tra nếu TrangThai chưa có giá trị, mặc định sẽ là 'Hiện'
-        $currentStatus = $current['TrangThai'] ?? 'Hiện';
-        $newStatus = ($currentStatus == 'Hiện') ? 'Ẩn' : 'Hiện';
+        $currentStatus = $user['TrangThai'] ?? 'mở';
+        $newStatus = ($currentStatus == 'mở') ? 'khóa' : 'mở';
         
         $stmt = $this->conn->prepare("UPDATE users SET TrangThai = ? WHERE ID = ?");
         $stmt->bind_param("si", $newStatus, $id);

@@ -32,6 +32,11 @@ class OrderModel extends BaseModel{
         $stmt->bind_param("si", $trangThai, $maDon);
         return $stmt->execute();
     }
+    
+    public function getListMaDon($userID) {
+        $sql = "SELECT * FROM orders WHERE UserID = $userID ORDER BY MaDon DESC";
+        return $this->getByQuery($sql);
+    }
 
 
 }
