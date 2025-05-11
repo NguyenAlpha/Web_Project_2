@@ -42,11 +42,69 @@ class OrderModel extends BaseModel {
 }
 
 public function updateStatus($maDon, $trangThai) {
-    $sql = "UPDATE donhang SET TrangThai = ? WHERE MaDon = ?";
+    // 1. Cập nhật trạng thái đơn hàng
+    $sql = "UPDATE orders SET TrangThai = ? WHERE MaDon = ?";
     $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([$trangThai, $maDon]);
+    if (!$stmt) {
+        die("Lỗi prepare UPDATE orders: " . $this->conn->error);
+    }
+    $stmt->bind_param("si", $trangThai, $maDon);
+    $stmt->execute();
+
+    // 2. Nếu trạng thái là "đã nhận hàng" thì thực hiện trừ kho + cộng số đã bán
+    if ($trangThai === 'đã nhận hàng') {
+        // Truy vấn danh sách sản phẩm trong đơn hàng
+        $getItems = $this->getByQuery(
+            "SELECT listproduct.SoLuong, listproduct.MaSP 
+             FROM orders 
+             INNER JOIN listproduct ON orders.MaDon = listproduct.MaDon 
+             WHERE orders.MaDon = ?", 
+            [$maDon]
+        );
+
+        foreach ($getItems as $don) {
+            $soLuong = (int)$don["SoLuong"];
+            $maSP = (int)$don["MaSP"];
+
+            // Cập nhật tồn kho và số lượng đã bán (dùng prepare để an toàn hơn)
+            $sqlUpdate = "
+                UPDATE products 
+                SET SoLuong = SoLuong - ?, 
+                    DaBan = DaBan + ? 
+                WHERE MaSP = ?";
+            $stmtUpdate = $this->conn->prepare($sqlUpdate);
+            if (!$stmtUpdate) {
+                die("Lỗi prepare UPDATE products: " . $this->conn->error);
+            }
+            $stmtUpdate->bind_param("iii", $soLuong, $soLuong, $maSP);
+            $stmtUpdate->execute();
+        }
+    }
 }
 
+// Hàm hỗ trợ lấy dữ liệu với câu truy vấn chứa ?
+public function getByQuery($sql, $params = []) {
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) {
+        die("Lỗi prepare SELECT: " . $this->conn->error);
+    }
+
+    if (!empty($params)) {
+        $types = str_repeat("s", count($params)); // hoặc tự điều chỉnh kiểu nếu biết rõ
+        $stmt->bind_param($types, ...$params);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $rows = [];
+    while ($row = $result->fetch_assoc()) {
+        $rows[] = $row;
+    }
+
+    return $rows;
 }
 
+
+}
 ?>
