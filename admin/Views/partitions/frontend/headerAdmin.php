@@ -198,6 +198,7 @@
                 <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
                 <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
                 <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
+                <div><a href="?controller=admin&action=manageorderlist">Danh sách đơn hàng</a></div>
                 <div><a href="?controller=admin&action=logout">Đăng xuất</a></div>
             </div>
 

@@ -47,21 +47,22 @@ class OrderController extends BaseController {
         header("Location: ?controller=order&action=show&userID=$userID");
     }
 
-public function ajax_confirm() {
-    if (!isset($_GET['id'])) {
-        echo "Thiếu ID đơn hàng";
-        return;
+
+   public function confirmDelivered() {
+    $maDon = $_GET['MaDon'] ?? null;
+
+    if ($maDon) {
+        require_once "./Models/OrderModel.php";
+        $model = new OrderModel();
+        $model->updateStatus($maDon, "Đã nhận hàng");
     }
 
-    $maDon = (int)$_GET['id'];
-    $this->loadModel('OrderModel');
-    $orderModel = new OrderModel();
-    $orderModel->updateStatusToConfirmed($maDon);
-
-    echo "✅ Đã xác nhận đơn #$maDon";
+    // Quay lại danh sách đơn hàng
+    $userID = $_SESSION['user']['ID'];
+    header("Location: index.php?controller=order&action=show&userID=" . $userID);
+    exit;
 }
 
-   
 
 }
 
