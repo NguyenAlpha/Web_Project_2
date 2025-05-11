@@ -46,6 +46,24 @@ class AdminModel extends BaseModel{
         $stmtUser = $this->conn->prepare("DELETE FROM users WHERE ID = ?");
         return $stmtUser->execute([$id]);
 }
-   
+public function getAllCustomers() {
+    $sql = "SELECT * FROM users";
+    $result = $this->conn->query($sql);
+    $customers = [];
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+        }
+    }
+
+    return $customers;
+}
+   public function Viewcustomer() {
+    $AdminModel = new AdminModel();
+    $customers = $AdminModel->getAllCustomers();
+
+    require_once "views/admin/customerList.php";
+}
 }
 ?>

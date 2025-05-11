@@ -47,14 +47,10 @@ class OrderController extends BaseController {
         header("Location: ?controller=order&action=show&userID=$userID");
     }
 
-
-   public function confirmDelivered() {
-    $maDon = $_GET['MaDon'] ?? null;
-
-    if ($maDon) {
-        require_once "./Models/OrderModel.php";
-        $model = new OrderModel();
-        $model->updateStatus($maDon, "Đã nhận hàng");
+public function ajax_confirm() {
+    if (!isset($_GET['id'])) {
+        echo "Thiếu ID đơn hàng";
+        return;
     }
 
     $maDon = (int)$_GET['id'];
@@ -65,13 +61,17 @@ class OrderController extends BaseController {
     echo "✅ Đã xác nhận đơn #$maDon";
 }
 
-    
-    // Quay lại danh sách đơn hàng
-    $userID = $_SESSION['user']['ID'];
-    header("Location: index.php?controller=order&action=show&userID=" . $userID);
-    exit;
-}
-
+    public function userOrder() {
+        $userID = $_GET['userID'];
+        $orders = $this->orderModel->getOrderByUserID($_SESSION['user']['ID']);
+        $listMaDon = $this->orderModel->getListMaDon($_SESSION['user']['ID']);
+        $user = $_SESSION['user'];
+        $this->loadView('frontend/Customer/order.php', [
+            'orders' => $orders,
+            'listMaDon' => $listMaDon,
+            'user' => $user
+        ]);
+    }
 
 }
 
