@@ -65,19 +65,15 @@
                                     <span>Tổng tiền: </span>
                                     <b style="color: red;"><?=number_format($don['TongTien'], 0, ',', '.') . "đ"?></b>
                                 </div>
-
-                                <?php if ($don['TrangThai'] != 'Đã giao'): ?>
-                                    <div style="text-align: right; margin-top: 8px;">
-                                            <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="text-align: right; margin-top: 8px;">
-                                <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
-                                <button type="submit" class="btn-confirm-delivered">
-                                    ✅ Xác nhận đã giao hàng
-                                </button>
-                            </form>
-
-                                    </div>
-                                <?php endif; ?>
                             </div>
+                            <?php if($don['TrangThai'] != 'đã giao' && $don['TrangThai'] == 'đang giao'): ?>
+                            <div style="text-align: right; margin-top: 8px;">
+                                <form method="POST" action="index.php?controller=order&action=confirmDelivered" style="text-align: right; margin-top: 8px;">
+                                    <input type="hidden" name="MaDon" value="<?=$don['MaDon']?>">
+                                    <button type="submit" class="btn-confirm-delivered">✅ Xác nhận đã giao hàng</button>
+                                </form>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; endif; ?>
                 </div>
