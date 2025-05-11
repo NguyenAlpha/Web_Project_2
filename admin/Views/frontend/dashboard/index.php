@@ -12,6 +12,7 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
 }
+include "./Views/partitions/frontend/headerAdmin.php";
 // Lấy thống kê tổng quan
 $stats = [
     'total_products' => $conn->query("SELECT COUNT(*) FROM products")->fetch_row()[0],
@@ -194,9 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
     </style>
 </head>
 <body>
-    <?php include "./Views/partitions/frontend/headerAdmin.php"; ?>
-    
-    <div class="dd">
+     <div class="dd">
         <div class="container-fluid py-4">
         <div class="row mb-4">
             <div class="col-12">

@@ -11,12 +11,42 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Truy vấn danh sách khách hàng
-$sql = "SELECT * FROM users"; // hoặc 'users' nếu tên bảng là vậy
-$result = $conn->query($sql);
+// Xử lý các tham số lọc
+$search = $_GET['search'] ?? '';
+$sort = $_GET['sort'] ?? 'total_spent'; // Mặc định sắp xếp theo tổng tiền
+$order = $_GET['order'] ?? 'DESC'; // Mặc định giảm dần
+
+// Xây dựng câu truy vấn SQL với tổng tiền đã mua
+$sql = "SELECT u.*, COALESCE(SUM(o.TongTien), 0) AS total_spent 
+        FROM users u
+        LEFT JOIN orders o ON u.ID = o.UserID AND o.TrangThai = 'đã giao'
+        WHERE 1=1";
+$params = [];
+
+if (!empty($search)) {
+    $sql .= " AND (u.username LIKE ? OR u.email LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+$sql .= " GROUP BY u.ID";
+
+// Thêm phần sắp xếp
+$validSortColumns = ['username', 'email', 'ID', 'total_spent'];
+$sort = in_array($sort, $validSortColumns) ? $sort : 'total_spent';
+$order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
+$sql .= " ORDER BY $sort $order";
+
+// Chuẩn bị và thực thi truy vấn
+$stmt = $conn->prepare($sql);
+if (!empty($params)) {
+    $types = str_repeat('s', count($params));
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 
 $customers = [];
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $customers[] = $row;
@@ -30,28 +60,45 @@ body {
     padding: 0;
     background-color: #f4f6fa;
     color: #333;
+    min-height: 100vh;
 }
 
 .body {
-    margin-left: 250px;
+    margin-left: 240px; /* Cần khớp với width của sidebar */
     padding: 20px;
-    margin-top: 60px;
+    margin-top: 0;
+    transition: margin-left 0.3s;
+}
+
+/* Header cố định */
+.table-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.filter-section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
-    font-size: 13px;
-    table-layout: fixed;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 14px;
+    table-layout: auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
 }
 
 th, td {
-    padding: 10px;
-    text-align: center;
+    padding: 12px 15px;
+    text-align: left;
     border-bottom: 1px solid #e0e0e0;
     word-wrap: break-word;
 }
@@ -59,60 +106,64 @@ th, td {
 th {
     background-color: #3949ab;
     color: #fff;
-    font-size: 15px;
-    top: 60px;
-    z-index: 2;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+}
+
+th.sortable:hover {
+    background-color: #303f9f;
+    cursor: pointer;
+}
+
+.sort-icon {
+    margin-left: 5px;
+    font-size: 0.8em;
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f5f7ff;
 }
 
-/* Cột */
-th:nth-child(1), td:nth-child(1),
-th:nth-child(2), td:nth-child(2),
-th:nth-child(4), td:nth-child(4) {
-    width: 15%;
-}
-
-th:nth-child(3), td:nth-child(3) {
-    width: 25%;
-}
-
-th:nth-child(5), td:nth-child(5) {
-    width: 20%;
-}
+/* Điều chỉnh độ rộng cột */
+th:nth-child(1), td:nth-child(1) { width: 15%; }
+th:nth-child(2), td:nth-child(2) { width: 15%; }
+th:nth-child(3), td:nth-child(3) { width: 25%; }
+th:nth-child(4), td:nth-child(4) { width: 15%; }
+th:nth-child(5), td:nth-child(5) { width: 15%; }
+th:nth-child(6), td:nth-child(6) { width: 15%; }
 
 .btn-action, .btn-xoa {
-    padding: 5px 10px;
-    font-size: 12px;
+    padding: 6px 12px;
+    font-size: 13px;
     margin: 2px;
     border-radius: 4px;
     text-decoration: none;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
+    transition: all 0.2s;
+    display: inline-block;
 }
 
 .btn-action {
-    background-color: #fff;
-    color: #1a237e;
-    border: 1px solid #1a237e;
+    background-color: #3949ab;
+    color: white;
+    border: 1px solid #3949ab;
 }
 
 .btn-action:hover {
-    background-color: #1a237e;
-    color: #fff;
+    background-color: #303f9f;
+    border-color: #303f9f;
 }
 
 .btn-xoa {
-    background-color: #fff;
-    color: #c62828;
-    border: 1px solid #c62828;
+    background-color: #d32f2f;
+    color: white;
+    border: 1px solid #d32f2f;
 }
 
 .btn-xoa:hover {
-    background-color: #c62828;
-    color: #fff;
+    background-color: #b71c1c;
+    border-color: #b71c1c;
 }
 
 /* Popup giỏ hàng */
@@ -123,12 +174,14 @@ th:nth-child(5), td:nth-child(5) {
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    padding: 30px;
-    max-width: 700px;
-    width: 90%;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    z-index: 9999;
-    border-radius: 10px;
+    padding: 25px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    z-index: 1050;
+    border-radius: 8px;
 }
 
 .popup-overlay {
@@ -136,10 +189,10 @@ th:nth-child(5), td:nth-child(5) {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    z-index: 9998;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1040;
 }
 
 .popup-buttons {
@@ -148,89 +201,227 @@ th:nth-child(5), td:nth-child(5) {
 }
 
 .close-button {
-    padding: 6px 12px;
-    background-color: #1a237e;
+    padding: 8px 16px;
+    background-color: #3949ab;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .close-button:hover {
     background-color: #303f9f;
 }
+
+/* Form tìm kiếm */
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+.search-button, .reset-button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-button {
+    background-color: #3949ab;
+    color: white;
+    border: none;
+}
+
+.search-button:hover {
+    background-color: #303f9f;
+}
+
+.reset-button {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+
+.reset-button:hover {
+    background-color: #e0e0e0;
+}
+
+.total-spent {
+    font-weight: 600;
+    color: #2e7d32;
+    text-align: right;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .body {
+        margin-left: 0;
+        padding-top: 70px;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
 </style>
 
 <div class="body">
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Email</th>
-      <th>Xem đơn hàng</th>
-      <th>Thao tác</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach($customers as $value): ?>
-      <tr>
-        <td><?php echo htmlspecialchars($value['username']); ?></td>
-        <td><?php echo htmlspecialchars($value['password']); ?></td>
-        <td><?php echo htmlspecialchars($value['email']); ?></td>
-        <td>
-          <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
-        </td>
-        <td>
-          <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
-          <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
-        </td>
-      </tr>
-    <?php endforeach; ?>
-  </tbody>
-</table>
-
-<!-- Popup hiển thị giỏ hàng -->
-<div id="popupCart" class="popup-cart">
-    <h2 id="popupCartTitle"></h2>
-    <div id="cartContent"></div>
-    <div class="popup-buttons">
-        <button class="close-button"onclick="closeCartPopup()">Đóng</button>
+    <!-- Phần lọc và tìm kiếm -->
+    <div class="filter-section">
+        <h2 style="color: #3949ab; margin-bottom: 20px;">Quản lý khách hàng</h2>
+        
+        <form method="GET" action="" class="search-form">
+            <input type="hidden" name="controller" value="admin">
+            <input type="hidden" name="action" value="customer">
+            
+            <input type="text" class="search-input" name="search" 
+                   value="<?= htmlspecialchars($search) ?>" 
+                   placeholder="Tìm theo tên hoặc email">
+            
+            <button type="submit" class="search-button">
+                <i class="bi bi-search"></i> Tìm kiếm
+            </button>
+            
+            <a href="?controller=admin&action=customer" class="reset-button">
+                <i class="bi bi-arrow-counterclockwise"></i> Xóa lọc
+            </a>
+        </form>
     </div>
-</div>
 
-<div id="popupOverlay" class="popup-overlay"></div>
+    <table>
+        <thead>
+            <tr>
+                <th class="sortable" onclick="sortTable('username')">
+                    Username
+                    <?php if ($sort === 'username'): ?>
+                        <i class="bi bi-arrow-<?= $order === 'ASC' ? 'up' : 'down' ?> sort-icon"></i>
+                    <?php endif; ?>
+                </th>
+                <th>Password</th>
+                <th class="sortable" onclick="sortTable('email')">
+                    Email
+                    <?php if ($sort === 'email'): ?>
+                        <i class="bi bi-arrow-<?= $order === 'ASC' ? 'up' : 'down' ?> sort-icon"></i>
+                    <?php endif; ?>
+                </th>
+                <th class="sortable total-spent-header" onclick="sortTable('total_spent')">
+                    Tổng tiền đã mua
+                    <?php if ($sort === 'total_spent'): ?>
+                        <i class="bi bi-arrow-<?= $order === 'ASC' ? 'up' : 'down' ?> sort-icon"></i>
+                    <?php endif; ?>
+                </th>
+                <th>Xem đơn hàng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($customers)): ?>
+                <?php foreach($customers as $value): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($value['username']) ?></td>
+                        <td><?= htmlspecialchars($value['password']) ?></td>
+                        <td><?= htmlspecialchars($value['email']) ?></td>
+                        <td class="total-spent text-center"><?= number_format($value['total_spent'], 0, ',', '.') ?> ₫</td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn-action" onclick="openCartPopup(<?= $value['ID'] ?>)">Xem</a>
+                        </td>
+                        <td>
+                            <a href="index.php?controller=admin&action=Editcustomer&id=<?= $value['ID'] ?>" class="btn-action">Sửa</a>
+                            <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $value['ID'] ?>" class="btn-xoa" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này không?')">Xoá</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">Không tìm thấy khách hàng nào</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    <!-- Popup hiển thị giỏ hàng -->
+    <div id="popupCart" class="popup-cart">
+        <h2 id="popupCartTitle"></h2>
+        <div id="cartContent"></div>
+        <div class="popup-buttons">
+            <button class="close-button" onclick="closeCartPopup()">Đóng</button>
+        </div>
+    </div>
 
-<script>
-function openCartPopup(customerID) {
-    const popup = document.getElementById('popupCart');
-    const overlay = document.getElementById('popupOverlay');
-    const cartContent = document.getElementById('cartContent');
+    <div id="popupOverlay" class="popup-overlay"></div>
 
-    popup.style.display = 'block';
-    overlay.style.display = 'block';
+    <script>
+    function sortTable(column) {
+        const url = new URL(window.location.href);
+        const currentSort = url.searchParams.get('sort');
+        const currentOrder = url.searchParams.get('order');
+        
+        // Xác định thứ tự sắp xếp mới
+        let newOrder = 'ASC';
+        if (currentSort === column) {
+            newOrder = currentOrder === 'ASC' ? 'DESC' : 'ASC';
+        }
+        
+        // Cập nhật tham số URL
+        url.searchParams.set('sort', column);
+        url.searchParams.set('order', newOrder);
+        
+        // Chuyển hướng đến URL mới
+        window.location.href = url.toString();
+    }
 
-    // Loading spinner
-    cartContent.innerHTML = '<div style="text-align:center;padding:20px;">Đang tải giỏ hàng...</div>';
+    function openCartPopup(customerID) {
+        const popup = document.getElementById('popupCart');
+        const overlay = document.getElementById('popupOverlay');
+        const cartContent = document.getElementById('cartContent');
 
-    fetch(`index.php?controller=admin&action=CustomerCartAjax&customerID=${customerID}`)
-    .then(response => {
-        if (!response.ok) throw new Error('Không thể lấy dữ liệu');
-        return response.text();
-    })
-    .then(data => {
-        cartContent.innerHTML = data;
-    })
-    .catch(error => {
-        console.error('Lỗi:', error);
-        cartContent.innerHTML = '<div style="color:red; text-align:center;">Không thể tải giỏ hàng.</div>';
-    });
-}
+        popup.style.display = 'block';
+        overlay.style.display = 'block';
 
-function closeCartPopup() {
-    document.getElementById('popupCart').style.display = 'none';
-    document.getElementById('popupOverlay').style.display = 'none';
-}
-</script>
+        // Loading spinner
+        cartContent.innerHTML = '<div style="text-align:center;padding:20px;">Đang tải giỏ hàng...</div>';
 
+        fetch(`index.php?controller=admin&action=CustomerCartAjax&customerID=${customerID}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Không thể lấy dữ liệu');
+            return response.text();
+        })
+        .then(data => {
+            cartContent.innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            cartContent.innerHTML = '<div style="color:red; text-align:center;">Không thể tải giỏ hàng.</div>';
+        });
+    }
+
+    function closeCartPopup() {
+        document.getElementById('popupCart').style.display = 'none';
+        document.getElementById('popupOverlay').style.display = 'none';
+    }
+    </script>
 </div>
