@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Font -->
+    <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -138,9 +138,33 @@
                 </ul>
             </li>
 
+<<<<<<< HEAD
             <li><a href="index.php?controller=admin&action=productsmanage">Sản phẩm</a></li>
             <li><a href="index.php?controller=admin&action=logout">Đăng xuất</a></li>
         </ul>
+=======
+            <div class="dropdown">
+                <div class="dropdown-toggle">
+                    Khách hàng 
+                </div>
+                <div class="title">Admin Dashboard - Quản Lý</div>
+            </div>
+            <div class="admin-menu">
+                <div><a href="?controller=admin&action=dashboard">Trang chủ</a></div>
+                <div><a href="?controller=admin&action=adminInfo">Thông tin admin</a></div>
+                <div><a href="?controller=admin&action=customer">Khách hàng</a></div>
+                <div><a href="?controller=admin&action=productsmanage">Sản phẩm</a></div>
+                <div><a href="?controller=admin&action=logout">Đăng xuất</a></div>
+            </div>
+
+            <a href="index.php?controller=admin&action=productsmanage">Sản phẩm</a>
+            <a href="index.php?controller=admin&action=logout">Đăng xuất</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Nội dung chính ở đây -->
+>>>>>>> 9106b05e914c4bc68d51b73774380482a1aeabc4
     </div>
 
     <script>
