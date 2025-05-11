@@ -251,6 +251,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f7fa;
     color: #333;
+    width: 80%;
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
 }
 
 .container {

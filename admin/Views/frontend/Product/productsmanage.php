@@ -21,9 +21,11 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #eef2f7;
-            margin: 0;
+            display: flexbox;
+            width: 80%;
+            margin-left: 250px;
+            padding: 20px;
+            margin-top: 60px;
         }
 
         h1 {
