@@ -14,7 +14,8 @@
 
             // load header
             $this->loadView("partitions/frontend/header.php",[
-                "menus" => $this->categoryModel->getAll()
+                "menus" => $this->categoryModel->getAll(),
+                'title' => $_GET['id']
             ]);
         }
 
@@ -24,7 +25,6 @@
             $page = $_GET['page'] ?? 1;
             $limit = 40;
             $offset = ($page - 1) * $limit;
-
             // Lấy thông tin filter của danh mục theo mã danh mục
             $attributes = $this->categoryModel->getFiltersByCategoryId($categoryId);
             
@@ -52,7 +52,7 @@
                 'attributes' => $attributes,
                 'selectedAttribute' => $_POST,
                 'totalPages' => $totalPages,
-                'currentPage' => $page
+                'currentPage' => $page,
             ]);
         }
 

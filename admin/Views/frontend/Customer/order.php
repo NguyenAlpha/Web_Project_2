@@ -21,8 +21,8 @@
                     <b class="status"><?=$don['TrangThai']?></b>
                 </div>
                 <?php if(!empty($orders)): foreach($orders as $order): if($order['MaDon'] != $don['MaDon']) continue;?>
-                <div class="flex">
-                    <a href="../index.php?controller=product&action=show&id=<?=$order['MaSP']?>">
+                <div class="flex list-box-content">
+                    <a href="?controller=admin&action=editProduct&MaSP=<?=$order['MaSP']?>">
                         <div class="flex">
                             <img src="../<?=$order['AnhMoTaSP']?>" alt="">
                             <p><?=$order['TenSP']?></p>
