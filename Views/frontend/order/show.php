@@ -59,10 +59,10 @@
                         </div>
                     </div>
                     <?php endforeach;endif;?>
-                    <div class="">
+                    <div class="flex list-box__footer">
                         <div class="">
                             <span>Tổng Tiền: </span>
-                            <b><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
+                            <b style="color: red;"><?=number_format($don['TongTien'],0, ',', '.') . "đ"?></b>
                         </div>
                     </div>
                 </div>
