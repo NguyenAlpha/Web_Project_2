@@ -48,8 +48,10 @@
         }
 
         protected function delete($table, $column, $id) {
-            $sql = "DELETE FROM $table WHERE $column = $id";
-            $this->conn->query($sql);
+            $sql = "DELETE FROM $table WHERE $column = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $id); // Giả sử ID là số nguyên
+            return $stmt->execute();
         }
 
         protected function getByQuery($query) {
@@ -84,16 +86,13 @@
             $this->conn->query($sql);
         }
         protected function execute($sql, $params = []) {
-    $stmt = $this->conn->prepare($sql);
-    if (!empty($params)) {
-        // Tạo chuỗi types (i = integer)
-        $types = str_repeat("s", count($params)); // hoặc "i" nếu chỉ toàn số nguyên
-        $stmt->bind_param($types, ...$params);
+            $stmt = $this->conn->prepare($sql);
+            if (!empty($params)) {
+                // Tạo chuỗi types (i = integer)
+                $types = str_repeat("s", count($params)); // hoặc "i" nếu chỉ toàn số nguyên
+                $stmt->bind_param($types, ...$params);
+            }
+            return $stmt->execute();
+        }
     }
-    return $stmt->execute();
-}
-
-        
-    }
-    
 ?>
