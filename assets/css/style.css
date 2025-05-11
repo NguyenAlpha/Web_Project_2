@@ -942,3 +942,8 @@ b {
 .list-box__title {
 	border-bottom: 1px solid #a1a1a1;
 }
+
+.list-box__footer {
+	display: flex;
+	justify-content: center;
+}
