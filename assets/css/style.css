@@ -955,3 +955,6 @@ b {
 	font-size: 20px;
 }
 
+.modal-content img {
+	height: 200px;
+}

@@ -57,7 +57,7 @@
         
         <div class="qr-payment-box">
             <div class="qr-code">
-                <img src="assets/images/qr_code.png" alt="Mã QR Thanh Toán">
+                <img src="assets/image/z6592441556638_844402ac32ad3a70af21f07c62751376.jpg" alt="Mã QR Thanh Toán">
                 <p>Quét mã để thanh toán</p>
             </div>
             
