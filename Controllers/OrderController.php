@@ -32,7 +32,6 @@ class OrderController extends BaseController {
     }
 
     public function addOrder() {
-        print_r($_POST);
         $userID = $_SESSION['user']['ID'];
         $address = $_POST['address'];
         $pay = $_POST['pay'];

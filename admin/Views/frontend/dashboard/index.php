@@ -46,7 +46,7 @@ $top_products = $conn->query("
     FROM listproduct lp
     JOIN products p ON lp.MaSP = p.MaSP
     JOIN orders o ON lp.MaDon = o.MaDon
-    WHERE o.TrangThai = 'đã giao'
+    WHERE o.TrangThai = 'đã nhận hàng'
     GROUP BY lp.MaSP
     ORDER BY total_sold DESC
     LIMIT 5
