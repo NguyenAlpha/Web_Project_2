@@ -245,14 +245,14 @@ INSERT INTO `laptopdetails` (`MaSP`, `ThuongHieu`, `CPU`, `GPU`, `RAM`, `DungLuo
 (18, 'Asus', 'Intel Core Ultra 7 155H', 'Intel Arc Graphics', '16GB', '512GB', '16 inch', '3200x2000'),
 (19, 'HP', 'Intel Core Ultra 5 125U', 'Intel Graphics', '8GB', '512GB', '14 inch', '1920x1200'),
 (24, 'Dell', 'Intel Core i7-1355U', 'Intel Iris Xe Graphics', '16GB', '512GB', '14 inch', '1920x1080'),
-(63, 'HP', ' Intel® Core™ i5-13500HX', 'GeForce RTX™ 4060 8GB GDDR6', '16GB', '512GB', '16.1 inch', '1920x1080'),
-(64, 'Asus', ' Intel® Core™ i5-1235', 'Onboard graphics', '16GB', '512GB', '16 inch', '2560x1440'),
-(65, 'Lenovo', 'Intel® Core™ Ultra 7 155H, 16C (6P + 8E + 2LPE) / 22T, Max Turbo up to 4.8GHz, 24MB', 'Intel® Core™ Ultra 7 155H, 16C (6P + 8E + 2LPE) / 22T, Max Turbo up to 4.8GHz, 24MB', '16GB', '1TB', '14.5 inch', '2888x1880'),
-(66, 'Acer', 'Intel® Core™ i7-13700H 3.70 upto 5.00GHz ,14 Core 20 Threads, 24 MB Smart Cache', 'NVIDIA® GeForce RTX™ Graphics 4050 6GB GDDR6', '32GB', '1TB', '15.6 inch', '1920x1200'),
-(67, 'MSI', 'Intel Core™ Ultra 7 258V up to 4.80Ghz, 8 Cores (4P+4PLE), 8 Threads, 12MB Intel® Smart Cache', 'Intel® Arc™ 140V', '32GB', '1TB', '13.3 inch', '2880x1800'),
-(68, 'Acer', 'Intel® Core™ Ultra 7 Processor 258V 32GB 1.8 GHz (12MB Cache, up to 4.8 GHz, 8 cores, 8 Threads)', 'Intel® Arc™ Graphics 140V', '32GB', '1TB', '16 inch', '1920x1080'),
-(69, 'Lenovo', 'Intel® Core™ Ultra 7 258V, 8C (4P + 4LPE) / 8T, Max Turbo up to 4.8GHz, 12MB', 'Integrated Intel® Arc™ Graphics 140V', '32GB', '1TB', '14 inch', '2880x1800'),
-(70, 'Asus', 'Intel® Core™ Ultra 7 Processor 155H 1.4 GHz (24MB Cache, up to 4.8 GHz, 16 cores, 22 Threads); Intel® AI Boost NPU', 'Intel® Arc™ Graphics', '32GB', '1TB', '14 inch', '2880x1800');
+(63, 'HP', ' Intel Core™ i5-13500HX', 'GeForce RTX™ 4060 8GB GDDR6', '16GB', '512GB', '16.1 inch', '1920x1080'),
+(64, 'Asus', ' Intel Core™ i5-1235', 'Onboard graphics', '16GB', '512GB', '16 inch', '2560x1440'),
+(65, 'Lenovo', 'Intel Core™ Ultra 7 155H, 16C (6P + 8E + 2LPE) / 22T, Max Turbo up to 4.8GHz, 24MB', 'Intel Core™ Ultra 7 155H, 16C (6P + 8E + 2LPE) / 22T, Max Turbo up to 4.8GHz, 24MB', '16GB', '1TB', '14.5 inch', '2888x1880'),
+(66, 'Acer', 'Intel Core™ i7-13700H 3.70 upto 5.00GHz ,14 Core 20 Threads, 24 MB Smart Cache', 'NVIDIA GeForce RTX™ Graphics 4050 6GB GDDR6', '32GB', '1TB', '15.6 inch', '1920x1200'),
+(67, 'MSI', 'Intel Core™ Ultra 7 258V up to 4.80Ghz, 8 Cores (4P+4PLE), 8 Threads, 12MB Intel Smart Cache', 'Intel Arc™ 140V', '32GB', '1TB', '13.3 inch', '2880x1800'),
+(68, 'Acer', 'Intel Core™ Ultra 7 Processor 258V 32GB 1.8 GHz (12MB Cache, up to 4.8 GHz, 8 cores, 8 Threads)', 'Intel Arc™ Graphics 140V', '32GB', '1TB', '16 inch', '1920x1080'),
+(69, 'Lenovo', 'Intel Core™ Ultra 7 258V, 8C (4P + 4LPE) / 8T, Max Turbo up to 4.8GHz, 12MB', 'Integrated Intel Arc™ Graphics 140V', '32GB', '1TB', '14 inch', '2880x1800'),
+(70, 'Asus', 'Intel Core™ Ultra 7 Processor 155H 1.4 GHz (24MB Cache, up to 4.8 GHz, 16 cores, 22 Threads); Intel AI Boost NPU', 'Intel Arc™ Graphics', '32GB', '1TB', '14 inch', '2880x1800');
 
 -- --------------------------------------------------------
 
@@ -280,16 +280,16 @@ INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`, `RAM`, `D
 (4, 'Lenovo', 'NVIDIA GeForce RTX 4060 8GB', 'AMD Ryzen 7 7435HS', '24GB', '512GB', '15.6 inch', '1920x1080'),
 (7, 'Gigabyte', 'NVIDIA GeForce RTX 4050 6GB', 'Intel Core i5-13500H', '8GB', '512GB', '15.6 inch', '1920x1080'),
 (49, 'Acer', 'NVIDIA GeForce RTX 4050 6GB GDDR6 VRAM, hỗ trợ 2560 NVIDIA CUDA Cores', 'Intel Core i7-14700HX (20 lõi / 28 luồng, 3.9 GHz, 5.5 GHz, 33 MB, Intel Smart Cache)', '32GB', '512GB', '16 inch', '2560x1600'),
-(51, 'Lenovo', 'NVIDIA® GeForce RTX™ 4060 8GB GDDR6, Boost Clock 2370MHz, TGP 140W', 'Intel® Core™ i7-14650HX, 16C (8P + 8E) / 24T, P-core 2.2 / 5.2GHz, E-core 1.6 / 3.7GHz, 30MB', '16GB', '512GB', '16 inch', '2560x1600'),
-(53, 'Acer', 'NVIDIA® GeForce RTX™ 4070 8GB GDDR6', 'Intel Core i7-13700HX 3.7GHz up to 5.0GHz, 16 Cores 24 Threads ,30 MB Intel Smart Cache', '16GB', '512GB', '16 inch', '2560x1600'),
-(54, 'Asus', 'NVIDIA® GeForce RTX™ 4060 Laptop GPU 2225Mhz* at 100W(2175MHz Boost Clock+50MHz O.C.,75W+25W Dynamic Boost) + AMD Radeon™ Graphics', 'AMD Ryzen™ AI 9 HX 370 Processor 2.0GHz (36MB Cache, up to 5.1GHz, 12 cores, 24 Threads); AMD Ryzen™ AI up to 81 TOPs', '16GB', '1TB', '14 inch', '2560x1600'),
-(56, 'HP', 'NVIDIA® GeForce RTX™ 4070 8GB GDDR6', 'Intel Core i9-14900HX up to 5.8Ghz, 36MB', '32GB', '1TB', '16 inch', '2560x1440'),
-(57, 'MSI', 'NVIDIA® GeForce RTX™ 4050 Laptop GPU 6GB GDDR6 Up to 2355MHz Boost Clock 105W Maximum Graphics Power with Dynamic Boost.', 'Intel® Core™ i7-14700HX (1.5GHz upto 5.5GHz, 20 cores 28 threads, 33 MB Intel® Smart Cache)', '16GB', '1TB', '16 inch', '1920x1200'),
-(58, 'MSI', 'NVIDIA® GeForce RTX™ 5070 Ti Laptop GPU 12GB GDDR7 up to 2220MHz Boost Clock 140W Maximum Graphics Power with Dynamic Boost. AI TOPs: 992 TOPS', 'Intel® Core™ Ultra 7 255HX (1.80Hz up to 5.20GHz, 30MB Cache) AI NPU TOPs: 13 TOPs', '16GB', '512GB', '16 inch', '2560x1600'),
-(59, 'Lenovo', 'NVIDIA® GeForce RTX™ 4070 8GB GDDR6, Boost Clock 2175MHz, TGP 115W', 'Intel® Core™ i9-14900HX, 24C (8P + 16E) / 32T, P-core 2.2 / 5.8GHz, E-core 1.6 / 4.1GHz, 36MB', '32GB', '1TB', '16 inch', '3200x3200'),
-(60, 'MSI', 'NVIDIA® GeForce RTX™ 3050 Laptop GPU Up to 1172.5MHz Boost Clock 45W Maximum Graphics Power with Dynamic Boost.', 'Intel Core i7-13620H (3.6GHz~4.9GHz) 10 Nhân 16 Luồng', '16GB', 'SSD NVMe PCIe 512GB Gen4x4 (Còn 1 slot 2.5\" SATA HDD)', '15,6', '1920x1080'),
-(61, 'Acer', 'NVIDIA® GeForce RTX™ 4060 8GB GDDR6', 'Intel® Core™ i9-13900H 2.6 GHz (24MB Cache, up to 5.4 GHz, 14 cores, 20 Threads)', '16GB', '512GB', '15.6 ', '1920 x 1080'),
-(62, 'MSI', 'NVIDIA® GeForce RTX™ 4050 Laptop GPU 6GB GDDR6 Up to 2355MHz Boost Clock 105W Maximum Graphics Power with Dynamic Boost.', 'Intel Core i9-14900HX up to 5.8Ghz, 36MB', '16GB ', '1TB', '15.6 inch', '1920x1080');
+(51, 'Lenovo', 'NVIDIA GeForce RTX™ 4060 8GB GDDR6, Boost Clock 2370MHz, TGP 140W', 'Intel Core™ i7-14650HX, 16C (8P + 8E) / 24T, P-core 2.2 / 5.2GHz, E-core 1.6 / 3.7GHz, 30MB', '16GB', '512GB', '16 inch', '2560x1600'),
+(53, 'Acer', 'NVIDIA GeForce RTX™ 4070 8GB GDDR6', 'Intel Core i7-13700HX 3.7GHz up to 5.0GHz, 16 Cores 24 Threads ,30 MB Intel Smart Cache', '16GB', '512GB', '16 inch', '2560x1600'),
+(54, 'Asus', 'NVIDIA GeForce RTX™ 4060 Laptop GPU 2225Mhz* at 100W(2175MHz Boost Clock+50MHz O.C.,75W+25W Dynamic Boost) + AMD Radeon™ Graphics', 'AMD Ryzen™ AI 9 HX 370 Processor 2.0GHz (36MB Cache, up to 5.1GHz, 12 cores, 24 Threads); AMD Ryzen™ AI up to 81 TOPs', '16GB', '1TB', '14 inch', '2560x1600'),
+(56, 'HP', 'NVIDIA GeForce RTX™ 4070 8GB GDDR6', 'Intel Core i9-14900HX up to 5.8Ghz, 36MB', '32GB', '1TB', '16 inch', '2560x1440'),
+(57, 'MSI', 'NVIDIA GeForce RTX™ 4050 Laptop GPU 6GB GDDR6 Up to 2355MHz Boost Clock 105W Maximum Graphics Power with Dynamic Boost.', 'Intel Core™ i7-14700HX (1.5GHz upto 5.5GHz, 20 cores 28 threads, 33 MB Intel Smart Cache)', '16GB', '1TB', '16 inch', '1920x1200'),
+(58, 'MSI', 'NVIDIA GeForce RTX™ 5070 Ti Laptop GPU 12GB GDDR7 up to 2220MHz Boost Clock 140W Maximum Graphics Power with Dynamic Boost. AI TOPs: 992 TOPS', 'Intel Core™ Ultra 7 255HX (1.80Hz up to 5.20GHz, 30MB Cache) AI NPU TOPs: 13 TOPs', '16GB', '512GB', '16 inch', '2560x1600'),
+(59, 'Lenovo', 'NVIDIA GeForce RTX™ 4070 8GB GDDR6, Boost Clock 2175MHz, TGP 115W', 'Intel Core™ i9-14900HX, 24C (8P + 16E) / 32T, P-core 2.2 / 5.8GHz, E-core 1.6 / 4.1GHz, 36MB', '32GB', '1TB', '16 inch', '3200x3200'),
+(60, 'MSI', 'NVIDIA GeForce RTX™ 3050 Laptop GPU Up to 1172.5MHz Boost Clock 45W Maximum Graphics Power with Dynamic Boost.', 'Intel Core i7-13620H (3.6GHz~4.9GHz) 10 Nhân 16 Luồng', '16GB', 'SSD NVMe PCIe 512GB Gen4x4 (Còn 1 slot 2.5\" SATA HDD)', '15,6', '1920x1080'),
+(61, 'Acer', 'NVIDIA GeForce RTX™ 4060 8GB GDDR6', 'Intel Core™ i9-13900H 2.6 GHz (24MB Cache, up to 5.4 GHz, 14 cores, 20 Threads)', '16GB', '512GB', '15.6 ', '1920 x 1080'),
+(62, 'MSI', 'NVIDIA GeForce RTX™ 4050 Laptop GPU 6GB GDDR6 Up to 2355MHz Boost Clock 105W Maximum Graphics Power with Dynamic Boost.', 'Intel Core i9-14900HX up to 5.8Ghz, 36MB', '16GB ', '1TB', '15.6 inch', '1920x1080');
 
 -- --------------------------------------------------------
 
@@ -352,21 +352,21 @@ CREATE TABLE `manhinhdetails` (
 INSERT INTO `manhinhdetails` (`MaSP`, `ThuongHieu`, `KichThuocManHinh`, `TangSoQuet`, `TiLe`, `TamNen`, `DoPhanGiai`, `KhoiLuong`) VALUES
 (1, 'MSI', '23.8 inch', '100Hz', '16:9', 'IPS', '1920x1080', '3.5 kg'),
 (8, 'Gigabyte', '', '', '', '', '', ''),
-(71, 'Asus', '25 inch', '180 Hz', '16:9', 'Fast IPS', '2560x1600', '1.2kg'),
-(72, 'ViewSonic', '14 inch', '144 Hz', '16:9', 'IPS', '1920x1080', '1.1 kg'),
-(73, 'ViewSonic', '15.6 inch', '60Hz', '21:9', 'LCD', '3200x3200', '0.9 kg'),
-(74, 'LG', '14 inch', '75 Hz', '16:9', 'VA', '2880x1800', '1.2kg'),
-(75, 'Acer', '22 inch', '120 Hz', ' 21:9', 'IPS', '2560x1440', '1.5 kg'),
-(76, 'Acer', '15.6 inch', '240 Hz', '16:9', 'Fast IPS', '2560x1440', '0.9 kg'),
-(77, 'Acer', '14 inch', '180 Hz', '16:9', 'LCD', '2560x1600', '1.5 kg'),
-(78, 'ViewSonic', '16 inch', '60Hz', '21:9', 'VA', '2880x1800', '1.4 kg'),
-(79, 'Gigabyte', '15.6 inch', '120 Hz', '16:9', 'Fast IPS', '1920x1080', '0.9 kg'),
-(80, 'Philips ', '14 inch', '144 Hz', '21:9', 'LCD', '2560x1440', '1.4 kg'),
-(81, 'LG', '20 inch', '180 Hz', '16:9', 'VA', '3200x3200', '1 kg'),
-(82, 'E-DRA', '15.6 inch', '75 Hz', '16:9', 'LCD', '2560x1440', '1.2kg'),
-(83, 'ViewSonic', '16 inch', '75 Hz', '16:9', 'LCD', '2560x1440', '1.5 kg'),
-(84, 'LG', '24 inch', '180 Hz', '16:9', 'IPS', '1920x1200', '2 kg'),
-(85, 'HKC', '25 inch', '120 Hz', '21:9', 'Fast IPS', '2560x1600', '1.2kg');
+(81, 'Asus', '25 inch', '180 Hz', '16:9', 'Fast IPS', '2560x1600', '1.2kg'),
+(82, 'ViewSonic', '14 inch', '144 Hz', '16:9', 'IPS', '1920x1080', '1.1 kg'),
+(83, 'ViewSonic', '15.6 inch', '60Hz', '21:9', 'LCD', '3200x3200', '0.9 kg'),
+(84, 'LG', '14 inch', '75 Hz', '16:9', 'VA', '2880x1800', '1.2kg'),
+(85, 'Acer', '22 inch', '120 Hz', ' 21:9', 'IPS', '2560x1440', '1.5 kg'),
+(86, 'Acer', '15.6 inch', '240 Hz', '16:9', 'Fast IPS', '2560x1440', '0.9 kg'),
+(87, 'Acer', '14 inch', '180 Hz', '16:9', 'LCD', '2560x1600', '1.5 kg'),
+(88, 'ViewSonic', '16 inch', '60Hz', '21:9', 'VA', '2880x1800', '1.4 kg'),
+(89, 'Gigabyte', '15.6 inch', '120 Hz', '16:9', 'Fast IPS', '1920x1080', '0.9 kg'),
+(90, 'Philips ', '14 inch', '144 Hz', '21:9', 'LCD', '2560x1440', '1.4 kg'),
+(91, 'LG', '20 inch', '180 Hz', '16:9', 'VA', '3200x3200', '1 kg'),
+(92, 'E-DRA', '15.6 inch', '75 Hz', '16:9', 'LCD', '2560x1440', '1.2kg'),
+(93, 'ViewSonic', '16 inch', '75 Hz', '16:9', 'LCD', '2560x1440', '1.5 kg'),
+(94, 'LG', '24 inch', '180 Hz', '16:9', 'IPS', '1920x1200', '2 kg'),
+(95, 'HKC', '25 inch', '120 Hz', '21:9', 'Fast IPS', '2560x1600', '1.2kg');
 
 -- --------------------------------------------------------
 
