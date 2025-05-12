@@ -370,7 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
                                 </tbody>
                             </table>
                         </div>
-                        <a href="?controller=admin&action=orders" class="btn btn-sm btn-primary mt-2">
+                        <a href="index.php?controller=admin&action=manageorderlist" class="btn btn-sm btn-primary mt-2">
                             <i class="bi bi-list-ul"></i> Xem tất cả đơn hàng
                         </a>
                     </div>

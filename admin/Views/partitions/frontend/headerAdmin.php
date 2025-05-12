@@ -140,7 +140,6 @@
             </li>
              <li><a href="index.php?controller=admin&action=manageorderlist">Danh sách đơn hàng</a></li>
             <li><a href="index.php?controller=admin&action=productsmanage">Sản phẩm</a></li>
-            <li><a href="index.php?controller=admin&action=invoice">Hóa đơn</a></li>
             <li><a href="index.php?controller=admin&action=logout">Đăng xuất</a></li>
         </ul>
     </div>
