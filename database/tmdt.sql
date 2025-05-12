@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 11, 2025 lúc 06:45 PM
+-- Thời gian đã tạo: Th5 12, 2025 lúc 03:11 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -188,7 +188,12 @@ CREATE TABLE `gpudetails` (
 --
 
 INSERT INTO `gpudetails` (`MaSP`, `ThuongHieu`, `GPU`, `CUDA`, `TocDoBoNho`, `BoNho`, `Nguon`) VALUES
-(6, 'NVIDIA', 'NVIDIA GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W');
+(6, 'NVIDIA', 'NVIDIA GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W'),
+(65, 'GIGABYTE', 'GeForce RTX™ 4070 SUPER', '7168 Units', '21Gbps', '12GB', '700W'),
+(66, 'GIGABYTE', 'AMD Radeon RX 9070', '3584 Units', '20Gbps', '16GB', '750W'),
+(69, 'ASUS', 'Radeon RX 6500 XT', '1024 Units', '18Gbps', '4GB', '500W'),
+(68, 'Asus', 'GeForce RTX 5090', '21760 Units', '28Gbps', '32GB', '1000W'),
+(67, 'Gigabyte', 'GeForce RTX 3060', '3584 Units', '4Gbps', '12GB', '550W');
 
 -- --------------------------------------------------------
 
@@ -245,7 +250,6 @@ INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`, `RAM`, `D
 (3, 'MSI', 'NVIDIA GeForce RTX 3050 6GB', 'Intel Core i5-13500H', '8GB', '1TB', '15.6 inch', '1920x1080'),
 (4, 'Lenovo', 'NVIDIA GeForce RTX 4060 8GB', 'AMD Ryzen 7 7435HS', '24GB', '512GB', '15.6 inch', '1920x1080'),
 (7, 'Gigabyte', 'NVIDIA GeForce RTX 4050 6GB', 'Intel Core i5-13500H', '8GB', '512GB', '15.6 inch', '1920x1080'),
-(49, 'Acer', 'NVIDIA GeForce RTX 4050 6GB GDDR6 VRAM, hỗ trợ 2560 NVIDIA CUDA Cores', 'Intel Core i7-14700HX (20 lõi / 28 luồng, 3.9 GHz, 5.5 GHz, 33 MB, Intel Smart Cache)', '32GB', '512GB', '16 inch', '2560x1600'),
 (51, 'Lenovo', 'NVIDIA® GeForce RTX™ 4060 8GB GDDR6, Boost Clock 2370MHz, TGP 140W', 'Intel® Core™ i7-14650HX, 16C (8P + 8E) / 24T, P-core 2.2 / 5.2GHz, E-core 1.6 / 3.7GHz, 30MB', '16GB', '512GB', '16 inch', '2560x1600'),
 (53, 'Acer', 'NVIDIA® GeForce RTX™ 4070 8GB GDDR6', 'Intel Core i7-13700HX 3.7GHz up to 5.0GHz, 16 Cores 24 Threads ,30 MB Intel Smart Cache', '16GB', '512GB', '16 inch', '2560x1600'),
 (54, 'Asus', 'NVIDIA® GeForce RTX™ 4060 Laptop GPU 2225Mhz* at 100W(2175MHz Boost Clock+50MHz O.C.,75W+25W Dynamic Boost) + AMD Radeon™ Graphics', 'AMD Ryzen™ AI 9 HX 370 Processor 2.0GHz (36MB Cache, up to 5.1GHz, 12 cores, 24 Threads); AMD Ryzen™ AI up to 81 TOPs', '16GB', '1TB', '14 inch', '2560x1600'),
@@ -254,7 +258,7 @@ INSERT INTO `laptopgamingdetails` (`MaSP`, `ThuongHieu`, `GPU`, `CPU`, `RAM`, `D
 (58, 'MSI', 'NVIDIA® GeForce RTX™ 5070 Ti Laptop GPU 12GB GDDR7 up to 2220MHz Boost Clock 140W Maximum Graphics Power with Dynamic Boost. AI TOPs: 992 TOPS', 'Intel® Core™ Ultra 7 255HX (1.80Hz up to 5.20GHz, 30MB Cache) AI NPU TOPs: 13 TOPs', '16GB', '512GB', '16 inch', '2560x1600'),
 (59, 'Lenovo', 'NVIDIA® GeForce RTX™ 4070 8GB GDDR6, Boost Clock 2175MHz, TGP 115W', 'Intel® Core™ i9-14900HX, 24C (8P + 16E) / 32T, P-core 2.2 / 5.8GHz, E-core 1.6 / 4.1GHz, 36MB', '32GB', '1TB', '16 inch', '3200x3200'),
 (60, 'MSI', 'NVIDIA® GeForce RTX™ 3050 Laptop GPU Up to 1172.5MHz Boost Clock 45W Maximum Graphics Power with Dynamic Boost.', 'Intel Core i7-13620H (3.6GHz~4.9GHz) 10 Nhân 16 Luồng', '16GB', 'SSD NVMe PCIe 512GB Gen4x4 (Còn 1 slot 2.5\" SATA HDD)', '15,6', '1920x1080'),
-(61, 'Acer', 'NVIDIA® GeForce RTX™ 4060 8GB GDDR6', 'Intel® Core™ i9-13900H 2.6 GHz (24MB Cache, up to 5.4 GHz, 14 cores, 20 Threads)', '16GB', '512GB', '15.6 ', '1920 x 1080');
+(49, 'Acer', 'NVIDIA GeForce RTX 4050 6GB GDDR6 VRAM, hỗ trợ 2560 NVIDIA CUDA Cores', 'Intel Core i7-14700HX (20 lõi / 28 luồng, 3.9 GHz, 5.5 GHz, 33 MB, Intel Smart Cache)', '32GB', '512GB', '16 inch', '2560x1600');
 
 -- --------------------------------------------------------
 
@@ -391,7 +395,11 @@ INSERT INTO `products` (`MaSP`, `TenSP`, `MaLoai`, `AnhMoTaSP`, `SoLuong`, `DaBa
 (58, 'Laptop gaming MSI Vector 16 HX AI A2XWHG 010VN', 'LaptopGaming', './assets/image/1746955011_1024__1__035bd6ee5a8246078c525b4bc8d2e55b_grande.jpg', 7, 0, 54990000, 'hiện'),
 (59, 'Laptop gaming Lenovo Legion 7 16IRX9 83FD004MVN', 'LaptopGaming', './assets/image/1746955134_ava_1388feab03cd40a2ad5b495d909a0a60_grande.jpg', 12, 0, 59990000, 'hiện'),
 (60, 'Laptop gaming MSI Thin 15 B13UC 2044VN', 'LaptopGaming', './assets/image/1746955252_thin-new_d31ff3b88e7f40e7ac88acc624e03d4f_grande.jpg', 22, 0, 19290000, 'hiện'),
-(61, 'Laptop gaming Acer Nitro V ANV15 51 91T5', 'LaptopGaming', './assets/image/1746955427_nitro-v_755588bd95514b6386940d73d3951e2d_1024x1024_95ef516ce29440e4ad51dedbab0e352c_grande.jpg', 11, 0, 32990000, 'hiện');
+(65, 'Card màn hình GIGABYTE GeForce RTX 4070 SUPER WINDFORCE OC 12G (GV-N407SWF3OC-12GD)', 'GPU', './assets/image/1747011522_Screenshot 2025-05-12 075833.png', 25, 0, 19490000, 'hiện'),
+(66, 'Card màn hình GIGABYTE Radeon RX 9070 GAMING OC 16G (GV-R9070GAMING OC-16GD)', 'GPU', './assets/image/1747011767_Screenshot 2025-05-12 080240.png', 15, 0, 19990000, 'hiện'),
+(67, 'Card màn hình Gigabyte GeForce RTX™ 3060 WINDFORCE OC 12G 12GB GDDR6 (GV-N3060WF2OC-12GD)', 'GPU', './assets/image/1747011962_Screenshot 2025-05-12 080557.png', 30, 0, 7690000, 'hiện'),
+(68, 'Card màn hình Asus TUF Gaming GeForce RTX™ 5090 32GB GDDR7 32GB GDDR7 (TUF-RTX5090-32G-GAMING)', 'GPU', './assets/image/1747012087_Screenshot 2025-05-12 080801.png', 5, 0, 105000000, 'hiện'),
+(69, 'Card màn hình ASUS Dual Radeon™ RX 6500 XT OC Edition 4GB GDDR6 (DUAL-RX6500XT-O4G-V2)', 'GPU', './assets/image/1747012258_Screenshot 2025-05-12 081013.png', 50, 0, 3490000, 'hiện');
 
 -- --------------------------------------------------------
 
@@ -407,32 +415,31 @@ CREATE TABLE `users` (
   `sex` varchar(10) DEFAULT NULL,
   `phonenumber` varchar(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `avatar` varchar(255) NOT NULL,
-  `TrangThai` enum('hiện','khóa') NOT NULL
+  `avatar` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`, `avatar`, `TrangThai`) VALUES
-(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL, '', 'hiện'),
-(2, 'u', 'u', 'u1@d.c', 'Nam', '0328989480', '1965-11-30', '', 'hiện'),
-(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05', '', 'hiện'),
-(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07', '', 'hiện'),
-(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15', '', 'hiện'),
-(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22', '', 'hiện'),
-(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18', '', 'hiện'),
-(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30', '', 'hiện'),
-(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10', '', 'hiện'),
-(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20', '', 'hiện'),
-(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10', '', 'hiện'),
-(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25', '', 'hiện'),
-(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05', '', 'hiện'),
-(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14', '', 'hiện'),
-(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', '', 'hiện'),
-(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', '', 'hiện'),
-(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '', 'hiện');
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`, `date_of_birth`, `avatar`) VALUES
+(1, 'ThanhThao', 'ThanhThao123', NULL, NULL, NULL, NULL, ''),
+(2, 'u', 'u', 'u1@d.c', 'Nam', '0328989480', '1965-11-30', ''),
+(3, 'PhamNhatVuong', 'vietnam123', 'vuong@vin.group', 'Nam', '0987654321', '1968-08-05', ''),
+(4, 'NguyenThiPhuongThao', 'vietjet456', 'thao@vietjetair.com', 'Nữ', '0912345678', '1970-06-07', ''),
+(5, 'TranBaThang', 'password789', NULL, 'Nam', NULL, '1985-11-15', ''),
+(6, 'HoangKieuTrinh', 'trinh123456', 'trinh@fpt.com', 'Nữ', '0978123456', '1990-03-22', ''),
+(7, 'TranDucViet', 'viet789012', 'viet@vng.com', 'Nam', '0967890123', '1982-09-18', ''),
+(8, 'LeThanhThuy', 'thuy345678', NULL, 'Nữ', '0945678901', '1978-12-30', ''),
+(9, 'PhamMinhChinh', 'chinh2023', 'chinh@government.vn', 'Nam', NULL, '1958-03-10', ''),
+(10, 'NguyenXuanPhuc', 'phuc2024', NULL, 'Nam', '0934567890', '1954-07-20', ''),
+(11, 'TranThanh', 'thanh1234', 'thanh@artist.vn', 'Nam', '0923456789', '1987-04-10', ''),
+(12, 'HoNgocHa', 'ha567890', 'ha@singer.vn', 'Nữ', NULL, '1984-11-25', ''),
+(13, 'SonTungMTP', 'tungmtp123', 'tung@mtp.com', 'Nam', '0911223344', '1994-07-05', ''),
+(14, 'MaiKhoi', 'khoi5678', NULL, 'Nữ', '0988776655', '1992-02-14', ''),
+(15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', ''),
+(16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', ''),
+(17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -547,7 +554,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `MaSP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
