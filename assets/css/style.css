@@ -489,6 +489,9 @@ a.active {
 	background-color:rgb(17, 60, 170);
 	color: #fff;
 }
+.product-item__quantity {
+	justify-content: space-between;
+}
 /* ======================================================  CATEGORY FILTER    ============================================================================*/
 .main .container.category {
 	box-sizing: border-box;

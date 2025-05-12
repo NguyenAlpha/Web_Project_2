@@ -52,7 +52,10 @@ class OrderController extends BaseController {
    public function confirmDelivered() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $maDon = $_POST['MaDon'] ?? null;
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $now = date('Y-m-d H:i:s');
         if ($maDon) {
+            $this->orderModel->updatetime($maDon, $now);
             $this->orderModel->updateStatus($maDon, "đã nhận hàng");
         }
         $userID = $_SESSION['user']['ID'];

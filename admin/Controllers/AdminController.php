@@ -719,7 +719,7 @@ echo "<tr class='cart-total'>
 public function manageorderlist() {
     $this->loadModel('OrderModel');
     $orderModel = new OrderModel();
-    $orders = $orderModel->getAllOrders(); // chắc chắn hàm này tồn tại
+    $orders = $orderModel->getAllOrders();
 
     include './Views/frontend/orderlist/orderlist.php'; 
 
