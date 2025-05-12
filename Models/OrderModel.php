@@ -104,7 +104,10 @@ public function getByQuery($sql, $params = []) {
 
     return $rows;
 }
-
+public function updatetime($maDon, $time){
+$sql =" UPDATE orders SET NgayGiao = '$time'";
+$this->add($sql);
+}
 
 }
 ?>
