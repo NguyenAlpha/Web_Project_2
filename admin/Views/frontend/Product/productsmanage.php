@@ -381,7 +381,7 @@ $categories = $conn->query("SELECT DISTINCT MaLoai FROM products")->fetch_all(MY
                     echo "</td>";
                     echo "<td class='text-center'>" . htmlspecialchars($row["SoLuong"]) . "</td>";
                     echo "<td class='text-center'>" . htmlspecialchars($row["DaBan"]) . "</td>";
-                    echo "<td class='text-center'>" . number_format($row["Gia"], 0, ',', '.') . " ₫</td>";
+                    echo "<td class='text-center'>" . number_format($row["Gia"], 0, ',', '.') . "₫</td>";
                     echo "<td class='text-center " . ($row["TrangThai"] == 'hiện' ? 'status-active' : 'status-inactive') . "'>" . htmlspecialchars($row["TrangThai"]) . "</td>";
                     echo "<td>";
                     echo "<div class='button-container'>";

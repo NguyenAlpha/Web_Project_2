@@ -12,7 +12,8 @@
 
             // load header
             $this->loadView("partitions/frontend/header.php",[
-                "menus" => $this->categoryModel->getAll()
+                "menus" => $this->categoryModel->getAll(),
+                'title' => 'chi tiết sản phẩm'
             ]);
         }
 
@@ -51,7 +52,7 @@
                 'attributes' => $attributes,
                 'productNameExtension' => $productNameExtension,
                 'PSC' => $ProductsOfTheSameCategory,
-                'BSP' => $bestSellingProducts,
+                'BSP' => $bestSellingProducts
             ]);
         }
 

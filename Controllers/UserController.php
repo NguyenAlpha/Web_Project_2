@@ -37,7 +37,8 @@ class UserController extends BaseController {
             }
         }
         $this->loadView("partitions/frontend/header.php",[
-            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+            "menus" => $this->categoryModel->getAll(['*'],['STT']),
+            'title' => 'đăng nhập'
         ]);
         $this->loadView("partitions/frontend/login.php", [
             'erroLogin' => $erroLogin
@@ -46,9 +47,6 @@ class UserController extends BaseController {
     }
 
     public function register() {
-        $this->loadView("partitions/frontend/header.php",[
-            "menus" => $this->categoryModel->getAll(['*'],['STT'])
-        ]);
         // nếu đã đăng nhập thì chuyển hướng về trang chủ
         if(isset($_SESSION['user'])) {
             header("Location: ./index.php?controller=user&action=show");
@@ -65,6 +63,10 @@ class UserController extends BaseController {
             $_SESSION['user'] = $user;
             header("Location: ./index.php");
         }
+        $this->loadView("partitions/frontend/header.php",[
+            "menus" => $this->categoryModel->getAll(['*'],['STT']),
+            'title' => 'đăng ký'
+        ]);
         $this->loadView("partitions/frontend/register.php");
     }  
 
@@ -78,7 +80,8 @@ class UserController extends BaseController {
 
     public function show() {
         $this->loadView("partitions/frontend/header.php",[
-            "menus" => $this->categoryModel->getAll(['*'],['STT'])
+            "menus" => $this->categoryModel->getAll(['*'],['STT']),
+            'title' => 'thông tin tài khoản'
         ]);
         // nếu chưa đăng nhập thì chuyển hướng về trang login
         if(!isset($_SESSION['user'])) {

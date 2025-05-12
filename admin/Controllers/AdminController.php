@@ -78,8 +78,8 @@ class AdminController extends BaseController {
             'allPrice' => array_sum(array_column($carts, 'sumPrice')),
         ]);
     }
-    public function CustomerID()
-    {     $this->loadModel("AdminModel");
+    public function CustomerID(){
+        $this->loadModel("AdminModel");
         $adminModel = new AdminModel();
         $customers = $adminModel->getCustomerByID($_GET["id"]);
         
@@ -151,20 +151,18 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-    public function HienCustomer()
-    {
+    public function changeCustomerStatus(){
         $this->loadModel("AdminModel");
-       $adminModel = new AdminModel();
+        $adminModel = new AdminModel();
+        
         $id = $_GET['id'];
-        $result = $adminModel->HideCustomer($_GET['id']);
-
-if ($result) {
-
-    header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
-} else {
-    header("Location: customer_list.php?error=Có lỗi xảy ra");
-}
-exit();
+        $result = $adminModel->changeCustomerStatus($id);
+        if ($result) {
+            header("Location: index.php?controller=admin&action=CustomerID&id=$id");
+        } else {
+            header("Location: customer_list.php?error=Có lỗi xảy ra");
+        }
+        exit();
     }
     public function deleteCustomer()
 {
@@ -223,73 +221,97 @@ public function getTableFields()
 }
 
 public function addProduct() {
-    // echo '<pre>';
-    // print_r($_FILES["AnhMoTaSP"]);
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = new mysqli("localhost", "root", "", "tmdt");
         if ($conn->connect_error) {
             die("Kết nối thất bại: " . $conn->connect_error);
         }
 
-        // XỬ LÝ UPLOAD ẢNH
-        $target_dir = "./assets/image/";
+        // Bắt đầu transaction
+        $conn->begin_transaction();
 
-        $filename = basename($_FILES["AnhMoTaSP"]["name"]);
-        $newFileName = time() . "_" . $filename;
-        $target_file = $target_dir . $newFileName;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        try {
+            // Xử lý upload ảnh
+            $target_dir = "./assets/image/";
+            $filename = basename($_FILES["AnhMoTaSP"]["name"]);
+            $newFileName = time() . "_" . $filename;
+            $target_file = $target_dir . $newFileName;
+            
+            // Kiểm tra file ảnh
+            $check = getimagesize($_FILES["AnhMoTaSP"]["tmp_name"]);
+            if ($check === false) {
+                throw new Exception("File không phải là ảnh.");
+            }
+            
+            // Di chuyển file ảnh
+            if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], __DIR__ . '/../../assets/image/' . $newFileName)) {
+                throw new Exception("Lỗi khi upload ảnh.");
+            }
 
-        $check = getimagesize($_FILES["AnhMoTaSP"]["tmp_name"]);
-        if ($check === false) {
-            die("File không phải là ảnh.");
-        }
+            // 1. Thêm vào bảng products
+            $stmt = $conn->prepare("INSERT INTO products (TenSP, AnhMoTaSP, SoLuong, Gia, MaLoai) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssiis", $_POST['TenSP'], $target_file, $_POST['SoLuong'], $_POST['Gia'], $_POST['MaLoai']);    
+            
+            if (!$stmt->execute()) {
+                throw new Exception("Lỗi khi thêm sản phẩm: " . $stmt->error);
+            }
+            
+            $MaSP = $conn->insert_id;
+            $stmt->close();
 
-        $allowed = ['jpg', 'jpeg', 'png'];
-        if (!in_array($imageFileType, $allowed)) {
-            die("Chỉ cho phép định dạng JPG, JPEG, PNG.");
-        }
+            // 2. Thêm vào bảng chi tiết
+            $detailTable = strtolower($_POST['MaLoai']) . 'details';
+            $stmt = null;
+            
+            switch ($_POST['MaLoai']) {
+                case "Laptop":
+                    $stmt = $conn->prepare("INSERT INTO laptopdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
+                    break;
+                case "Laptop Gaming":
+                    $stmt = $conn->prepare("INSERT INTO laptopgamingdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
+                    break;
+                case "GPU":
+                    $stmt = $conn->prepare("INSERT INTO gpudetails (MaSP, ThuongHieu, GPU, CUDA, TocDoBoNho, BoNho, Nguon) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("issssss", $MaSP, $_POST['ThuongHieu'], $_POST['GPU'], $_POST['CUDA'], $_POST['TocDoBoNho'], $_POST['BoNho'], $_POST['Nguon']);
+                    break;
+                case "ManHinh":
+                    $stmt = $conn->prepare("INSERT INTO manhinhdetails (MaSP, ThuongHieu, KichThuocManHinh, TangSoQuet, TiLe, TamNen, DoPhanGiai, KhoiLuong) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['KichThuocManHinh'], $_POST['TangSoQuet'], $_POST['TiLe'], $_POST['TamNen'], $_POST['DoPhanGiai'], $_POST['KhoiLuong']);
+                    break;
+                default:
+                    throw new Exception("Loại sản phẩm không hợp lệ");
+            }
 
-        if (!move_uploaded_file($_FILES["AnhMoTaSP"]["tmp_name"], __DIR__. '/../../assets/image/'. $newFileName)) {
-            die("Lỗi khi upload ảnh.");
-        }
+            if (!$stmt || !$stmt->execute()) {
+                throw new Exception("Lỗi khi thêm chi tiết sản phẩm: " . ($stmt ? $stmt->error : "Không thể chuẩn bị statement"));
+            }
 
-        // INSERT VÀO BẢNG `products` VỚI LINK ẢNH ĐÃ XỬ LÝ
-        $AnhMoTaSP = $target_file;
-        $stmt = $conn->prepare("INSERT INTO products (TenSP, AnhMoTaSP, SoLuong, Gia, MaLoai) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssiis", $_POST['TenSP'], $AnhMoTaSP, $_POST['SoLuong'], $_POST['Gia'], $_POST['MaLoai']);    
-
-        $stmt->execute();
-        $MaSP = $stmt->insert_id;
-        $stmt->close();
-        switch ($_POST['MaLoai']) {
-            case "Laptop":
-                $stmt = $conn->prepare("INSERT INTO laptopdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
-                break;
-            case "Laptop Gaming":
-                $stmt = $conn->prepare("INSERT INTO laptopgamingdetails (MaSP, ThuongHieu, CPU, GPU, RAM, DungLuong, KichThuocManHinh, DoPhanGiai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['CPU'], $_POST['GPU'], $_POST['RAM'], $_POST['DungLuong'], $_POST['KichThuocManHinh'], $_POST['DoPhanGiai']);
-                break;
-            case "GPU":
-                $stmt = $conn->prepare("INSERT INTO gpudetails (MaSP, ThuongHieu, GPU, CUDA, TocDoBoNho, BoNho, Nguon) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("issssss", $MaSP, $_POST['ThuongHieu'], $_POST['GPU'], $_POST['CUDA'], $_POST['TocDoBoNho'], $_POST['BoNho'], $_POST['Nguon']);
-                break;
-            case "ManHinh":
-                $stmt = $conn->prepare("INSERT INTO manhinhdetails (MaSP, ThuongHieu, KichThuocManHinh, TangSoQuet, TiLe, TamNen, DoPhanGiai, KhoiLuong) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("isssssss", $MaSP, $_POST['ThuongHieu'], $_POST['KichThuocManHinh'], $_POST['TangSoQuet'], $_POST['TiLe'], $_POST['TamNen'], $_POST['DoPhanGiai'], $_POST['KhoiLuong']);
-                break;
-        }
-
-        if ($stmt && $stmt->execute()) {
+            $conn->commit();
             echo "<script>alert('Thêm sản phẩm thành công!'); window.location.href='index.php?controller=admin&action=productsmanage';</script>";
-        } else {
-            echo "Lỗi khi thêm chi tiết sản phẩm: " . $conn->error;
+            
+        } catch (Exception $e) {
+            $conn->rollback();
+            echo "<div class='alert alert-danger'>Lỗi: " . htmlspecialchars($e->getMessage()) . "</div>";
+            
+            // Hiển thị lại form với dữ liệu cũ
+            $this->loadView('frontend/product/addProduct.php', [
+                'formData' => $_POST,
+                'error' => $e->getMessage()
+            ]);
+            return;
+            
+        } finally {
+            if (isset($stmt) && $stmt instanceof mysqli_stmt) {
+                $stmt->close();
+            }
+            if ($conn instanceof mysqli) {
+                $conn->close();
+            }
         }
-
-        $stmt->close();
-        $conn->close();
     } else {
-        include('./Views/Frontend/Admin/addProduct.php');
+        $this->loadView('frontend/product/addProduct.php');
     }
 }
 
@@ -728,7 +750,42 @@ public function updateOrderStatus() {
         echo "Phương thức không hợp lệ.";
     }
 }
-
+public function orderlist() {
+    // Lấy các tham số lọc
+    $status = $_GET['status'] ?? '';
+    $fromDate = $_GET['from_date'] ?? '';
+    $toDate = $_GET['to_date'] ?? '';
+    $district = $_GET['district'] ?? '';
+    $city = $_GET['city'] ?? '';
+    
+    $this->loadModel('OrderModel');
+    $orderModel = new OrderModel();
+    
+    // Lấy danh sách đơn hàng với bộ lọc
+    $orders = $orderModel->FilteredOrders([
+        'status' => $status,
+        'from_date' => $fromDate,
+        'to_date' => $toDate,
+        'district' => $district,
+        'city' => $city
+    ]);
+    
+    // Lấy danh sách thành phố và quận/huyện cho dropdown
+    $cities = $orderModel->getAllCities();
+    $districts = $district ? $orderModel->getDistrictsByCity($city) : [];
+    
+    // Load view
+    $this->loadView('frontend/order/orderlist.php', [
+        'orders' => $orders,
+        'cities' => $cities,
+        'districts' => $districts,
+        'status' => $status,
+        'from_date' => $fromDate,
+        'to_date' => $toDate,
+        'district' => $district,
+        'city' => $city
+    ]);
+}
 
 
 }
