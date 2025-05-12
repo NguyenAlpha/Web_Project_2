@@ -255,6 +255,7 @@
                     <th>Người dùng</th>
                     <th>Địa chỉ</th>
                     <th>Ngày đặt</th>
+                    <th>Ngày giao</th>
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
@@ -267,6 +268,7 @@
                         <td><?= $order['UserID'] ?></td>
                         <td><?= $order['DiaChi'] ?></td>
                         <td><?= $order['NgayDat'] ?? 'N/A' ?></td>
+                         <td><?= $order['NgayGiao'] ?? 'N/A' ?></td>
                         <td><?= number_format($order['TongTien'], 0, ',', '.') ?> đ</td>
                         <td>
                             <?php if ($order['TrangThai'] === 'đã xác nhận'): ?>
