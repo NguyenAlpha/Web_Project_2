@@ -719,7 +719,7 @@ echo "<tr class='cart-total'>
 public function manageorderlist() {
     $this->loadModel('OrderModel');
     $orderModel = new OrderModel();
-    $orders = $orderModel->getAllOrders(); // chắc chắn hàm này tồn tại
+    $orders = $orderModel->getAllOrders();
 
     include './Views/frontend/orderlist/orderlist.php'; 
 
@@ -775,7 +775,7 @@ public function orderlist() {
     $districts = $district ? $orderModel->getDistrictsByCity($city) : [];
     
     // Load view
-    $this->loadView('frontend/order/orderlist.php', [
+    $this->loadView('frontend/orderlist/orderlist.php', [
         'orders' => $orders,
         'cities' => $cities,
         'districts' => $districts,

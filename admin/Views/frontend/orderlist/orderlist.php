@@ -196,8 +196,9 @@
                             <option value="">Tất cả trạng thái</option>
                             <option value="chưa xử lý" <?= $status === 'chưa xử lý' ? 'selected' : '' ?>>Chưa xử lý</option>
                             <option value="đang giao" <?= $status === 'đang giao' ? 'selected' : '' ?>>Đang giao</option>
-                            <option value="đã giao" <?= $status === 'đã giao' ? 'selected' : '' ?>>Đã giao</option>
+                            <option value="đã giao" <?= $status === 'đã nhận hàng' ? 'selected' : '' ?>>đã nhận hàng</option>
                             <option value="đã xác nhận" <?= $status === 'đã xác nhận' ? 'selected' : '' ?>>Đã xác nhận</option>
+                            <option value="đã hủy" <?= $status === 'đã hủy' ? 'selected' : '' ?>>đã hủy</option>
                         </select>
                     </div>
                     
@@ -269,11 +270,13 @@
                         <td><?= number_format($order['TongTien'], 0, ',', '.') ?> đ</td>
                         <td>
                             <?php if ($order['TrangThai'] === 'đã xác nhận'): ?>
-                                <span class="badge bg-success">Đã xác nhận</span>
-                            <?php elseif ($order['TrangThai'] === 'đã giao'): ?>
-                                <span class="badge bg-primary">Đã giao</span>
+                                <span class="badge bg-success">đã xác nhận</span>
+                            <?php elseif ($order['TrangThai'] === 'đã nhận hàng'): ?>
+                                <span class="badge bg-primary">đã nhận hàng</span>
                             <?php elseif ($order['TrangThai'] === 'đang giao'): ?>
-                                <span class="badge bg-info">Đang giao</span>
+                                <span class="badge bg-info">đang giao</span>
+                            <?php elseif ($order['TrangThai'] === 'đã hủy'): ?>
+                                <span class="badge bg-info">đã hủy</span>
                             <?php else: ?>
                                 <span class="badge bg-warning"><?= $order['TrangThai'] ?></span>
                             <?php endif; ?>
@@ -283,16 +286,14 @@
                                 <input type="hidden" name="MaDon" value="<?= $order['MaDon'] ?>">
                                 <select name="TrangThai" class="form-select form-select-sm" required>
                                     <option value="chưa xử lý" <?= $order['TrangThai'] == 'chưa xử lý' ? 'selected' : '' ?>>Chưa xử lý</option>
-                                    <option value="đang giao" <?= $order['TrangThai'] == 'đang giao' ? 'selected' : '' ?>>Đang giao</option>
-                                    <option value="đã giao" <?= $order['TrangThai'] == 'đã giao' ? 'selected' : '' ?>>Đã giao</option>
-                                    <option value="đã xác nhận" <?= $order['TrangThai'] == 'đã xác nhận' ? 'selected' : '' ?>>Đã xác nhận</option>
+                                    <option value="đang giao" <?= $order['TrangThai'] == 'đang giao' ? 'selected' : '' ?>>đang giao</option>
+                                    <option value="đã nhận hàng" <?= $order['TrangThai'] == 'đã nhận hàng' ? 'selected' : '' ?>>đã nhận hàng</option>
+                                    <option value="đã xác nhận" <?= $order['TrangThai'] == 'đã xác nhận' ? 'selected' : '' ?>>đã xác nhận</option>
+                                    <option value="chờ xác nhận" <?= $order['TrangThai'] == 'chờ xác nhận' ? 'selected' : '' ?>>chờ xác nhận</option>
+                                    <option value="đã hủy" <?= $order['TrangThai'] == 'đã hủy' ? 'selected' : '' ?>>đã hủy</option>
                                 </select>
                                 <button type="submit" class="btn btn-sm btn-primary mt-1">Cập nhật</button>
                             </form>
-                            
-                            <a href="index.php?controller=order&action=printInvoice&maDon=<?= $order['MaDon'] ?>" target="_blank" class="btn btn-info btn-sm">
-                                🧾 In hóa đơn
-                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
