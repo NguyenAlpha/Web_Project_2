@@ -18,37 +18,43 @@ class OrderController extends BaseController {
         $this->userModel = new UserModel();
     }
     public function showQR() {
-    $orderID = $_GET['order_id'] ?? null;
-    
-    if (!$orderID || !isset($_SESSION['pending_order'])) {
-        header("Location: ?controller=cart");
-        exit;
+        $orderID = $_GET['order_id'] ?? null;
+        
+        if (!$orderID || !isset($_SESSION['pending_order'])) {
+            header("Location: ?controller=cart");
+            exit;
+        }
+        
+        // Lấy thông tin đơn hàng
+        $order = $this->orderModel->getOrderById($orderID);
+        $user = $this->userModel->getUser($_SESSION['user']['ID']);
+        
+        // Tính tổng tiền nếu chưa có trong $order
+        if (!isset($order['TongTien'])) {
+            $carts = $this->cartModel->getCartbyUserID($_SESSION['user']['ID']);
+            $order['TongTien'] = array_reduce($carts, fn($sum, $item) => $sum + $item['TongTien'], 0);
+        }
+
+        $this->loadView("partitions/frontend/header.php", [
+            "menus" => $this->categoryModel->getAll(),
+            'title' => 'Thanh toán đơn hàng'
+        ]);
+        
+        $this->loadView("frontend/payment/qr_payment.php", [
+            'order' => $order,
+            'user' => $user,
+            'TongTien' => $order['TongTien'], // Truyền biến tổng tiền
+            'bankInfo' => [
+                'name' => 'Vietcombank',
+                'account' => '1234567890',
+                'holder' => 'CÔNG TY TNHH ABC',
+                'amount' => $order['TongTien'], // Sử dụng tổng tiền từ đơn hàng
+                'content' => 'THANHTOAN'.$orderID
+            ]
+        ]);
+        
+        $this->loadView("partitions/frontend/footer.php");
     }
-    
-    // Lấy thông tin đơn hàng
-    $order = $this->orderModel->getOrderById($orderID);
-    $user = $this->userModel->getUser($_SESSION['user']['ID']);
-    
-    $this->loadView("partitions/frontend/header.php", [
-        "menus" => $this->categoryModel->getAll(),
-        'title' => 'Thanh toán đơn hàng'
-    ]);
-    
-    $this->loadView("frontend/payment/qr_payment.php", [
-        'order' => $order,
-        'user' => $user,
-        // Các thông tin ngân hàng có thể lấy từ cấu hình
-        'bankInfo' => [
-            'name' => 'Vietcombank',
-            'account' => '1234567890',
-            'holder' => 'CÔNG TY TNHH ABC',
-            'amount' => $order['TongTien'],
-            'content' => 'THANHTOAN'.$orderID
-        ]
-    ]);
-    
-    $this->loadView("partitions/frontend/footer.php");
-}
 
     public function verifyPayment() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -93,7 +99,6 @@ class OrderController extends BaseController {
         
         // Tính tổng tiền
         $TongTien = array_reduce($carts, fn($sum, $item) => $sum + $item['TongTien'], 0);
-        
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $now = date('Y-m-d H:i:s');
         
@@ -105,11 +110,7 @@ class OrderController extends BaseController {
         
         // Xử lý riêng cho thanh toán chuyển khoản
         if ($payMethod == 'transfer') {
-            $_SESSION['pending_order'] = [
-                'order_id' => $orderID,
-                'amount' => $TongTien,
-                'timestamp' => time()
-            ];
+            $_SESSION['pending_order']['amount'] = $TongTien;
             
             // Chuyển hướng đến trang xác nhận thanh toán
             header("Location: ?controller=payment&action=showQR&order_id=$orderID");
