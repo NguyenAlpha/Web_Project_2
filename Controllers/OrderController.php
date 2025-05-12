@@ -94,32 +94,17 @@ class OrderController extends BaseController {
     public function addOrder() {
         $userID = $_SESSION['user']['ID'];
         $address = $_POST['address'];
-        $payMethod = $_POST['pay'];
+        $pay = $_POST['pay'];
         $carts = $this->cartModel->getCartbyUserID($userID);
-        
-        // Tính tổng tiền
-        $TongTien = array_reduce($carts, fn($sum, $item) => $sum + $item['TongTien'], 0);
+        $TongTien = 0;
+        foreach($carts AS $cr) {
+            $TongTien += $cr['TongTien'];
+        }
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $now = date('Y-m-d H:i:s');
-        
-        // Xác định trạng thái đơn hàng
-        $status = ($payMethod == 'transfer') ? 'chờ thanh toán' : 'chờ xác nhận';
-        
-        // Thêm đơn hàng
-        $orderID = $this->orderModel->addOrder($carts, $userID, $address, $TongTien, $payMethod, $now, $status);
-        
-        // Xử lý riêng cho thanh toán chuyển khoản
-        if ($payMethod == 'transfer') {
-            $_SESSION['pending_order']['amount'] = $TongTien;
-            
-            // Chuyển hướng đến trang xác nhận thanh toán
-            header("Location: ?controller=payment&action=showQR&order_id=$orderID");
-            exit;
-    }
-    
-    // Xóa giỏ hàng và chuyển hướng
-    $this->cartModel->deleteCartByUserID($userID);
-    header("Location: ?controller=order&action=show&userID=$userID");
+        $this->cartModel->deleteCartByUserID($userID);
+        $this->orderModel->addOrder($carts,$userID, $address, $TongTien, $pay, $now);
+        header("Location: ?controller=order&action=show&userID=$userID");
     }
 
    public function confirmDelivered() {
