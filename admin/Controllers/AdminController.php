@@ -728,7 +728,42 @@ public function updateOrderStatus() {
         echo "Phương thức không hợp lệ.";
     }
 }
-
+public function orderlist() {
+    // Lấy các tham số lọc
+    $status = $_GET['status'] ?? '';
+    $fromDate = $_GET['from_date'] ?? '';
+    $toDate = $_GET['to_date'] ?? '';
+    $district = $_GET['district'] ?? '';
+    $city = $_GET['city'] ?? '';
+    
+    $this->loadModel('OrderModel');
+    $orderModel = new OrderModel();
+    
+    // Lấy danh sách đơn hàng với bộ lọc
+    $orders = $orderModel->FilteredOrders([
+        'status' => $status,
+        'from_date' => $fromDate,
+        'to_date' => $toDate,
+        'district' => $district,
+        'city' => $city
+    ]);
+    
+    // Lấy danh sách thành phố và quận/huyện cho dropdown
+    $cities = $orderModel->getAllCities();
+    $districts = $district ? $orderModel->getDistrictsByCity($city) : [];
+    
+    // Load view
+    $this->loadView('frontend/order/orderlist.php', [
+        'orders' => $orders,
+        'cities' => $cities,
+        'districts' => $districts,
+        'status' => $status,
+        'from_date' => $fromDate,
+        'to_date' => $toDate,
+        'district' => $district,
+        'city' => $city
+    ]);
+}
 
 
 }
