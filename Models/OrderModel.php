@@ -1,11 +1,11 @@
 <?php 
 class OrderModel extends BaseModel {
-    public function addOrder(array $carts,$userID, $address, $TongTien, $pay, $time) {
+    public function addOrder(array $carts,$userID, $address, $TongTien, $pay, $time, $status) {
         $transfer = [
             'transfer' => 'chuyển khoản',
             'cash' => 'tiền mặt'
         ];
-        $sql = "INSERT INTO orders (UserID, DiaChi, TongTien, TrangThai, ThanhToan, NgayDat) VALUES ($userID,'$address',$TongTien,'chờ xác nhận', '$transfer[$pay]', '$time');";
+        $sql = "INSERT INTO orders (UserID, DiaChi, TongTien, TrangThai='$status', ThanhToan, NgayDat) VALUES ($userID,'$address',$TongTien,'chờ xác nhận', '$transfer[$pay]', '$time');";
         $this->conn->query($sql);
         $orderID = $this->conn->insert_id;
         $sql2 = "INSERT INTO listproduct (MaDon, MaSP, SoLuong) VALUES ";
@@ -19,6 +19,7 @@ class OrderModel extends BaseModel {
 
         $sql2 .= implode(', ', $values) . ';';
         $this->conn->query($sql2);
+        return $this->conn->insert_id;
     }
 
     public function getOrderByUserID($userID) {
