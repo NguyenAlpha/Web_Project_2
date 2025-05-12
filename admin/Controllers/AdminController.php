@@ -78,8 +78,8 @@ class AdminController extends BaseController {
             'allPrice' => array_sum(array_column($carts, 'sumPrice')),
         ]);
     }
-    public function CustomerID()
-    {     $this->loadModel("AdminModel");
+    public function CustomerID(){
+        $this->loadModel("AdminModel");
         $adminModel = new AdminModel();
         $customers = $adminModel->getCustomerByID($_GET["id"]);
         
@@ -151,20 +151,18 @@ class AdminController extends BaseController {
     
      return require_once "Views/frontend/Customer/addCustomer.php";
     }
-    public function HienCustomer()
-    {
+    public function changeCustomerStatus(){
         $this->loadModel("AdminModel");
-       $adminModel = new AdminModel();
+        $adminModel = new AdminModel();
+        
         $id = $_GET['id'];
-        $result = $adminModel->HideCustomer($_GET['id']);
-
-if ($result) {
-
-    header("Location: index.php?controller=admin&action=CustomerID&id={$_POST['id']}");
-} else {
-    header("Location: customer_list.php?error=Có lỗi xảy ra");
-}
-exit();
+        $result = $adminModel->changeCustomerStatus($id);
+        if ($result) {
+            header("Location: index.php?controller=admin&action=CustomerID&id=$id");
+        } else {
+            header("Location: customer_list.php?error=Có lỗi xảy ra");
+        }
+        exit();
     }
     public function deleteCustomer()
 {

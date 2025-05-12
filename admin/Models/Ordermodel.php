@@ -82,8 +82,12 @@ class OrderModel extends BaseModel{
         $result = $stmt->get_result();
         
         return $result->fetch_all(MYSQLI_ASSOC);
+    
     }
-
+    public function getListMaDon($userID) {
+        $sql = "SELECT * FROM orders WHERE UserID = $userID ORDER BY MaDon DESC";
+        return $this->getByQuery($sql);
+    }
     public function getAllCities() {
         // Giả sử lấy từ bảng địa điểm hoặc phân tích từ địa chỉ đơn hàng
         $sql = "SELECT DISTINCT 

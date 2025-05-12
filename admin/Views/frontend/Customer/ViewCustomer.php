@@ -79,10 +79,11 @@
         <div class="info-row"><span class="label">Giới tính:</span> <span class="value"><?= $customers['sex'] ?? 'Chưa có' ?></span></div>
         <div class="info-row"><span class="label">Số điện thoại:</span> <span class="value"><?= $customers['phonenumber'] ?></span></div>
         <div class="info-row"><span class="label">Ngày sinh:</span> <span class="value"><?= $customers['date_of_birth'] ?></span></div>
+        <div class="info-row"><span class="label">Trạng thái:</span> <span class="value"><?= $customers['TrangThai'] ?></span></div>
 
         <div class="btn-group">
             <a href="index.php?controller=admin&action=EditCustomer&id=<?= $customers['ID'] ?>" class="btn btn-edit">Sửa thông tin</a>
-            <a href="index.php?controller=admin&action=HienCustomer&id=<?= $customers['ID'] ?>" class="btn btn-hide">Ẩn khách hàng</a>
+            <a href="index.php?controller=admin&action=changeCustomerStatus&id=<?= $customers['ID'] ?>" class="btn btn-hide">Đổi trạng thái</a>
             <a href="index.php?controller=admin&action=deleteCustomer&id=<?= $customers['ID'] ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xoá khách hàng này?')">Xoá khách hàng</a>
         </div>
     </div>

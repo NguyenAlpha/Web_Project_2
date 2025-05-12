@@ -20,7 +20,8 @@ class OrderController extends BaseController {
 
     public function show() {
         $this->loadView("partitions/frontend/header.php",[
-            "menus" => $this->categoryModel->getAll()
+            "menus" => $this->categoryModel->getAll(),
+            'title' => 'trang đơn hàng'
         ]);
         $orders = $this->orderModel->getOrderByUserID($_SESSION['user']['ID']);
         $this->loadView("frontend/order/show.php", [

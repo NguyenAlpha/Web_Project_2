@@ -19,9 +19,8 @@
                             <a href="#" class="ajax-link" data-url="?controller=Ajax&action=getaddress">Sổ địa chỉ</a>
                         </li>
                         <a href="?controller=order&action=show&userID=<?=$user['ID']?>">
-                            <li class="list-group-item">Đơn hàng </li>
+                            <li class="list-group-item">Đơn hàng đã mua</li>
                         </a>
-                        <li class="list-group-item">Lịch sử đơn hàng</li>
                         <li class="list-group-item">
                             <a href="index.php?controller=user&action=logout">Đăng xuất</a>
                         </li>
@@ -45,10 +44,12 @@
 
                             <?php if (!empty($orders)): foreach ($orders as $order): if ($order['MaDon'] != $don['MaDon']) continue; ?>
                                 <div class="flex">
-                                    <div class="flex">
+                                    <a href="?controller=product&action=show&id=<?=$order['MaSP']?>">
+                                        <div class="flex">
                                         <img src="<?=$order['AnhMoTaSP']?>" alt="">
                                         <p><?=$order['TenSP']?></p>
                                     </div>
+                                    </a>
                                     <div>
                                         <div>
                                             <span>Số lượng: </span><b><?=$order['SoLuongOrder']?></b>
