@@ -61,6 +61,36 @@ INSERT INTO `address` (`id`, `userID`, `address`) VALUES
 (28, 2, '229 cao thăng, p13, q4, hcm'),
 (29, 1, '44 Phan Văn trị, TPHCM'),
 (30, 1, 'Bãi sau Vũng Tàu');
+(31, 18, '123 Đường Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM'),
+(32, 19, '456 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM'),
+(33, 20, '789 Đường Trần Hưng Đạo, Phường Cầu Ông Lãnh, Quận 1, TP.HCM'),
+(34, 21, '101 Đường Hai Bà Trưng, Phường Đa Kao, Quận 1, TP.HCM'),
+(35, 22, '202 Đường Lê Duẩn, Phường Bến Thành, Quận 1, TP.HCM'),
+(36, 23, '303 Đường Nam Kỳ Khởi Nghĩa, Phường Nguyễn Thái Bình, Quận 1, TP.HCM'),
+(37, 24, '404 Đường Pasteur, Phường Bến Nghé, Quận 1, TP.HCM'),
+(38, 25, '505 Đường Đồng Khởi, Phường Bến Nghé, Quận 1, TP.HCM'),
+(39, 26, '606 Đường Nguyễn Thị Minh Khai, Phường Đa Kao, Quận 1, TP.HCM'),
+(40, 27, '707 Đường Lý Tự Trọng, Phường Bến Thành, Quận 1, TP.HCM'),
+(41, 28, '808 Đường Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP.HCM'),
+(42, 29, '909 Đường Cách Mạng Tháng 8, Phường Bến Thành, Quận 1, TP.HCM'),
+(43, 30, '111 Đường Võ Văn Tần, Phường 6, Quận 3, TP.HCM'),
+(44, 31, '222 Đường Nguyễn Đình Chiểu, Phường 6, Quận 3, TP.HCM'),
+(45, 32, '333 Đường Lê Văn Sỹ, Phường 14, Quận 3, TP.HCM'),
+(46, 33, '444 Đường Cộng Hòa, Phường 4, Quận Tân Bình, TP.HCM'),
+(47, 34, '555 Đường Hoàng Văn Thụ, Phường 9, Quận Phú Nhuận, TP.HCM'),
+(48, 35, '666 Đường Phan Đình Phùng, Phường 2, Quận Phú Nhuận, TP.HCM'),
+(49, 36, '777 Đường Nguyễn Văn Trỗi, Phường 11, Quận Phú Nhuận, TP.HCM'),
+(50, 37, '888 Đường Trường Sa, Phường 15, Quận Bình Thạnh, TP.HCM'),
+(51, 38, '999 Đường Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP.HCM'),
+(52, 39, '111 Đường Lê Quang Định, Phường 14, Quận Bình Thạnh, TP.HCM'),
+(53, 40, '222 Đường Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP.HCM'),
+(54, 41, '333 Đường Bạch Đằng, Phường 2, Quận Bình Thạnh, TP.HCM'),
+(55, 42, '444 Đường Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh, TP.HCM'),
+(56, 43, '555 Đường Ung Văn Khiêm, Phường 25, Quận Bình Thạnh, TP.HCM'),
+(57, 44, '666 Đường Phan Văn Trị, Phường 7, Quận Gò Vấp, TP.HCM'),
+(58, 45, '777 Đường Quang Trung, Phường 10, Quận Gò Vấp, TP.HCM'),
+(59, 46, '888 Đường Lê Đức Thọ, Phường 15, Quận Gò Vấp, TP.HCM'),
+(60, 47, '999 Đường Nguyễn Oanh, Phường 17, Quận Gò Vấp, TP.HCM');
 
 -- --------------------------------------------------------
 
@@ -457,6 +487,26 @@ INSERT INTO `users` (`ID`, `username`, `password`, `email`, `sex`, `phonenumber`
 (15, 'BuiXuanHuan', 'huan123456', 'huan@coach.vn', 'Nam', '0977889900', '1976-05-01', '', 'mở'),
 (16, 'NguyenQuangHai', 'hai7890', 'hai@football.vn', 'Nam', '0966998877', '1997-04-12', '', 'mở'),
 (17, 'TranThiLena', 'lena123', NULL, 'Nữ', NULL, '1995-08-08', '', 'mở');
+(18, 'NguyenVanA', 'password123', 'nguyenvana@gmail.com', 'Nam', '0912345678', '1990-05-15', ',mở'),
+(19, 'TranThiB', 'securepass', 'tranthib@yahoo.com', 'Nữ', '0987654321', '1985-08-20', ',mở'),
+(20, 'LeVanC', 'myp@ssword', 'levanc@gmail.com', 'Nam', '0978123456', '1992-11-30', ',mở'),
+(21, 'PhamThiD', 'dpass123', 'phamthid@outlook.com', 'Nữ', '0967890123', '1988-03-25', ',mở'),
+(22, 'HoangVanE', 'hoangpass', 'hoangvane@gmail.com', 'Nam', '0945678901', '1995-07-10', ',mở'),
+(23, 'VuThiF', 'fpassword', 'vuthif@yahoo.com', 'Nữ', '0934567890', '1991-09-05', ',mở'),
+(24, 'DoVanG', 'gpass1234', 'dovang@gmail.com', 'Nam', '0923456789', '1987-12-15', ',mở'),
+(25, 'NguyenThiH', 'hpass5678', 'nguyenthih@outlook.com', 'Nữ', '0911223344', '1993-04-18', ',mở'),
+(26, 'TranVanI', 'ipass2023', 'tranvani@gmail.com', 'Nam', '0988776655', '1989-06-22', ',mở'),
+(27, 'LeThiK', 'kpass123', 'lethik@yahoo.com', 'Nữ', '0977889900', '1994-01-28', ',mở'),
+(28, 'PhamVanL', 'lpass456', 'phamvanl@gmail.com', 'Nam', '0966998877', '1986-10-12', ',mở'),
+(29, 'HoangThiM', 'mpass789', 'hoangthim@outlook.com', 'Nữ', '0955887766', '1996-02-08', ',mở'),
+(30, 'NguyenVanN', 'npass123', 'nguyenvann@gmail.com', 'Nam', '0944776655', '1990-07-31', ',mở'),
+(31, 'TranThiO', 'opass456', 'tranthio@yahoo.com', 'Nữ', '0933665544', '1988-11-14', ',mở'),
+(32, 'LeVanP', 'ppass789', 'levanp@gmail.com', 'Nam', '0922554433', '1993-05-19', ',mở'),
+(33, 'VuThiQ', 'qpass123', 'vuthiq@outlook.com', 'Nữ', '0911443322', '1997-08-23', ',mở'),
+(34, 'DoVanR', 'rpass456', 'dovanr@gmail.com', 'Nam', '0988332211', '1985-12-07', ',mở'),
+(35, 'NguyenThiS', 'spass789', 'nguyenthis@yahoo.com', 'Nữ', '0977221100', '1992-04-16', ',mở'),
+(36, 'TranVanT', 'tpass123', 'tranvant@gmail.com', 'Nam', '0966110099', '1989-09-27', ',mở'),
+(37, 'LeThiU', 'upass456', 'lethiu@outlook.com', 'Nữ', '0955009988', '1995-03-03', ',mở');
 
 --
 -- Chỉ mục cho các bảng đã đổ
