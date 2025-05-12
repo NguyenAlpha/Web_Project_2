@@ -60,7 +60,7 @@
     <h2>Quét mã QR để thanh toán</h2>
     <div class="qr-code">
       <!-- Thay bằng mã QR thực tế của bạn -->
-      <img src="assets/image/qr_code.png" alt="Mã QR Thanh Toán">
+      <img src="./assets/image/z6592483894009_ba539f3a883a0e30a90e77d373d81d33.jpg" alt="Mã QR Thanh Toán">
     </div>
     <div class="bank-info">
       <p><strong>Ngân hàng:</strong> Vietcombank</p>
