@@ -4,68 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Chi tiết khách hàng</title>
-    <style>
-        .container {
-            width: 60%;
-            margin: 30px auto;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-        }
+   <style>
+    .container {
+    width: 60%;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
 
-        h2 {
-            text-align: center;
-            color: #333;
-        }
+h2 {
+    text-align: center;
+    color: #fff;
+    background-color: rgb(53, 61, 220);
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.5px; /* Giảm khoảng cách giữa các chữ */
+}
 
-        .info-row {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
+.info-row {
+    margin-bottom: 10px; /* Giảm khoảng cách giữa các dòng */
+    display: flex;
+    justify-content: space-between;
+    letter-spacing: 0.5px; /* Giảm khoảng cách giữa các chữ */
+    line-height: 1.4; /* Giảm khoảng cách giữa các dòng */
+}
 
-        .label {
-            font-weight: bold;
-            color: #555;
-        }
+.label {
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 0.3px; /* Giảm khoảng cách giữa các chữ */
+}
 
-        .value {
-            color: #000;
-        }
+.value {
+    color: #000;
+    letter-spacing: 0.3px; /* Giảm khoảng cách giữa các chữ */
+}
 
-        .btn-group {
-            text-align: center;
-            margin-top: 20px;
-        }
+.btn-group {
+    text-align: center;
+    margin-top: 20px;
+}
 
-        .btn {
-            padding: 8px 16px;
-            margin: 0 8px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            color: white;
-        }
+.btn {
+    padding: 8px 16px;
+    margin: 0 8px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+}
 
-        .btn-edit {
-            background-color: #007bff;
-        }
+.btn-edit {
+    background-color: #007bff;
+}
 
-        .btn-delete {
-            background-color: #dc3545;
-        }
+.btn-delete {
+    background-color: #dc3545;
+}
 
-        .btn-hide {
-            background-color: #6c757d;
-        }
-        .tong{
-            margin-left: 250px;
-        padding: 20px;
-        margin-top: 60px;
-        }
-    </style>
+.btn-hide {
+    background-color: #6c757d;
+}
+
+.tong {
+    margin-left: 250px;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+   </style>
 </head>
 <body>
     <div class="tong">
