@@ -16,7 +16,7 @@ $stats = [
     'total_products' => $conn->query("SELECT COUNT(*) FROM products")->fetch_row()[0],
     'total_orders' => $conn->query("SELECT COUNT(*) FROM orders")->fetch_row()[0],
     'total_customers' => $conn->query("SELECT COUNT(*) FROM users")->fetch_row()[0],
-    'total_revenue' => $conn->query("SELECT SUM(TongTien) FROM orders WHERE TrangThai = 'đã giao'")->fetch_row()[0] ?? 0,
+    'total_revenue' => $conn->query("SELECT SUM(TongTien) FROM orders WHERE TrangThai = 'đã nhận hàng'")->fetch_row()[0] ?? 0,
     'low_stock' => $conn->query("SELECT COUNT(*) FROM products WHERE SoLuong < 5")->fetch_row()[0],
 ];
 
@@ -46,7 +46,7 @@ $top_products = $conn->query("
     FROM listproduct lp
     JOIN products p ON lp.MaSP = p.MaSP
     JOIN orders o ON lp.MaDon = o.MaDon
-    WHERE o.TrangThai = 'đã giao'
+    WHERE o.TrangThai = 'đã nhận hàng'
     GROUP BY lp.MaSP
     ORDER BY total_sold DESC
     LIMIT 5
@@ -257,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['stats_submit'])) {
             <div class="col-md-6 col-lg-3 mb-4">
                 <div class="card stat-card">
                     <div class="card-body">
-                        <div class="value text-danger"><?= number_format($stats['total_revenue']) ?> ₫</div>
+                        <div class="value text-danger"><?= number_format($stats['total_revenue'])?>₫</div>
                         <div class="label">Tổng doanh thu</div>
                         <i class="bi bi-currency-dollar display-4 text-danger opacity-25 mt-3"></i>
                     </div>

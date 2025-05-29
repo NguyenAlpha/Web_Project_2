@@ -91,7 +91,10 @@
                                 <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
                                 <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
                             </div>
-                            <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
+                            <div class="flex product-item__quantity">
+                            <p class="da-ban-text">Số lượng: <?=$item['SoLuong']?></p>
+                            <p class="da-ban-text">Đã bán: <?=$item['DaBan']?></p>
+                        </div>
                         </a>
                         <div class="button__addcart__box">
                             <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>
@@ -120,7 +123,10 @@
                                 <h3 class="product__item__name"><?=$item["TenSP"]?></h3>
                                 <p class="product__item_price"><?=number_format($item["Gia"], 0, ',', '.') . "đ"?></p>
                             </div>
-                            <p class="da-ban-text">đã bán: <?=$item['DaBan']?></p>
+                            <div class="flex product-item__quantity">
+                            <p class="da-ban-text">Số lượng: <?=$item['SoLuong']?></p>
+                            <p class="da-ban-text">Đã bán: <?=$item['DaBan']?></p>
+                        </div>
                         </a>
                         <div class="button__addcart__box">
                             <a href="?controller=cart&action=addProduct&MaSP=<?=$item['MaSP']?>&quantity=1"><button class="button button__addcart" type="submit" name="addcart">Mua ngay</button></a>

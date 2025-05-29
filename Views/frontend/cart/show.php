@@ -1,3 +1,60 @@
+<style>
+    /* QR Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.qr-code img {
+  width: 200px;
+  height: 200px;
+  margin: 15px auto;
+  border: 1px solid #ddd;
+}
+
+.bank-info {
+  text-align: left;
+  margin: 15px 0;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 5px;
+}
+
+.btn-confirm {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+</style>
+
 <main class="main container cart-container">
     <div class="cart">
         <table class="table table-cart">
@@ -67,6 +124,24 @@
             <p class="cart-address__title">Địa chỉ nhận hàng</p>
             <p>chưa có địa chỉ! <select name="address" required hidden></select> <a href="?controller=user&action=show" class="address__add">Thêm mới</a></p>
         <?php endif;?>
+        <div id="qrModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Quét mã QR để thanh toán</h2>
+    <div class="qr-code">
+      <!-- Thay bằng mã QR thực tế của bạn -->
+      <img src="./assets/image/z6592483894009_ba539f3a883a0e30a90e77d373d81d33.jpg" alt="Mã QR Thanh Toán">
+    </div>
+    <div class="bank-info">
+      <p><strong>Ngân hàng:</strong> Vietcombank</p>
+      <p><strong>Số tài khoản:</strong> 123456789</p>
+      <p><strong>Chủ tài khoản:</strong> CÔNG TY TNHH ABC</p>
+      <p><strong>Số tiền:</strong> <?=number_format($TongTien,0, ',', '.')?>đ</p>
+      <p><strong>Nội dung:</strong> THANHTOAN <?=$_SESSION['user']['ID']?></p>
+    </div>
+    <button id="confirmPayment" class="btn-confirm" type="submit">Tôi đã thanh toán</button>
+  </div>
+</div>
     </div>
     <div class="pay pay--block">
         <h2 class="pay__title">Hình thức thanh toán</h2>
@@ -86,3 +161,36 @@
     </div>
     </form>
 </main>
+<script>
+// Lấy các phần tử DOM
+const transferRadio = document.getElementById('transfer');
+const qrModal = document.getElementById('qrModal');
+const closeBtn = document.querySelector('.close');
+const confirmBtn = document.getElementById('confirmPayment');
+const payForm = document.querySelector('form');
+
+// Khi chọn thanh toán chuyển khoản
+transferRadio.addEventListener('change', function() {
+  if(this.checked) {
+    qrModal.style.display = 'block';
+  }
+});
+
+// Đóng modal khi click nút X
+closeBtn.onclick = function() {
+  qrModal.style.display = 'none';
+}
+
+// Đóng modal khi click bên ngoài
+window.onclick = function(event) {
+  if (event.target == qrModal) {
+    qrModal.style.display = 'none';
+  }
+}
+
+// Xác nhận đã thanh toán
+confirmBtn.onclick = function() {
+  qrModal.style.display = 'none';
+  payForm.submit(); // Gửi form đặt hàng
+}
+</script>
